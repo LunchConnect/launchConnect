@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
             }}
             className="flex items-center gap-2 cursor-pointer"
           >
-            <img src="/images/logo.png" alt="Logo" className="h-8" />
+            <img src="assets/images/logo.png" alt="Logo" className="h-8" />
             <div className="flex flex-col leading-tight text-[17px] font-semibold">
               <h2 className="text-[#D0EADE]">Launch</h2>
               <span className="text-[#D0EADE] -mt-1">Connect</span>
@@ -50,7 +50,7 @@ export const Footer: React.FC = () => {
               <input
                 type="email"
                 placeholder="Email Address"
-                className="w-full md:w-auto h-10 rounded-md bg-white px-5 text-black outline-none"
+                className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 focus:!outline-none !focus:outline-none !focus:border-green-500"
               />
               <button className="h-10 px-5 rounded-md bg-green-500 text-white hover:bg-green-600 transition">
                 Subscribe

@@ -3,9 +3,9 @@ import React from "react";
 
 function SignupLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen">
+    <div className="flex flex-col md:flex-row h-screen">
       {/* Left Container (Static) */}
-      <div className="relative flex w-1/2 bg-[#08230E] p-10">
+      <div className="relative hidden md:flex md:w-1/2 bg-[#08230E] p-10">
         {/* Top-Right Image */}
         <Image
           src="/assets/image/small_box.png"
@@ -16,7 +16,7 @@ function SignupLayout({ children }: { children: React.ReactNode }) {
         />
 
         {/* Centered Content in Left Section */}
-        <div className="flex flex-col gap-12 justify-start h-full pt-10 ml-20">
+        <div className="flex flex-col gap-6 justify-start h-full pt-10 ml-10">
           {/* Logo */}
           <Image
             src="/assets/image/logo.png"
@@ -26,11 +26,11 @@ function SignupLayout({ children }: { children: React.ReactNode }) {
           />
 
           {/* Text Content */}
-          <div className="text-white w-96">
+          <div className="text-white max-w-sm">
             <h1 className="text-3xl font-bold leading-tight">
               Take control of your startup journey today.
             </h1>
-            <p className="mt-4 text-lg text-gray-300 w-[364px]">
+            <p className="mt-4 text-lg text-gray-300">
               Effortlessly connect with top talent or find the perfect startup opportunity.
             </p>
           </div>
@@ -47,10 +47,9 @@ function SignupLayout({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Right Container (Dynamic) */}
-      <div className="flex w-1/2 items-start justify-center overflow-y-auto bg-white pt-10">
-      <div className="w-full">{children}</div>
+      <div className="flex w-full md:w-1/2 items-start justify-center overflow-y-auto bg-white py-10 px-6 md:px-10">
+        <div className="w-full max-w-md">{children}</div>
       </div>
-      
     </div>
   );
 }

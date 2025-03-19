@@ -1,16 +1,14 @@
-"use client"; // Required if using Next.js App Router
+"use client"; 
 import React, { useState } from "react";
-
-import { CheckCircle, Circle, Eye, EyeOff } from "lucide-react"; // Icons
+import { CheckCircle, Circle, Eye, EyeOff } from "lucide-react"; 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FcGoogle } from "react-icons/fc"; // Google Icon
+import { FcGoogle } from "react-icons/fc"; 
 
 function Signup() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // Password Validation Conditions
   const validations = {
     lowercase: /[a-z]/.test(password),
     uppercase: /[A-Z]/.test(password),
@@ -20,11 +18,13 @@ function Signup() {
   };
 
   return (
-    <div className="mx-auto space-y-6 p-10 bg-white rounded-lg">
+    <div className="mx-auto space-y-6 p-6 md:p-10 bg-white rounded-lg w-full">
       {/* Signup Header */}
       <div>
-        <h1 className="text-2xl font-bold text-black">Sign up with LaunchConnect</h1>
-        <h3 className="text-[#606060] text-sm">
+        <h1 className="text-2xl font-bold text-black text-center md:text-left">
+          Sign up with LaunchConnect
+        </h1>
+        <h3 className="text-[#606060] text-sm text-center md:text-left">
           Empower your experience, sign up for free today
         </h3>
       </div>
@@ -36,7 +36,7 @@ function Signup() {
           type="email" 
           id="email" 
           placeholder="eg. email@gmail.com"  
-          className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 focus:!outline-none !focus:outline-none !focus:border-green-500" 
+          className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 focus:!outline-none !focus:border-green-500" 
         />
       </div>
 
@@ -64,7 +64,7 @@ function Signup() {
       </div>
 
       {/* Password Requirements Checkboxes */}
-      <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
+      <div className="grid grid-cols-2 gap-x-2 gap-y-1">
         {Object.entries(validations).map(([key, isValid]) => (
           <div key={key} className="flex items-center gap-1 text-xs text-gray-500">
             {isValid ? (
