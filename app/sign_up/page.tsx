@@ -36,7 +36,7 @@ function Signup() {
           type="email" 
           id="email" 
           placeholder="eg. email@gmail.com"  
-          className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 focus:!outline-none focus:!ring-2 focus:!ring-[#BED3C2]" 
+          className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 focus:!outline-none !focus:outline-none !focus:border-green-500" 
         />
       </div>
 
@@ -48,7 +48,7 @@ function Signup() {
             type={showPassword ? "text" : "password"}
             id="password"
             placeholder="Enter password"
-            className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 focus:!outline-none focus:!ring-2 focus:!ring-[#BED3C2] pr-10"
+            className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 !focus:outline-none !focus:border-green-500"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

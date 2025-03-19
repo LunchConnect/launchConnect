@@ -8,7 +8,7 @@ function ConfirmEmailPage() {
   const handleChange = (index, event) => {
     const value = event.target.value;
     if (!isNaN(value) && value.length <= 1) {
-      let newOtp = [...otp];
+      const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
 
