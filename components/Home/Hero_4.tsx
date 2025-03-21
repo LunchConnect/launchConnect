@@ -94,7 +94,7 @@ const Hero4: React.FC = () => {
         {jobData.map((job, index) => (
           <>
             <div
-              onClick={() => { router.push(`/jod_details${id}`); window.scrollTo(0, 0); }}
+              onClick={() => { router.push(`/jod_details`); window.scrollTo(0, 0); }}
               key={index}
               className="bg-[#F5FFF7] p-6 rounded-xl shadow-sm border border-[#E7EFE8] cursor-pointer"
             >
