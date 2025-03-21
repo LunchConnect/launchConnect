@@ -1,38 +1,43 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, ChangeEvent, KeyboardEvent } from "react";
 
 function ConfirmEmailPage() {
-  const [otp, setOtp] = useState(["", "", "", ""]);
-  const inputRefs = [useRef(), useRef(), useRef(), useRef()];
+  const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
+  const inputRefs = [
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+  ];
 
-  const handleChange = (index, event) => {
+  const handleChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (!isNaN(value) && value.length <= 1) {
+    if (!isNaN(Number(value)) && value.length <= 1) {
       const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
 
       if (value && index < 3) {
-        inputRefs[index + 1].current.focus();
+        inputRefs[index + 1].current?.focus();
       }
     }
   };
 
-  const handleKeyDown = (index, event) => {
+  const handleKeyDown = (index: number, event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Backspace" && !otp[index] && index > 0) {
-      inputRefs[index - 1].current.focus();
+      inputRefs[index - 1].current?.focus();
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen p-6 bg-white">
       {/* Header */}
-      <div className="w-full max-w-md mt-10 space-y-2"> {/* Adjusted margin-top */}
+      <div className="w-full max-w-md mt-10 space-y-2">
         <h1 className="text-2xl font-bold text-black">Confirm Email Address</h1>
         <h3 className="text-[#606060] text-sm bg-[#1FC16B1A] p-2 rounded-md">
-  We’ve just sent a code to <span className="font-semibold">example@gmail.com</span>.
-  <br /> Enter the 4-digit code below.
-</h3>
+          We’ve just sent a code to <span className="font-semibold">example@gmail.com</span>.
+          <br /> Enter the 4-digit code below.
+        </h3>
       </div>
 
       {/* OTP Input Fields */}
