@@ -1,9 +1,11 @@
 import React from "react";
-import withHeaderAndFooter from "../../Hoc/withHeaderAndFooter";
-import { LuWallet } from "react-icons/lu";
 import { CiLocationOn } from "react-icons/ci";
 import { FaFacebook, FaLinkedin } from "react-icons/fa";
+import { LuWallet } from "react-icons/lu";
 import { RiTwitterXFill } from "react-icons/ri";
+
+import withHeaderAndFooter from "../../Hoc/withHeaderAndFooter";
+
 import RelatedJobs from "./RelatedJobs";
 
 // Sample job data
@@ -123,8 +125,7 @@ const JobDetails: React.FC = () => {
                   </div>
                 </div>
 
-                {/*--------------------------------------------------------------------------------*/}
-
+            
                 {/* Job Description */}
                 <div className="flex gap-6 mt-5">
                   <div className="w-3/4 border bg-[#ffffff] rounded-2xl shadow-sm px-5 py-5 border-[#E7EFE8]">

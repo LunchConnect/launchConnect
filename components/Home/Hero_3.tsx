@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Hero_3: React.FC = () => {
+const Hero3: React.FC = () => {
   const [activeTab, setActiveTab] = useState("jobSeekers");
 
   return (
@@ -149,4 +149,4 @@ const Hero_3: React.FC = () => {
   );
 };
 
-export default Hero_3;
+export default Hero3;

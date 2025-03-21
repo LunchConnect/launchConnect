@@ -1,8 +1,9 @@
-import React from "react";
+
 import { Search } from "lucide-react";
-import { IoFilterOutline } from "react-icons/io5";
-import { FaArrowRight } from "react-icons/fa";
 import { CiLocationOn } from "react-icons/ci";
+import { FaArrowRight } from "react-icons/fa";
+import { IoFilterOutline } from "react-icons/io5";
+import React from "react";
 import { LuWallet } from "react-icons/lu";
 import { useRouter } from 'next/navigation'
 
@@ -47,7 +48,7 @@ const jobData = [
 
 
 
-const Hero_4: React.FC = () => {
+const Hero4: React.FC = () => {
   const router = useRouter()
 
      const handlefindJob = () => {
@@ -129,4 +130,4 @@ const Hero_4: React.FC = () => {
   );
 };
 
-export default Hero_4;
+export default Hero4;

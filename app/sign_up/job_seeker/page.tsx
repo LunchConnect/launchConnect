@@ -1,11 +1,10 @@
 "use client";
+import { CloudUpload } from "lucide-react";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import Select from "react-select";
-
-import { CloudUpload } from "lucide-react";
 import { GrLinkedin } from "react-icons/gr";
 import { TiPlus } from "react-icons/ti";
+import Select from "react-select";
 
 const JobSeeker = () => {
   const [resume, setResume] = useState<File | null>(null);

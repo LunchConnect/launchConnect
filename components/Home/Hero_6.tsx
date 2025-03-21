@@ -64,7 +64,7 @@ const jobData = [
   },
 ];
 
-const Hero_6: React.FC = () => {
+const Hero6: React.FC = () => {
   const router = useRouter()
 
   const handlefindJob = () => {
@@ -132,4 +132,4 @@ const Hero_6: React.FC = () => {
   );
 };
 
-export default Hero_6;
+export default Hero6;

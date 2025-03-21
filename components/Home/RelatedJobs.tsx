@@ -1,8 +1,9 @@
-import React from "react";
-import { FaArrowRight } from "react-icons/fa";
-import { CiLocationOn } from "react-icons/ci";
-import { LuWallet } from "react-icons/lu";
+
 import { useRouter } from 'next/navigation'
+import React from "react";
+import { CiLocationOn } from "react-icons/ci";
+import { FaArrowRight } from "react-icons/fa";
+import { LuWallet } from "react-icons/lu";
 
 // Dummy Job Data
 const jobData = [

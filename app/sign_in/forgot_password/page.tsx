@@ -1,9 +1,12 @@
 "use client";
+
+import Link from "next/link";
 import React, { useState } from "react";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+
+
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");

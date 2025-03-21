@@ -1,6 +1,6 @@
 import React from "react";
 
-const Hero_5: React.FC = () => {
+const Hero5: React.FC = () => {
   return (
     <>
       <section className="bg-[#E1FDE7] px-[10%] py-20 relative">
@@ -23,4 +23,4 @@ const Hero_5: React.FC = () => {
   );
 };
 
-export default Hero_5;
+export default Hero5;

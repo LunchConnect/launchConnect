@@ -1,5 +1,5 @@
 'use client'
-import { useParams } from 'next/navigation'
+// import { useParams } from 'next/navigation'
 import React from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { FaFacebook, FaLinkedin } from "react-icons/fa";
@@ -77,7 +77,7 @@ const companyInsights = [
 ];
 
 const JobDetails: React.FC = () => {
-    const params = useParams<{ id: string; }>()
+    // const params = useParams<{ id: string; }>()
     
   return (
     <>

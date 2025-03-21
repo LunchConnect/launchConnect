@@ -1,5 +1,4 @@
 import ConfirmEmailPage from "@/components/ConfirmEmailPage";
-import React, { useState, useRef } from "react";
 
 function Page() {
   
