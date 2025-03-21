@@ -1,8 +1,10 @@
 "use client";
-import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
+import React from "react";
+
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+
 
 interface SuccessModalProps {
   open: boolean;

@@ -1,6 +1,6 @@
 "use client";
+import { CheckCircle, Circle, Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
-import { CheckCircle, Circle, Eye, EyeOff } from "lucide-react"; 
 import { FcGoogle } from "react-icons/fc"; 
 
 import { signUp } from "@/actions/action"; // Import signup function
