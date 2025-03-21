@@ -24,7 +24,7 @@ const WelcomePage = () => {
             }`}
           >
             <div className="flex justify-between items-center">
-              <h3 className="font-semibold text-black">I'm a Startup Founder</h3>
+              <h3 className="font-semibold text-black">I&apos;m a Startup Founder</h3>
               {selectedOption === "founder" && <CheckCircle size={20} className="text-green-500" />}
             </div>
             <p className="text-sm text-gray-600">
