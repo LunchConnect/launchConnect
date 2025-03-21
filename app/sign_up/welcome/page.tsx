@@ -1,6 +1,6 @@
 "use client"; // Required for Next.js App Router
-import React, { useState } from "react";
 import { CheckCircle } from "lucide-react";
+import React, { useState } from "react";
 
 const WelcomePage = () => {
   const [selectedOption, setSelectedOption] = useState("founder");

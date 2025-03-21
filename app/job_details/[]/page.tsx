@@ -128,8 +128,7 @@ const JobDetails: React.FC = () => {
                   </div>
                 </div>
 
-                {/*--------------------------------------------------------------------------------*/}
-
+              
                 {/* Job Description */}
                 <div className="flex gap-6 mt-5">
                   <div className="w-3/4 border bg-[#ffffff] rounded-2xl shadow-sm px-5 py-5 border-[#E7EFE8]">

@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from 'next/navigation'
-
 import { FaArrowRight } from "react-icons/fa";
 import { RxDotFilled } from "react-icons/rx";
 

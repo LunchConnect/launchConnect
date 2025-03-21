@@ -1,10 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { CheckCircle, Circle, Eye, EyeOff } from "lucide-react"; 
+import { FcGoogle } from "react-icons/fc"; 
+
+import { signUp } from "@/actions/action"; // Import signup function
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FcGoogle } from "react-icons/fc"; 
-import { signUp } from "@/actions/action"; // Import signup function
+
+
 
 function Signup() {
   const [email, setEmail] = useState("");

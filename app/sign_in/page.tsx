@@ -87,7 +87,7 @@ function SignIn() {
 
       {/* Sign Up Link */}
       <p className="text-center text-sm text-gray-600">
-        Don't have an account?{" "}
+        Dont have an account?{" "}
         <Link href="/sign_up" className="text-green-500 font-medium">Sign Up</Link>
       </p>
     </div>
