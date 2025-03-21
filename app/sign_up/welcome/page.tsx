@@ -40,7 +40,7 @@ const WelcomePage = () => {
             }`}
           >
             <div className="flex justify-between items-center">
-              <h3 className="font-semibold text-black">I'm a Job Seeker</h3>
+              <h3 className="font-semibold text-black">I&apos;m a Job Seeker</h3>
               {selectedOption === "seeker" && <CheckCircle size={20} className="text-green-500" />}
             </div>
             <p className="text-sm text-gray-600">

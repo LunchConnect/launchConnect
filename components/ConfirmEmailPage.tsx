@@ -54,7 +54,7 @@ function ConfirmEmailPage() {
 
       {/* Resend Code */}
       <p className="mt-2 text-sm text-gray-600">
-        Didn’t get a code? <span className="text-green-600 font-semibold cursor-pointer">Resend</span>
+        Didn&apos;t get a code? <span className="text-green-600 font-semibold cursor-pointer">Resend</span>
       </p>
 
       {/* Create Account Button */}

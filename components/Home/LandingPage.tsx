@@ -1,8 +1,8 @@
 import React from 'react'
+
 import withHeaderAndFooter from '../../Hoc/withHeaderAndFooter'
+
 import Hero from './Hero'
-
-
 import Hero2 from './Hero_2';
 import Hero3 from './Hero_3';
 import Hero4 from './Hero_4';

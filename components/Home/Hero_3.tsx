@@ -108,7 +108,7 @@ const Hero3: React.FC = () => {
                 </h3>
                 <p className="text-gray-600 text-[18px]">
                   Connect with skilled professionals eager to contribute to your
-                  startup's growth. Hire interns, freelancers team members.
+                  startup&apos;s growth. Hire interns, freelancers team members.
                 </p>
               </div>
 
