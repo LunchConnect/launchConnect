@@ -99,7 +99,7 @@ const Hero6: React.FC = () => {
         <div className="grid grid-cols-2 gap-6 relative z-10 cursor-pointer">
           {jobData.map((job, index) => (
             <div
-              onClick={() =>{router.push(`/jod_details${id}`); window.scrollTo(0, 0);}}
+              onClick={() =>{router.push(`/jod_details`); window.scrollTo(0, 0);}}
               key={index}
               className="bg-[#FFFFFF] p-6 rounded-xl shadow-sm">
               <div className="flex gap-5 items-center">
