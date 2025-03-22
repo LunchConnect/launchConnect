@@ -68,7 +68,7 @@ const RelatedJobs: React.FC = () => {
         {jobData.map((job, index) => (
           <>
             <div
-              onClick={() =>{navigate(`/joddetails`); window.scrollTo(0, 0);}}
+              onClick={() =>{ router.push(`/joddetails`); window.scrollTo(0, 0);}}
               key={index}
               className="bg-[#ffffff] space-y-4 p-6 rounded-xl shadow-sm border border-[#E7EFE8] cursor-pointer w-63"
             >

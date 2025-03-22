@@ -1,8 +1,8 @@
+
+import { useRouter } from 'next/navigation'
 import React from "react";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { RiTwitterXFill } from "react-icons/ri";
-import { useRouter } from 'next/navigation'
-
 
 export const Footer: React.FC = () => {
   const router = useRouter()
