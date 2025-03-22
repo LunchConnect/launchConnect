@@ -6,6 +6,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa";
 import { IoFilterOutline } from "react-icons/io5";
 import { LuWallet } from "react-icons/lu";
+
 import { scrollToTop } from "@/lib/utils";
 
 
