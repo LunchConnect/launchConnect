@@ -73,19 +73,20 @@ const Hero6: React.FC = () => {
   };
 
 
-    // State to track screen width
-    const [maxJobs, setMaxJobs] = useState<number>(
-      window.innerWidth >= 768 ? 8 : 4
-    );
-  
-    useEffect(() => {
-      const handleResize = () => {
-        setMaxJobs(window.innerWidth >= 768 ? 8 : 4);
-      };
-  
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
+  const [maxJobs, setMaxJobs] = useState<number>(4); // Default value
+
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    setMaxJobs(window.innerWidth >= 768 ? 8 : 4);
+
+    const handleResize = () => {
+      setMaxJobs(window.innerWidth >= 768 ? 8 : 4);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }
+}, []);
   return (
     <>
       <section className="bg-[#BFEFD8] section py-10 md:py-20 relative">
