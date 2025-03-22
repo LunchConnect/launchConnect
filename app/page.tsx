@@ -5,7 +5,7 @@ const Home = () => {
   // const [showError, setShowError] = useState(false);
   // const [showSuccess, setShowSuccess] = useState(false);
   return (
-    <div className="flex h-screen max-h-screen">
+    <div className="">
 <LandingPage/>
     </div>
   );

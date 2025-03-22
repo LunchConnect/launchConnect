@@ -11,3 +11,17 @@ export const signUp = async (email: string, password: string) => {
     return { success: false, message: error.response?.data?.message || "Sign up failed." };
   }
 };
+
+
+// Verify OTP Function
+export const verifyOtp = async (email: string, otp: string) => {
+  try {
+    const { data } = await publicRequest.post("/auth/email-verify", { email, otp });
+
+    console.log("OTP Verified:", data);
+    return data;
+  } catch (error: any) {
+    console.error("OTP verification error:", error.response?.data || error.message);
+    return { success: false, message: error.response?.data?.message || "OTP verification failed." };
+  }
+};

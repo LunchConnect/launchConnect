@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const BASE_URL = `${API_URL}/api/v1`;
+const BASE_URL = `${API_URL}/api`;
 
 const publicRequest = axios.create({
   baseURL: BASE_URL,

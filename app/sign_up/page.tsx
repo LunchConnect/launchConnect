@@ -1,5 +1,6 @@
 "use client";
 import { CheckCircle, Circle, Eye, EyeOff } from "lucide-react";
+import { useRouter } from 'next/navigation'
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc"; 
 
@@ -10,6 +11,8 @@ import { Label } from "@/components/ui/label";
 
 
 function Signup() {
+    const router = useRouter()
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -41,11 +44,13 @@ function Signup() {
 
     if (response.success) {
       setMessage("Account created successfully! Redirecting...");
-      localStorage.setItem("token", response.token); // Store token
-      setTimeout(() => {
-        window.location.href = "/dashboard"; // Redirect user
-      }, 2000);
-    } else {
+      
+      // ✅ Store email in localStorage (or session storage)
+      localStorage.setItem("user_email", email);
+
+      // ✅ Redirect user to OTP confirmation page with email query
+      router.push(`/sign_up/confirm_email?email=${encodeURIComponent(email)}`);
+    }  else {
       setMessage(response.message || "Sign up failed.");
     }
 

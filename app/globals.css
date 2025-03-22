@@ -17,6 +17,243 @@ body {
   -ms-overflow-style: none;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..1000&family=Josefin+Sans:wght@100..700&family=Merriweather+Sans:wght@300..800&family=Poppins:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+@font-face {
+  font-family: 'Cal Sans';
+  src: url('/assets/Fonts/CalSans-SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+
+/* Apply to the whole site */
+.cal_sans {
+  font-family: 'Cal Sans', sans-serif;
+}
+
+.DM_sans {
+  font-family: 'DM Sans', sans-serif;
+}
+
+.Josefin_sans {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.Merriweather_sans {
+  font-family: 'Merriweather Sans', sans-serif;
+}
+
+.Poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+.Epilogue {
+  font-family: 'Epilogue', sans-serif;
+}
+
+.primary{
+    background-color: #1AC23F;
+}
+
+.clip-path-custom {
+  clip-path: ellipse(100% 50% at 50% 100%);
+}
+
+.customGreen {
+  color: #5D7061;
+}
+
+.customGreen_2 {
+  color: #192F1E;
+}
+.customGreen_3{
+  color: #D0EADE;
+}
+.custom-mt-2 {
+  margin-top: -0.5rem; /* Equivalent to Tailwind's -mt-2 */
+}
+.custom-mt-1 {
+  margin-top: -0.125rem; /* Equivalent to Tailwind's -mt-1 */
+}
+.custom-background {
+  background-color: #010C04;
+}
+.custom-link-background {
+  background-color: #191f1a;
+}
+.custom-padding {
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+@media (min-width: 768px) { /* Tailwind's md breakpoint */
+  .custom-padding {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+}
+
+.custom-button {
+  padding-left: 2rem;  /* Equivalent to px-8 */
+  padding-right: 2rem;
+  height: 3rem;  /* Equivalent to h-12 */
+}
+
+/* Custom Width (md:w-45) */
+.custom-width {
+  width: 100%;
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+  .custom-width {
+    width: 45%;
+  }
+}
+
+/* Button Padding (px-4 py-3) */
+.custom-btn {
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+  padding-top: 0.75rem; /* py-3 */
+  padding-bottom: 0.75rem;
+}
+
+.section {
+  padding-left: 4%;
+  padding-right: 4%;
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+  .section {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+}
+.custom-input {
+  width: 100%;
+  padding: 0.75rem 1rem; /* py-3, px values */
+  padding-left: 2.5rem; /* pl-10 */
+  border: 1px solid #BED3C2; /* Default border */
+  border-radius: 0.5rem; /* rounded-lg */
+  outline: none;
+  background-color: #BED3C2; /* bg-[#BED3C2] */
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+  .custom-input {
+    border-color: #22c55e; /* md:border-green-500 */
+  }
+}
+.w-30 {
+  width: 7.5rem; /* Equivalent to w-30 in Tailwind (30 * 0.25rem) */
+}
+
+.mt-26 {
+  margin-top: 6.5rem; /* Equivalent to mt-26 in Tailwind (26 * 0.25rem) */
+}
+
+.md\:max-w-300 {
+  @media (min-width: 768px) {
+    max-width: 300px;
+  }
+}
+
+.md\:gap-16 {
+  @media (min-width: 768px) {
+    gap: 4rem; /* 16 * 0.25rem = 4rem */
+  }
+}
+
+/* Hover Text Colors for Social Icons ----------------------------------------*/
+
+.hover\:text-blue-600:hover {
+  color: #2563eb; /* Tailwind's blue-600 */
+}
+
+.hover\:text-pink-500:hover {
+  color: #eb25eb; /* Tailwind's blue-600 */
+}
+
+.hover\:text-blue-500:hover {
+  color: #1e52c4; /* Tailwind's blue-600 */
+}
+
+.hover\:text-blue-400:hover {
+  color: #214aa2; /* Tailwind's blue-600 */
+}
+
+.mini-header {
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 45px;
+  padding-bottom: 45px;
+}
+
+.mini-header-p {
+  margin-top: 72px;
+}
+
+@media (max-width: 768px) {
+  .mini-header-smallscreen {
+    margin-top: 52px; /* Applies only on small screens */
+  }
+}
+
+.border-color {
+  border-color: #E7EFE8;
+}
+.text-color {
+  color: #192F1E;
+}
+
+
+.custom-input {
+  background-color: #f8f9fa !important; /* Custom background */
+  color: #333 !important; /* Custom text color */
+  border: 1px solid #BED3C2 !important; /* Custom border */
+  border-radius: 8px;
+  padding: 12px 16px;
+  text-indent: 25px;
+  outline: none;
+}
+
+.custom-input:focus {
+  border-color: #0bee35 !important; /* Custom focus color */
+  box-shadow: 0 0 0 2px #BED3C2 !important;
+}
+.custom-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #BED3C2;
+  border-radius: 4px;
+  appearance: none; /* Removes default styles */
+  cursor: pointer;
+}
+
+/* Checked State */
+.custom-checkbox:checked {
+  background-color: #22c55e !important; /* Green background */
+  border-color: #22c55e !important;
+}
+.menu-color {
+  color: #344054
+}
+
+@media (max-width: 768px) {
+  .pt-up {
+  padding-top: 70px;
+}
+}
+
+.pt-up-footer {
+  margin-top: 100px;
+}
+
 /* Global Styles */
 @layer base {
   :root {
