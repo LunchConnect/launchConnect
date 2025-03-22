@@ -14,6 +14,7 @@ const jobData = [
     salary: "$40,000-$42,000",
     imageUrl: "https://your-backend.com/images/software-engineer.png",
     location: "New York, USA", // Add this
+    role: "Engineering",
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const jobData = [
     salary: "Not Paid",
     imageUrl: "https://your-backend.com/images/market-intern.png",
     location: "London, UK", // Add this
+    role: "Marketing", // Add this line
   },
   {
     id: 3,
@@ -30,6 +32,7 @@ const jobData = [
     salary: "$40,000-$42,000",
     imageUrl: "https://your-backend.com/images/product-designer.png",
     location: "Berlin, Germany", // Add this
+    role: "Development", // Add this line
   },
   {
     id: 4,
@@ -37,6 +40,7 @@ const jobData = [
     company: "Bauch, Schuppe & Schulist Co",
     salary: "Not Paid",
     location: "Lagos, Nigeria", // Add this
+    role: "Development", // Add this line
   }
 ];
 
