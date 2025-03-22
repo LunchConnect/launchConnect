@@ -73,9 +73,8 @@ const FindJobs: React.FC = () => {
     categories: string[];
     jobTypes: string[];
     experienceLevels: string[];
-    datePosted: string[];
+    datePosted: string[]; // This is required, but you didn't include it in `filters`
   }
-
   const filters: FilterOptions = {
     categories: [
       "All",
@@ -89,6 +88,7 @@ const FindJobs: React.FC = () => {
     ],
     jobTypes: ["All", "Volunteer", "Internship"],
     experienceLevels: ["No-Experience", "Fresher", "Intermediate", "Expert"],
+    datePosted: ["Last 24 hours", "Last 7 days", "Last 30 days"], // Add this
   };
 
   return (
