@@ -1,49 +1,110 @@
+// "use client";
+// import Image from "next/image";
+
+// const Hero: React.FC = () => {
+//   return (
+//     <section className="relative w-full h-screen flex items-center justify-center">
+//       {/* Background Image using Tailwind */}
+//       <div
+//         className="absolute inset-0 bg-cover bg-center"
+//         style={{ backgroundImage: "url('assets/images/image1.png')" }} // Ensure correct path
+//       ></div>
+
+//       {/* Overlay */}
+//       <div className="absolute inset-0 bg-[#0F260D] opacity-80"></div>
+
+//       {/* Content */}
+//       <div className="relative z-10 text-white text-center px-6 space-y-6">
+//         <h1 className="md:text-7xl font-bold max-w-6xl">
+//           Opportunities Without Barriers
+//         </h1>
+//         <p className="md:text-7xl font-bold max-w-6xl">
+//           For Startups & Job Seekers.
+//         </p>
+//         <p className="text-lg mt-2 text-[#BABABA]">
+//           Join a network where founders find talent, and job seekers land their
+//           dream roles.
+//         </p>
+//         <div className="space-x-4 pt-5">
+//           <button className="bg-white text-[#192F1E] px-4 py-3 rounded-md cursor-pointer">
+//             Post an Opportunity
+//           </button>
+//           <button className="bg-green-500 text-white px-4 py-3 rounded-md cursor-pointer">
+//             Find A Job
+//           </button>
+//         </div>
+//       </div>
+
+//       {/* Plus Sign Image */}
+//       <Image
+//   src="/assets/images/plussign.png"
+//   alt="Plus Sign"
+//   width={50}
+//   height={50}
+//   className="absolute right-0 top-0"
+// />
+
+//     </section>
+//   );
+// };
+
+// export default Hero;
+
+
+
+
+
+
+
+
+
 "use client";
-import Image from "next/image";
 
 const Hero: React.FC = () => {
   return (
     <section className="relative w-full h-screen flex items-center justify-center">
-      {/* Background Image using Tailwind */}
+      {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('assets/images/image1.png')" }} // Ensure correct path
+        style={{ backgroundImage: "url('/assets/images/image1.png')" }}
       ></div>
 
-      {/* Overlay */}
+      {/* Overlay with transparency */}
       <div className="absolute inset-0 bg-[#0F260D] opacity-80"></div>
 
       {/* Content */}
-      <div className="relative z-10 text-white text-center px-6 space-y-6">
-        <h1 className="md:text-7xl font-bold max-w-6xl">
-          Opportunities Without Barriers
-        </h1>
-        <p className="md:text-7xl font-bold max-w-6xl">
-          For Startups & Job Seekers.
-        </p>
-        <p className="text-lg mt-2 text-[#BABABA]">
+      <div className="relative z-10 text-white text-center md:px-6 px-3 md:space-y-4">
+        <div className="text-[49px] md:text-7xl font-bold md:max-w-6xl cal_sans md:space-y-3">
+          <h1>Opportunities Without Barriers</h1>
+          <p>For Startups & Job Seekers.</p>
+        </div>
+        <p className="text-lg mt-2 text-[#BABABA] DM_sans">
           Join a network where founders find talent, and job seekers land their
           dream roles.
         </p>
-        <div className="space-x-4 pt-5">
-          <button className="bg-white text-[#192F1E] px-4 py-3 rounded-md cursor-pointer">
+        <div className="md:space-x-4 pt-5 flex flex-col-reverse md:flex-row justify-center gap-4 md:gap-0 px-2 md:px-0 ">
+          <button className="bg-white text-[#192F1E] custom-btn rounded-md cursor-pointer cal_sans">
             Post an Opportunity
           </button>
-          <button className="bg-green-500 text-white px-4 py-3 rounded-md cursor-pointer">
+          <button className="primary text-[#F1F1F1] custom-btn rounded-md md:w-40 cursor-pointer cal_sans">
             Find A Job
           </button>
         </div>
       </div>
 
       {/* Plus Sign Image */}
-      <Image
-  src="/assets/images/plussign.png"
-  alt="Plus Sign"
-  width={50}
-  height={50}
-  className="absolute right-0 top-0"
-/>
+      <img
+        src="assets/images/plussign.png"
+        alt=""
+        className="absolute right-0 top-0 hidden md:block"
+      />
 
+      {/* Plus Sign Image for Small screen */}
+      <img
+        src="assets/images/smallscreenplus.png"
+        alt=""
+        className="absolute -right-2 top-0 md:hidden"
+      />
     </section>
   );
 };
