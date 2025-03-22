@@ -12,30 +12,31 @@ const jobData = [
     title: "Software Engineer",
     company: "Bauch, Schuppe & Schulist Co",
     salary: "$40,000-$42,000",
-
     imageUrl: "https://your-backend.com/images/software-engineer.png",
+    location: "New York, USA", // Add this
   },
   {
     id: 2,
     title: "Market Intern",
     company: "Bauch, Schuppe & Schulist Co",
     salary: "Not Paid",
-
     imageUrl: "https://your-backend.com/images/market-intern.png",
+    location: "London, UK", // Add this
   },
   {
     id: 3,
     title: "Product Designer",
     company: "Bauch, Schuppe & Schulist Co",
     salary: "$40,000-$42,000",
-
     imageUrl: "https://your-backend.com/images/product-designer.png",
+    location: "Berlin, Germany", // Add this
   },
   {
     id: 4,
     title: "Frontend Developer",
     company: "Bauch, Schuppe & Schulist Co",
     salary: "Not Paid",
+    location: "Lagos, Nigeria", // Add this
   }
 ];
 
