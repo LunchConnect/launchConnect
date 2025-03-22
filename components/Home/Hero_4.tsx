@@ -6,7 +6,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa";
 import { IoFilterOutline } from "react-icons/io5";
 import { LuWallet } from "react-icons/lu";
-
+import { scrollToTop } from "@/lib/utils";
 
 
 // Dummy Job Data
@@ -53,7 +53,7 @@ const Hero4: React.FC = () => {
 
      const handlefindJob = () => {
       router.push("/findjobs");
-       window.scrollTo(0, 0); // Scroll to the top
+      scrollToTop(); // Scroll to the top
      };
      return (
      <section className="bg-white section md:py-20 py-10">
@@ -100,7 +100,7 @@ const Hero4: React.FC = () => {
             <div
               onClick={() => {
                 router.push(`/joddetails`);
-                window.scrollTo(0, 0);
+                scrollToTop();
               }}
               key={index}
               className="bg-[#F5FFF7] p-6 rounded-xl shadow-sm border border-[#E7EFE8] cursor-pointer"

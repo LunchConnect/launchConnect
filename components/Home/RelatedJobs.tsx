@@ -5,6 +5,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa";
 import { LuWallet } from "react-icons/lu";
 
+import { scrollToTop } from "@/lib/utils";
 // Dummy Job Data
 const jobData = [
   {
@@ -50,7 +51,7 @@ const RelatedJobs: React.FC = () => {
 
   const handlefindJob = () => {
     router.push("/findjobs");
-    window.scrollTo(0, 0); // Scroll to the top
+    scrollToTop(); // Scroll to the top
   };
   return (
     <section className="bg-[#E1FDE7] px-[4%] md:px-[10%] py-10 md:py-20">
@@ -76,7 +77,7 @@ const RelatedJobs: React.FC = () => {
             <div
             onClick={() => {
               router.push(`/job_details/${job.id}`);
-              window.scrollTo(0, 0);
+              scrollToTop();
             }}
               key={index}
                className="bg-[#ffffff] space-y-4 p-6 rounded-xl shadow-sm border border-[#E7EFE8] cursor-pointer md:w-63"

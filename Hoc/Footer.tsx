@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import React from "react";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { RiTwitterXFill } from "react-icons/ri";
-
+import { scrollToTop } from "@/lib/utils";
 export const Footer: React.FC = () => {
   const router = useRouter()
   return (
@@ -14,7 +14,7 @@ export const Footer: React.FC = () => {
           <div
             onClick={() => {
               router.push("/");
-              window.scrollTo(0, 0);
+              scrollToTop();
             }}
             className="flex items-center gap-2 cursor-pointer"
           >

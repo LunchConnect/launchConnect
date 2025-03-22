@@ -7,7 +7,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { LuWallet } from "react-icons/lu";
 
 import withHeaderAndFooter from "@/Hoc/withHeaderAndFooter";
-
+import { scrollToTop } from "@/lib/utils";
 
 
 
@@ -237,7 +237,7 @@ const FindJobs: React.FC = () => {
                   <button
                     onClick={() => {
                       router.push(`/job_details/${job.id}`);
-                      window.scrollTo(0, 0);
+                      scrollToTop();
                     }}
                     className="mt-3 px-4 py-2 rounded-lg border border-[#9CB8A2] text-[#526F58] cal_sans"
                   >

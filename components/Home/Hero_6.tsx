@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { RxDotFilled } from "react-icons/rx";
 
+import { scrollToTop } from "@/lib/utils";
 // Dummy Job Data
 const jobData = [
   {
@@ -68,7 +69,7 @@ const Hero6: React.FC = () => {
 
   const handlefindJob = () => {
     router.push("/findjobs");
-    window.scrollTo(0, 0); // Scroll to the top
+    scrollToTop();// Scroll to the top
   };
 
 
@@ -115,7 +116,7 @@ const Hero6: React.FC = () => {
             <div
             onClick={() => {
               router.push(`/joddetails`);
-              window.scrollTo(0, 0);
+              scrollToTop();
             }}
               key={index}
               className="bg-[#FFFFFF] p-6 rounded-xl shadow-sm"
