@@ -8,7 +8,7 @@ function SignupLayout({ children }: { children: React.ReactNode }) {
       <div className="relative hidden md:flex md:w-1/2 bg-[#08230E] p-10">
         {/* Top-Right Image */}
         <Image
-          src="/assets/image/small_box.png"
+          src="/assets/images/small_box.png"
           width={100}
           height={10}
           alt="Top Right Image"
@@ -18,12 +18,19 @@ function SignupLayout({ children }: { children: React.ReactNode }) {
         {/* Centered Content in Left Section */}
         <div className="flex flex-col gap-6 justify-start h-full pt-10 ml-10">
           {/* Logo */}
+                  {/* Logo */}
+                  <div className="flex items-center gap-3">
           <Image
-            src="/assets/image/logo.png"
-            width={150}
+            src="/assets/images/logo.png"
+            width={50}
             height={40}
             alt="Launch Connect Logo"
           />
+         <h1 className="text-white text-xl font-bold">
+          <span className="block">Launch</span>
+          Connect
+        </h1>
+        </div>
 
           {/* Text Content */}
           <div className="text-white max-w-sm">
@@ -38,7 +45,7 @@ function SignupLayout({ children }: { children: React.ReactNode }) {
 
         {/* Bottom-Left Image */}
         <Image
-          src="/assets/image/big_box.png"
+          src="/assets/images/big_box.png"
           width={200}
           height={100}
           alt="Bottom Left Image"

@@ -123,6 +123,19 @@ function Signup() {
             {loading ? "Signing up..." : "Next"}
           </button>
 
+
+   {/* OR Divider */}
+   <div className="flex items-center w-full">
+          <div className="flex-1 border-t border-gray-300"></div>
+          <span className="px-3 text-gray-500 text-sm">or</span>
+          <div className="flex-1 border-t border-gray-300"></div>
+        </div>
+
+ {/* Google Signup Button */}
+ <button className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 border border-gray-300 p-2 rounded-md">
+            <FcGoogle size={20} /> {/* Google Icon */}
+            Continue with Google
+          </button>
           {message && <p className={`text-sm ${message.includes("success") ? "text-green-500" : "text-red-500"}`}>{message}</p>}
         </div>
       </form>
