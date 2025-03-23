@@ -2,7 +2,7 @@
 import { useSearchParams, useRouter } from "next/navigation"; // ✅ Import Next.js utilities
 import React, { useState, useRef, ChangeEvent, KeyboardEvent, useEffect } from "react"
 
-import { verifyOtp } from "@/actions/action"; // ✅ Import OTP verification function
+import { verifyEmail } from "@/actions/action"; // ✅ Import OTP verification function
 
 function ConfirmEmailPage() {
   const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
@@ -49,9 +49,9 @@ function ConfirmEmailPage() {
       return;
     }
   
-    setMessage("⏳ Verifying OTP...");
+    setMessage("⏳ Verifying Email...");
     
-    const response = await verifyOtp(email, enteredOtp);
+    const response = await verifyEmail(email, enteredOtp);
   
     if (response.success) {
       setMessage("✅ Verification successful! Redirecting...");

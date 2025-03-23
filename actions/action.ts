@@ -63,14 +63,28 @@ export const login = async (email: string, password: string) => {
 
 
 
+// ✅ Forgot Password (Request Reset Link)
+export const forgotPassword = async (email: string) => {
+  try {
+    const { data } = await publicRequest.post("/password/forget-password", { email });
+
+    console.log("✅ Password Reset Email Sent:", data);
+    return { success: true, message: "A password reset link has been sent to your email." };
+  } catch (error: any) {
+    console.error("❌ Forgot Password Error:", error.response?.data || error.message);
+    return { 
+      success: false, 
+      message: error.response?.data?.message || "Failed to send reset email. Try again."
+    };
+  }
+};
 
 
 
 
 
-
-// ✅ Verify OTP Function
-export const verifyOtp = async (email: string, otp: string) => {
+// ✅ Verify Email Function
+export const verifyEmail = async (email: string, otp: string) => {
   try {
     const response = await publicRequest.post("/auth/email-verify", {
       email,
@@ -89,4 +103,40 @@ export const verifyOtp = async (email: string, otp: string) => {
 };
 
 
+// ✅ Verify OTP for Forgot Password
+export const verifyForgotPasswordOtp = async (otp: string) => {
+  try {
+    const response = await publicRequest.post("/password/verify-otp", {otp });
 
+    console.log("✅ Forgot Password OTP Verification Success:", response.data);
+    return { success: true, data: response.data };
+  } catch (error: any) {
+    console.error("❌ Forgot Password OTP Verification Error:", error.response?.data || error.message);
+    
+    return { 
+      success: false, 
+      message: error.response?.data?.error || "OTP verification failed. Please try again." 
+    };
+  }
+};
+
+
+
+// ✅ Reset Password API
+export const resetPassword = async (email: string, newPassword: string) => {
+  try {
+    const { data } = await publicRequest.post("/password/reset-password", {
+      email,
+      newPassword
+    });
+
+    console.log("✅ Password Reset Success:", data);
+    return { success: true, message: "Password reset successful!" };
+  } catch (error: any) {
+    console.error("❌ Password Reset Error:", error.response?.data || error.message);
+    return { 
+      success: false, 
+      message: error.response?.data?.message || "Password reset failed. Try again."
+    };
+  }
+};
