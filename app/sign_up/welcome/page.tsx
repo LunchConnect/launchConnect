@@ -1,9 +1,19 @@
-"use client"; // Required for Next.js App Router
+"use client";
 import { CheckCircle } from "lucide-react";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation"; // ✅ Import useRouter
 
 const WelcomePage = () => {
   const [selectedOption, setSelectedOption] = useState("founder");
+  const router = useRouter(); // ✅ Initialize router
+
+  const handleContinue = () => {
+    if (selectedOption === "founder") {
+      router.push("/sign_up/startup_form"); // ✅ Redirect to startup form
+    } else {
+      router.push("/sign_up/job_seeker"); // ✅ Redirect to job seeker form
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen items-center p-6 mt-10">
@@ -50,7 +60,12 @@ const WelcomePage = () => {
         </div>
 
         {/* Continue Button */}
-        <button className="mt-6 w-full bg-green-500 text-white p-3 rounded-md">Continue</button>
+        <button 
+          onClick={handleContinue} 
+          className="mt-6 w-full bg-green-500 text-white p-3 rounded-md"
+        >
+          Continue
+        </button>
       </div>
     </div>
   );

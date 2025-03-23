@@ -6,27 +6,54 @@
     "plugin:tailwindcss/recommended",
     "prettier"
   ],
-  "rules": {
-    "no-undef": "off",
-    "import/order": [
-      "error",
-      {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
-        ],
-        "newlines-between": "always",
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        }
+"rules": {
+  "no-undef": "off",
+  "react/no-unescaped-entities": "off",
+  "react/display-name": "off",
+  "@next/next/no-img-element": "off",
+  "tailwindcss/classnames-order": "off",
+  "tailwindcss/no-custom-classname": "off",
+  "import/order": [
+    "error",
+    {
+      "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+      "newlines-between": "always",
+      "alphabetize": {
+        "order": "asc",
+        "caseInsensitive": true
       }
-    ]
-  }
+    }
+  ]
+}
 
   
 }
+
+
+
+
+// {
+//   "plugins": ["import"],
+//   "extends": [
+//     "next/core-web-vitals",
+//     "standard",
+//     "plugin:tailwindcss/recommended",
+//     "prettier"
+//   ],
+//   "rules": {
+//     "no-undef": "off",
+//     "tailwindcss/classnames-order": "off",  // ✅ Disable Tailwind order rule
+//     "import/order": [
+//       "error",
+//       {
+//         "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+//         "newlines-between": "always",
+//         "alphabetize": {
+//           "order": "asc",
+//           "caseInsensitive": true
+//         }
+//       }
+//     ]
+//   }
+// }
+

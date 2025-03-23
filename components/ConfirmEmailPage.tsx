@@ -43,18 +43,21 @@ function ConfirmEmailPage() {
 
   const handleVerifyOtp = async () => {
     const enteredOtp = otp.join("");
+    
     if (enteredOtp.length < 4) {
-      setMessage("Please enter the full 4-digit code.");
+      setMessage("❌ Please enter the full 4-digit code.");
       return;
     }
-
+  
+    setMessage("⏳ Verifying OTP...");
+    
     const response = await verifyOtp(email, enteredOtp);
-
+  
     if (response.success) {
-      setMessage("Verification successful! Redirecting...");
-      setTimeout(() => router.push("/dashboard"), 2000); // ✅ Redirect to dashboard
+      setMessage("✅ Verification successful! Redirecting...");
+      setTimeout(() => router.push("/sign_up/welcome"), 2000); // Redirect to dashboard
     } else {
-      setMessage("Invalid OTP. Please try again.");
+      setMessage(`❌ ${response.message}`); // Show API error message
     }
   };
 

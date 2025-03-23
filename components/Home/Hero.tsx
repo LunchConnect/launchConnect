@@ -1,7 +1,14 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 
-const Hero: React.FC = () => {  return (    
+const Hero: React.FC = () => { 
+   
+   const router = useRouter();
+   
+   return (   
+   
+ 
 <section className="relative w-full h-screen flex items-center justify-center">   
    {/* Background Image */}     
     <div        className="absolute inset-0 bg-cover bg-center"       
@@ -18,8 +25,8 @@ const Hero: React.FC = () => {  return (
                                    <p className="text-lg mt-2 text-[#BABABA] DM_sans">    
                                           Join a network where founders find talent, and job seekers land their          dream roles.        </p>  
                                                 <div className="md:space-x-4 pt-5 flex flex-col-reverse md:flex-row justify-center gap-4 md:gap-0 px-2 md:px-0 ">       
-                                                     <button className="bg-white text-[#192F1E] custom-btn rounded-md cursor-pointer cal_sans">            Post an Opportunity          </button>    
-                                                           <button className="primary text-[#F1F1F1] custom-btn rounded-md md:w-40 cursor-pointer cal_sans">            Find A Job          </button>   
+                                                     <button onClick={() => router.push("/sign_up")} className="bg-white text-[#192F1E] custom-btn rounded-md cursor-pointer cal_sans">            Post an Opportunity          </button>    
+                                                           <button  onClick={() => router.push("/findjobs")} className="primary text-[#F1F1F1] custom-btn rounded-md md:w-40 cursor-pointer cal_sans">            Find A Job          </button>   
                                                                 </div>    
                                                                   </div>     
                                                                    {/* Plus Sign Image */}    

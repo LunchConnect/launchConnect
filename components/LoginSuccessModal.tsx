@@ -5,14 +5,23 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
-
 interface SuccessModalProps {
   open: boolean;
   onClose: () => void;
   onProceed: () => void;
+  title: string;          // ✅ Dynamic title
+  description: string;    // ✅ Dynamic description
+  buttonText: string;     // ✅ Dynamic button text
 }
 
-const SuccessModal: React.FC<SuccessModalProps> = ({ open, onClose, onProceed }) => {
+const SuccessModal: React.FC<SuccessModalProps> = ({
+  open,
+  onClose,
+  onProceed,
+  title,
+  description,
+  buttonText,
+}) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-sm rounded-lg p-6 bg-white dark:bg-gray-900">
@@ -24,10 +33,10 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ open, onClose, onProceed })
           </div>
           <div>
             <DialogTitle className="text-xl font-bold text-black dark:text-white">
-              Login Successful
+              {title} {/* ✅ Dynamic title */}
             </DialogTitle>
             <DialogDescription className="text-gray-600 dark:text-gray-300">
-              Welcome back! You’ve logged in successfully.
+              {description} {/* ✅ Dynamic description */}
             </DialogDescription>
           </div>
         </div>
@@ -35,7 +44,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ open, onClose, onProceed })
         {/* Proceed Button */}
         <div className="mt-6">
           <Button className="w-full bg-green-500 text-white hover:bg-green-600" onClick={onProceed}>
-            Proceed to Dashboard
+            {buttonText} {/* ✅ Dynamic button text */}
           </Button>
         </div>
 

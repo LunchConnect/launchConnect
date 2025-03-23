@@ -1,6 +1,7 @@
 import React from "react";
-
+import { useRouter } from "next/navigation";
 const Hero2: React.FC = () => {
+  const router = useRouter();
   return (
       <section className="relative bg-white section">
         <div className="mx-auto text-center md:py-20 md:pb-52 py-10">
@@ -92,7 +93,7 @@ const Hero2: React.FC = () => {
                 Post volunteer, internship, and entry-level jobs to build a
                 strong team and scale your startup.
               </p>
-              <button className="text-[#192F1E] px-4 py-2 mt-3 w-42 border DM_sans font-semibold whitespace-nowrap border-green-500 bg-[#FFFFFF] rounded-md cursor-pointer pl-3">
+              <button onClick={() => router.push("/sign_up")} className="text-[#192F1E] px-4 py-2 mt-3 w-42 border DM_sans font-semibold whitespace-nowrap border-green-500 bg-[#FFFFFF] rounded-md cursor-pointer pl-3">
                 Post Opportunities
               </button>
             </div>
@@ -112,7 +113,7 @@ const Hero2: React.FC = () => {
                   kickstart your career.
                 </p>
               </div>
-              <button className="text-[#192F1E] px-4 py-2 mt-3 w-42 border DM_sans font-semibold border-green-500 bg-[#FFFFFF] rounded-md cursor-pointer">
+              <button onClick={() => router.push("/sign_up")} className="text-[#192F1E] px-4 py-2 mt-3 w-42 border DM_sans font-semibold border-green-500 bg-[#FFFFFF] rounded-md cursor-pointer">
                 Start Applying
               </button>
             </div>

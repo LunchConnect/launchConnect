@@ -1,18 +1,15 @@
 "use client";
 import { CheckCircle, Circle, Eye, EyeOff } from "lucide-react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { FcGoogle } from "react-icons/fc"; 
+import { FcGoogle } from "react-icons/fc";
 
-import { signUp } from "@/actions/action"; // Import signup function
+import { register } from "@/actions/action"; // Import signup function
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-
-
 function Signup() {
-    const router = useRouter()
-  
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -33,33 +30,32 @@ function Signup() {
     e.preventDefault();
     setLoading(true);
     setMessage("");
-
-    if (!email || !password) {
-      setMessage("Email and password are required.");
+  
+    // Ensure password meets all criteria before proceeding
+    if (!Object.values(validations).every(Boolean)) {
+      setMessage("Password does not meet requirements.");
       setLoading(false);
       return;
     }
-
-    const response = await signUp(email, password);
-
+  
+    // Call the register function
+    const response = await register(email, password);
+  
     if (response.success) {
-      setMessage("Account created successfully! Redirecting...");
-      
-      // ✅ Store email in localStorage (or session storage)
-      localStorage.setItem("user_email", email);
-
-      // ✅ Redirect user to OTP confirmation page with email query
-      router.push(`/sign_up/confirm_email?email=${encodeURIComponent(email)}`);
-    }  else {
-      setMessage(response.message || "Sign up failed.");
+      setMessage("Registration successful! Redirecting...");
+      setTimeout(() => {
+        router.push(`/sign_up/confirm_email?email=${encodeURIComponent(email)}`); // Redirect to dashboard
+      }, 2000);
+    } else {
+      setMessage(`${response.message || "Something went wrong. Please try again."}`);
     }
-
+  
     setLoading(false);
   };
+  
 
   return (
     <div className="mx-auto space-y-6 p-6 md:p-10 bg-white rounded-lg w-full">
-      {/* Signup Header */}
       <div>
         <h1 className="text-2xl font-bold text-black text-center md:text-left">
           Sign up with LaunchConnect
@@ -69,22 +65,19 @@ function Signup() {
         </h3>
       </div>
 
-      {/* Signup Form */}
       <form onSubmit={handleSignUp} className="space-y-4">
-        {/* Email Input */}
         <div className="space-y-2">
           <Label htmlFor="email" className="text-black">Email Address</Label>
-          <Input 
-            type="email" 
-            id="email" 
-            placeholder="eg. email@gmail.com"  
-            className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 focus:!outline-none focus:border-green-500" 
+          <Input
+            type="email"
+            id="email"
+            placeholder="eg. email@gmail.com"
+            className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 focus:!outline-none focus:border-green-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
-        {/* Password Input */}
         <div className="space-y-2 relative">
           <Label htmlFor="password" className="text-black">Password</Label>
           <div className="relative">
@@ -96,7 +89,6 @@ function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {/* Eye Icon Button */}
             <button 
               type="button"
               onClick={() => setShowPassword(!showPassword)}
@@ -107,16 +99,11 @@ function Signup() {
           </div>
         </div>
 
-        {/* Password Requirements */}
         <div className="grid grid-cols-2 gap-x-2 gap-y-1">
           {Object.entries(validations).map(([key, isValid]) => (
             <div key={key} className="flex items-center gap-1 text-xs text-gray-500">
-              {isValid ? (
-                <CheckCircle className="text-green-500" size={12} />
-              ) : (
-                <Circle className="text-gray-400" size={12} />
-              )}
-              <span className="leading-tight">
+              {isValid ? <CheckCircle className="text-green-500" size={12} /> : <Circle className="text-gray-400" size={12} />}
+              <span>
                 {key === "lowercase" && "Lowercase"}
                 {key === "uppercase" && "Uppercase"}
                 {key === "number" && "Number"}
@@ -127,9 +114,7 @@ function Signup() {
           ))}
         </div>
 
-        {/* Signup Button */}
         <div className="flex flex-col items-center justify-center space-y-3">
-          {/* Next Button */}
           <button 
             type="submit"
             className="w-full bg-green-500 text-white p-2 rounded-md"
@@ -138,21 +123,7 @@ function Signup() {
             {loading ? "Signing up..." : "Next"}
           </button>
 
-          {/* Error/Success Message */}
           {message && <p className={`text-sm ${message.includes("success") ? "text-green-500" : "text-red-500"}`}>{message}</p>}
-
-          {/* OR Divider */}
-          <div className="flex items-center w-full">
-            <div className="flex-1 border-t border-gray-300"></div>
-            <span className="px-3 text-gray-500 text-sm">or</span>
-            <div className="flex-1 border-t border-gray-300"></div>
-          </div>
-
-          {/* Google Signup Button */}
-          <button className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 border border-gray-300 p-2 rounded-md">
-            <FcGoogle size={20} /> {/* Google Icon */}
-            Continue with Google
-          </button>
         </div>
       </form>
     </div>
