@@ -7,7 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import AlertModal from "@/components/AlertModal";
-// import { login } from "@/actions/action"; // ✅ Import real login function
+ import { login } from "@/actions/action"; // ✅ Import real login function
 
 function SignIn() {
   const router = useRouter(); // ✅ Router for redirection
@@ -23,25 +23,25 @@ function SignIn() {
   const [modalType, setModalType] = useState<"success" | "error">("success");
   const [modalMessage, setModalMessage] = useState("");
 
-  // ✅ Handle Login
-  // const handleLogin = async () => {
-  //   setLoading(true);
+// ✅ Handle Login
+const handleLogin = async () => {
+  setLoading(true);
 
-  //   const response = await login(email, password); // ✅ Call login API
-  //   setLoading(false);
+  const response = await login(email, password); // ✅ Call login API
+  setLoading(false);
 
-  //   if (response.success) {
-  //     setModalType("success");
-  //     setModalMessage("Welcome back! You’ve logged in successfully.");
-  //     localStorage.setItem("user", JSON.stringify(response.data)); // ✅ Store user data
-  //     setTimeout(() => router.push("/dashboard"), 2000); // ✅ Redirect after success
-  //   } else {
-  //     setModalType("error");
-  //     setModalMessage(response.message || "Login failed. Check your credentials and try again.");
-  //   }
+  if (response.success) {
+    setModalType("success");
+    setModalMessage("Welcome back! You’ve logged in successfully.");
+    localStorage.setItem("user", JSON.stringify(response.data)); // ✅ Store user data
+    setTimeout(() => router.push("/dashboard"), 2000); // ✅ Redirect after success
+  } else {
+    setModalType("error");
+    setModalMessage(response.message || "Login failed. Check your credentials and try again.");
+  }
 
-  //   setModalOpen(true);
-  // };
+  setModalOpen(true);
+};
 
   return (
     <div className="mx-auto space-y-6 p-10 bg-white rounded-lg">
@@ -96,7 +96,7 @@ function SignIn() {
       {/* Sign In Button */}
       <div className="flex flex-col items-center justify-center space-y-3">
         <button 
-          // onClick={handleLogin} 
+          onClick={handleLogin} 
           className="w-full bg-green-500 text-white p-2 rounded-md"
           disabled={loading}
         >

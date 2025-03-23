@@ -30,6 +30,45 @@ export const register = async (email: string, password: string) => {
 };
 
 
+
+export const login = async (email: string, password: string) => {
+  try {
+    console.log("🔄 Attempting to log in with email:", email);
+
+    if (!publicRequest) {
+      throw new Error("❌ publicRequest is undefined!");
+    }
+
+    const { data } = await publicRequest.post("/auth/login", { email, password });
+
+    console.log("✅ Login successful:", data);
+
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("❌ Login error:", error.response?.data || error.message);
+
+    // Extract error message from API response
+    const errorMessage = error.response?.data?.error || 
+                         error.response?.data?.message || 
+                         "Login failed. Please check your credentials.";
+
+    return { 
+      success: false, 
+      message: errorMessage
+    };
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
 // ✅ Verify OTP Function
 export const verifyOtp = async (email: string, otp: string) => {
   try {
