@@ -153,6 +153,7 @@ import { useRouter } from "next/navigation";
 // Dummy Job Data
 const jobData = [
   {
+    id: 1,
     title: "Software Engineer",
     company: "Bauch, Schuppe & Schulist Co",
     salary: "$40,000-$42,000",
@@ -161,6 +162,7 @@ const jobData = [
     imageUrl: "https://your-backend.com/images/software-engineer.png",
   },
   {
+    id:2,
     title: "Market Intern",
     company: "Bauch, Schuppe & Schulist Co",
     salary: "Not Paid",
@@ -169,6 +171,7 @@ const jobData = [
     imageUrl: "https://your-backend.com/images/market-intern.png",
   },
   {
+    id:3,
     title: "Product Designer",
     company: "Bauch, Schuppe & Schulist Co",
     salary: "$40,000-$42,000",
@@ -177,6 +180,7 @@ const jobData = [
     imageUrl: "https://your-backend.com/images/product-designer.png",
   },
   {
+    id:4,
     title: "Frontend Developer",
     company: "Bauch, Schuppe & Schulist Co",
     salary: "Not Paid",
@@ -236,7 +240,7 @@ const Hero_4: React.FC = () => {
           <>
             <div
               onClick={() => {
-                router.push(`/joddetails`);
+                router.push(`/job_details/${job.id}`);
                 window.scrollTo(0, 0);
               }}
               key={index}

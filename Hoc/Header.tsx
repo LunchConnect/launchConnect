@@ -24,8 +24,12 @@ export const Header: React.FC = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6 customGreen_2 DM_sans">
-          <button className="transition">How it works</button>
-          <button className="transition">Find Jobs</button>
+          <button
+            onClick={() => router.push("/#hero3")}
+            className="transition">How it works</button>
+          <button
+            onClick={() => router.push("/findjobs")}
+            className="transition">Find Jobs</button>
         </nav>
 
         {/* Auth Buttons (Desktop) */}

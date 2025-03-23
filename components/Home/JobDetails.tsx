@@ -6,6 +6,7 @@ import { LuWallet } from "react-icons/lu";
 import { CiLocationOn } from "react-icons/ci";
 import { FaFacebook, FaLinkedin } from "react-icons/fa";
 import { RiTwitterXFill } from "react-icons/ri";
+import { useRouter } from "next/navigation";
 
 // Sample job data
 const jobs = [
@@ -87,6 +88,7 @@ interface JobDetailsProps {
 }
 
 const JobDetails: React.FC<JobDetailsProps> = () => {
+  const router = useRouter();
   return (
     <>
       <section className="">
@@ -108,7 +110,12 @@ const JobDetails: React.FC<JobDetailsProps> = () => {
                         {job.title}
                       </h1>
                     </div>
-                    <button className="bg-green-500 text-white px-4 py-2 rounded-lg cursor-pointer cal_sans self-start md:self-center">
+                    <button
+                      onClick={() => {
+                        router.push("/sign_up");
+                        window.scrollTo(0, 0);
+                      }}
+                      className="bg-green-500 text-white px-4 py-2 rounded-lg cursor-pointer cal_sans self-start md:self-center">
                       Apply Now
                     </button>
                   </div>

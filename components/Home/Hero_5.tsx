@@ -1,6 +1,8 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const Hero_5: React.FC = () => {
+  const router = useRouter();
   return (
     <section className="bg-[#E1FDE7] px-[5%] md:px-[10%] md:py-20 py-10 pb-40 md:pb-10 relative flex justify-center">
       {/* Background Image */}
@@ -32,7 +34,12 @@ const Hero_5: React.FC = () => {
         <p className="text-white text-[15px] md:text-[16px]">
           the perfect startup opportunity.
         </p>
-        <button className="bg-white h-10 px-3 rounded-md mt-4 w-35 md:w-50 DM_sans text-[#192F1E] cursor-pointer">
+        <button
+          onClick={() => {
+            router.push("/sign_up");
+            window.scrollTo(0, 0);
+          }}
+          className="bg-white h-10 px-3 rounded-md mt-4 w-35 md:w-50 DM_sans text-[#192F1E] cursor-pointer">
           Sign up for free
         </button>
       </div>

@@ -60,7 +60,10 @@
 
 "use client";
 
+import { useRouter } from "next/navigation";
+
 const Hero: React.FC = () => {
+  const router = useRouter();
   return (
     <section className="relative w-full h-screen flex items-center justify-center">
       {/* Background Image */}
@@ -83,10 +86,22 @@ const Hero: React.FC = () => {
           dream roles.
         </p>
         <div className="md:space-x-4 pt-5 flex flex-col-reverse md:flex-row justify-center gap-4 md:gap-0 px-2 md:px-0 ">
-          <button className="bg-white text-[#192F1E] custom-btn rounded-md cursor-pointer cal_sans">
+          <button
+            onClick={() => {
+              router.push("/sign_up");
+              window.scrollTo(0, 0);
+            }}
+            className="bg-white text-[#192F1E] custom-btn rounded-md cursor-pointer cal_sans"
+          >
             Post an Opportunity
           </button>
-          <button className="primary text-[#F1F1F1] custom-btn rounded-md md:w-40 cursor-pointer cal_sans">
+          <button
+            onClick={() => {
+              router.push("/findjobs");
+              window.scrollTo(0, 0);
+            }}
+            className="primary text-[#F1F1F1] custom-btn rounded-md md:w-40 cursor-pointer cal_sans"
+          >
             Find A Job
           </button>
         </div>

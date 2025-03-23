@@ -154,6 +154,7 @@ import { RxDotFilled } from "react-icons/rx";
 // Dummy Job Data
 const jobData = [
   {
+    id: 1,
     title: "Software Engineer",
     company: "Netlify, Inc.",
     location: "Paris, France",
@@ -161,6 +162,7 @@ const jobData = [
     image: "",
   },
   {
+    id: 2,
     title: "Brand Manager",
     company: "Bauch, Schuppe",
     location: "New York, USA",
@@ -168,6 +170,7 @@ const jobData = [
     image: "",
   },
   {
+    id: 3,
     title: "Product Designer",
     company: "Bauch, Schuppe",
     location: "New York, USA",
@@ -175,6 +178,7 @@ const jobData = [
     image: "",
   },
   {
+    id: 4,
     title: "HR Manager",
     company: "Bauch, Schuppe",
     location: "New York, USA",
@@ -182,6 +186,7 @@ const jobData = [
     image: "",
   },
   {
+    id: 5,
     title: "Software Engineer",
     company: "Netlify, Inc.",
     location: "Paris, France",
@@ -189,6 +194,7 @@ const jobData = [
     image: "",
   },
   {
+    id: 6,
     title: "Brand Manager",
     company: "Dropbox",
     location: "San Francisco, USA",
@@ -196,6 +202,7 @@ const jobData = [
     image: "",
   },
   {
+    id: 7,
     title: "Product Designer",
     company: "Bauch, Schuppe & Schulist Co",
     location: "New York, USA",
@@ -203,6 +210,7 @@ const jobData = [
     image: "",
   },
   {
+    id: 8,
     title: "HR Manager",
     company: "Terraform",
     location: "Hamburg, Germany",
@@ -247,7 +255,7 @@ const Hero_6: React.FC = () => {
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-2 cal_sans">
             <h2 className="text-4xl font-bold text-[#08230E]">Latest</h2>
-            <span className="text-[#1AC23F] text-4xl font-bold">jobs open</span>
+            <span className="text-[#1AC23F] text-4xl font-bold">job openings</span>
           </div>
           <button
             onClick={handlefindJob}
@@ -262,7 +270,7 @@ const Hero_6: React.FC = () => {
           {jobData.slice(0, maxJobs).map((job, index) => (
             <div
               onClick={() => {
-                router.push(`/joddetails`);
+                router.push(`/job_details/${job.id}`);
                 window.scrollTo(0, 0);
               }}
               key={index}
