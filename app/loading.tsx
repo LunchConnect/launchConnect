@@ -2,15 +2,17 @@ import Image from "next/image";
 
 export default function Loading() {
   return (
-    <div className="flex-center size-full h-screen gap-3 text-white">
-      <Image
-        src="/assets/icons/loader.svg"
-        alt="loader"
-        width={40}
-        height={3240}
-        className="animate-spin"
-      />
-      Loading...
+    <div className="fixed inset-0 flex items-center justify-center bg-black">
+      <div className="flex flex-col items-center">
+        <Image
+          src="/assets/images/logo.png"
+          alt="loader"
+          width={40}
+          height={40}
+          className="animate-spin"
+        />
+        <p className="mt-2 text-lg text-white">Loading...</p>
+      </div>
     </div>
   );
 }

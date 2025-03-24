@@ -10,11 +10,13 @@
 /* Hide scrollbar for Firefox */
 html {
   scrollbar-width: none;
+  background: transparent !important;
 }
 
 /* Hide scrollbar for Internet Explorer & Edge */
 body {
   -ms-overflow-style: none;
+  background: transparent !important;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..1000&family=Josefin+Sans:wght@100..700&family=Merriweather+Sans:wght@300..800&family=Poppins:wght@100..900&display=swap');
