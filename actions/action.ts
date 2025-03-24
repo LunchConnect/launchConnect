@@ -123,11 +123,11 @@ export const verifyForgotPasswordOtp = async (otp: string) => {
 
 
 // ✅ Reset Password API
-export const resetPassword = async (email: string, newPassword: string) => {
+export const resetPassword = async (tempToken: string, newPassword: string) => {
   try {
     const { data } = await publicRequest.post("/password/reset-password", {
-      email,
-      newPassword
+      newPassword, // ✅ Send token instead of email
+      tempToken,
     });
 
     console.log("✅ Password Reset Success:", data);

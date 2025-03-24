@@ -12,7 +12,7 @@ function CreateNewPassword() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const email = searchParams.get("email") || ""; // ✅ Get email from query params
+  const token = searchParams.get("token") || ""; // ✅ Get token from query params
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -22,8 +22,8 @@ function CreateNewPassword() {
 
   // ✅ Handle Password Reset Submission
   const handleSubmit = async () => {
-    if (!email) {
-      setMessage("Email not found. Please restart the reset process.");
+    if (!token) {
+      setMessage("Invalid or expired link. Please request a new password reset.");
       return;
     }
 
@@ -40,8 +40,8 @@ function CreateNewPassword() {
     setLoading(true);
     setMessage("");
 
-    // ✅ Call API function
-    const response = await resetPassword(email, password);
+    // ✅ Call API function with token
+    const response = await resetPassword(token, password);
 
     if (response.success) {
       setMessage("✅ Password reset successful! Redirecting...");

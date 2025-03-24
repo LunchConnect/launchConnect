@@ -51,14 +51,17 @@ function ConfirmOtpPage() {
       return;
     }
   
-    const response = await verifyForgotPasswordOtp(otpCode);
+    const response = await verifyForgotPasswordOtp(otpCode); // ✅ Call API
   
-    if (response.success) {
-      router.push("/sign_in/createnew_password"); // ✅ Fixed redirection
+    if (response.success && response.data.tempToken) {
+      // ✅ Redirect to create new password page with token
+      router.push(`/sign_in/createnew_password?token=${encodeURIComponent(response.data.tempToken)}`);
     } else {
-      setMessage(response.message);
+      setMessage(response.message || "OTP verification failed.");
     }
   };
+  
+
   
   return (
     <div className="flex flex-col items-center justify-start min-h-screen p-6 bg-white">
