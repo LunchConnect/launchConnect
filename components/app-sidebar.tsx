@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const menuItems = [
   { title: "Dashboard", url: "#", icon: LayoutGrid },
-  { title: "Find Jobs", url: "#", icon: Briefcase },
+  { title: "Find Jobs", url: "/findjobs", icon: Briefcase },
   { title: "Application Tracking", url: "#", icon: Eye },
   { title: "Saved Jobs", url: "#", icon: Bookmark },
 ];
