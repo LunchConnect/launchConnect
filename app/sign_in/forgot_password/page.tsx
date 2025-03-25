@@ -1,9 +1,12 @@
 "use client";
+
+import Link from "next/link";
 import React, { useState } from "react";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+
+
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -24,7 +27,7 @@ function ForgotPassword() {
         <Input 
           type="email" 
           id="email" 
-          placeholder="eg. email@gmail.com"
+          placeholder="eg.email@gmail.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="!bg-white !text-black !border-gray-300 !rounded-md !p-2 
@@ -37,7 +40,7 @@ function ForgotPassword() {
 
       {/* Sign Up Link */}
       <p className="text-center text-sm text-gray-600">
-        Don't have an account?{" "}
+        Dont have an account?
         <Link href="/sign_up" className="text-green-500 font-medium">Sign Up</Link>
       </p>
     </div>

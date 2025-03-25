@@ -1,17 +1,23 @@
 "use client";
+import { CloudUpload } from "lucide-react";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import Select from "react-select";
-
-import { CloudUpload } from "lucide-react";
 import { GrLinkedin } from "react-icons/gr";
 import { TiPlus } from "react-icons/ti";
+import Select, { MultiValue } from "react-select";
+
+// Define types for options
+interface Option {
+  value: string;
+  label: string;
+}
 
 const JobSeeker = () => {
   const [resume, setResume] = useState<File | null>(null);
-  const [selectedSkills, setSelectedSkills] = useState([]);
-  const [selectedInterests, setSelectedInterests] = useState([]);
+  const [selectedSkills, setSelectedSkills] = useState<Option[]>([]);
+  const [selectedInterests, setSelectedInterests] = useState<Option[]>([]);
 
+  // Handle file drop
   const onDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
       setResume(acceptedFiles[0]);
@@ -26,14 +32,16 @@ const JobSeeker = () => {
     },
   });
 
-  const skillOptions = [
+  // Skills options
+  const skillOptions: Option[] = [
     { value: "UI/UX Design", label: "UI/UX Design" },
     { value: "Frontend Development", label: "Frontend Development" },
     { value: "Backend Development", label: "Backend Development" },
     { value: "Project Management", label: "Project Management" },
   ];
 
-  const interestOptions = [
+  // Interests options
+  const interestOptions: Option[] = [
     { value: "Gaming", label: "Gaming" },
     { value: "Esports", label: "Esports" },
     { value: "AI", label: "AI" },
@@ -46,8 +54,7 @@ const JobSeeker = () => {
         {/* Header */}
         <h1 className="text-3xl font-bold text-black">Build Your Job Seeker Profile</h1>
         <p className="text-lg text-gray-600 mt-3">
-          Showcase your skills, experience, and interests to connect with top
-          startups and unlock new opportunities.
+          Showcase your skills, experience, and interests to connect with top startups and unlock new opportunities.
         </p>
 
         {/* Form */}
@@ -103,23 +110,23 @@ const JobSeeker = () => {
               <GrLinkedin className="absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-600" size={28} />
             </div>
           </div>
-{/* Skills Selection */}
-<div className="mb-5">
-  <label className="text-lg font-medium mb-2 block">Skills*</label>
-  <Select
-    options={skillOptions}
-    isMulti
-    value={selectedSkills}
-    onChange={(selected) => setSelectedSkills(selected as any)}
-    className="w-full text-lg text-black"
-    placeholder="Select up to 5 skills"
-    maxMenuHeight={150}
-  />
-  <div className="flex justify-end w-full mt-3">
-    <p className="text-sm text-gray-500 mt-1">Max: 5 Skills</p>
-  </div>
-</div>
 
+          {/* Skills Selection */}
+          <div className="mb-5">
+            <label className="text-lg font-medium mb-2 block">Skills*</label>
+            <Select
+              options={skillOptions}
+              isMulti
+              value={selectedSkills}
+              onChange={(selected: MultiValue<Option>) => setSelectedSkills(selected as Option[])}
+              className="w-full text-lg text-black"
+              placeholder="Select up to 5 skills"
+              maxMenuHeight={150}
+            />
+            <div className="flex justify-end w-full mt-3">
+              <p className="text-sm text-gray-500 mt-1">Max: 5 Skills</p>
+            </div>
+          </div>
 
           {/* Interests Selection */}
           <div className="mb-5">
@@ -128,15 +135,14 @@ const JobSeeker = () => {
               options={interestOptions}
               isMulti
               value={selectedInterests}
-              onChange={(selected) => setSelectedInterests(selected as any)}
+              onChange={(selected: MultiValue<Option>) => setSelectedInterests(selected as Option[])}
               className="w-full text-lg text-black"
               placeholder="Select up to 3 interests"
               maxMenuHeight={150}
             />
- <div className="flex justify-end w-full mt-3">
-            <p className="text-sm text-gray-500">Max: 3 Interests</p>
+            <div className="flex justify-end w-full mt-3">
+              <p className="text-sm text-gray-500">Max: 3 Interests</p>
             </div>
-           
           </div>
 
           {/* Submit Button */}

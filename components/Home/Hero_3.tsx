@@ -1,23 +1,30 @@
 import React, { useState } from "react";
+import Image from "next/image";
 
-const Hero_3: React.FC = () => {
+const Hero3: React.FC = () => {
   const [activeTab, setActiveTab] = useState("jobSeekers");
 
   return (
-    <section id="hero3" className="bg-[#08230E] section">
-      <div className="relative md:pt-30 text-center md:py-40 py-20">
+    <section id="hero" className="bg-[#08230E] px-[10%] py-20">
+      <div className="relative pt-30 text-center mb-10">
         {/* Background pattern */}
+        {/* <Image
+          src="/assets/images/plussign_2.png"
+          alt="Plus Sign"
+          width={40} // Adjust as needed
+          height={40} // Adjust as needed
+          className="absolute left-[-13%] pointer-events-none hidden md:block"
+        /> */}
         <img
           src="/assets/images/plussign_2.png"
           alt=""
           className="absolute left-[-13%] pointer-events-none hidden md:block"
         />
-
         {/* Title */}
-        <h2 className="font-semibold text-[#ffffff] md:text-6xl text-4xl  cal_sans">
+        <h2 className="font-semibold text-[#ffffff] md:text-6xl text-3xl md:mt-20 mt-5 cal_sans">
           How LaunchConnect Works
         </h2>
-        <p className="text-[#ffffff] mt-4 text-xl DM_sans">
+        <p className="text-[#ffffff] mt-4 md:text-xl DM_sans">
           Helping startups and job seekers connect effortlessly.
         </p>
 
@@ -47,7 +54,7 @@ const Hero_3: React.FC = () => {
         </div>
 
         {/* Content Boxes */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 cursor-pointer px-5 md:px-0">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 cursor-pointer md:px-0">
           {activeTab === "jobSeekers" ? (
             <>
               <div className="bg-white rounded-xl space-y-3 px-6 shadow-md flex flex-col items-center justify-center md:w-83 h-80">
@@ -57,7 +64,7 @@ const Hero_3: React.FC = () => {
                   className="rounded-full bg-[#E1FFE8] p-4"
                 />
                 <h3 className="font-semibold text-xl pt-3 text-[#08230E] cal_sans">
-                  Discover Startup Roles
+                  Startup Roles
                 </h3>
                 <p className="text-gray-600 text-[18px] DM_sans">
                   Explore volunteering, internships, and entry-level jobs that
@@ -72,7 +79,7 @@ const Hero_3: React.FC = () => {
                   className="rounded-full bg-[#E1FFE8] p-4"
                 />
                 <h3 className="font-semibold text-xl pt-3 text-[#08230E] cal_sans">
-                  Discover Opportunities
+                  Opportunities
                 </h3>
                 <p className="text-gray-600 text-[18px] DM_sans">
                   No complicated applications or gatekeeping—just seamless
@@ -87,7 +94,7 @@ const Hero_3: React.FC = () => {
                   className="rounded-full bg-[#E1FFE8] p-4"
                 />
                 <h3 className="font-semibold text-xl pt-3 text-[#08230E] cal_sans">
-                  Gain Hands-On Experience
+                  Hands-On Experience
                 </h3>
                 <p className="text-gray-600 text-[18px] DM_sans">
                   Work on real-world projects, build your portfolio, and grow
@@ -103,12 +110,12 @@ const Hero_3: React.FC = () => {
                   alt="wave"
                   className="rounded-full bg-[#E1FFE8] p-4"
                 />
-                <h3 className="font-semibold text-xl pt-3 text-[#08230E] cal_sans">
+                <h3 className="font-semibold text-xl pt-3 text-[#08230E]">
                   Find Top Talent
                 </h3>
                 <p className="text-gray-600 text-[18px] DM_sans">
                   Connect with skilled professionals eager to contribute to your
-                  startup's growth. Hire interns, freelancers team members.
+                  startup&#39;s growth. Hire interns, freelancers team members.
                 </p>
               </div>
 
@@ -118,7 +125,7 @@ const Hero_3: React.FC = () => {
                   alt="wave"
                   className="rounded-full bg-[#E1FFE8] p-4"
                 />
-                <h3 className="font-semibold text-xl pt-3 text-[#08230E] cal_sans">
+                <h3 className="font-semibold text-xl pt-3 text-[#08230E]">
                   Access a Talent Network
                 </h3>
                 <p className="text-gray-600 text-[18px] DM_sans">
@@ -133,7 +140,7 @@ const Hero_3: React.FC = () => {
                   alt="wave"
                   className="rounded-full bg-[#E1FFE8] p-4"
                 />
-                <h3 className="font-semibold text-xl pt-3 text-[#08230E] cal_sans">
+                <h3 className="font-semibold text-xl pt-3 text-[#08230E]">
                   Build Your Dream Team
                 </h3>
                 <p className="text-gray-600 text-[18px] DM_sans">
@@ -143,6 +150,12 @@ const Hero_3: React.FC = () => {
               </div>
             </>
           )}
+
+          <img
+            src="assets/images/smallscreenplus2.png"
+            alt=""
+            className="absolute -bottom-[9%] right-[5%] md:hidden scale-[1.2]"
+          />
         </div>
         <img
           src="assets/images/smallscreenplus2.png"
@@ -154,4 +167,4 @@ const Hero_3: React.FC = () => {
   );
 };
 
-export default Hero_3;
+export default Hero3;

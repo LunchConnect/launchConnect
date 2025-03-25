@@ -1,6 +1,6 @@
 "use client"; // Required for Next.js App Router
-import React, { useState } from "react";
 import { CheckCircle } from "lucide-react";
+import React, { useState } from "react";
 
 const WelcomePage = () => {
   const [selectedOption, setSelectedOption] = useState("founder");
@@ -24,7 +24,7 @@ const WelcomePage = () => {
             }`}
           >
             <div className="flex justify-between items-center">
-              <h3 className="font-semibold text-black">I'm a Startup Founder</h3>
+              <h3 className="font-semibold text-black">I&apos;m a Startup Founder</h3>
               {selectedOption === "founder" && <CheckCircle size={20} className="text-green-500" />}
             </div>
             <p className="text-sm text-gray-600">
@@ -40,7 +40,7 @@ const WelcomePage = () => {
             }`}
           >
             <div className="flex justify-between items-center">
-              <h3 className="font-semibold text-black">I'm a Job Seeker</h3>
+              <h3 className="font-semibold text-black">I&apos;m a Job Seeker</h3>
               {selectedOption === "seeker" && <CheckCircle size={20} className="text-green-500" />}
             </div>
             <p className="text-sm text-gray-600">

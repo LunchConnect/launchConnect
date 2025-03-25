@@ -1,9 +1,10 @@
 "use client";
+import { Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Eye, EyeOff } from "lucide-react";
+
 
 function CreateNewPassword() {
   const [password, setPassword] = useState("");

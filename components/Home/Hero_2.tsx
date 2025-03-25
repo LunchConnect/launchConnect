@@ -1,26 +1,26 @@
-import { useRouter } from "next/navigation";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const Hero_2: React.FC = () => {
   const router = useRouter();
   return (
     <>
-      <section className="relative bg-white section">
-        <div className="mx-auto text-center md:py-20 md:pb-52 py-10">
+      <section className="relative bg-white px-[4%] md:px-[10%] md:pb-32">
+        <div className="mx-auto text-center py-20">
           <h1 className="text-5xl md:text-4xl font-bold md:text-start cal_sans text-[#192F1E]">
             What is <span className="text-[#1AC23F]">LaunchConnect</span>
             <p className="mt-2">All About?</p>
           </h1>
-          <p className="text-[#49594C] text-center md:text-xl text-xl mt-4 md:text-start md:max-w-md md:mb-30 DM_sans">
+          <p className="text-gray-600 text-xl mt-4 md:text-start md:max-w-md md:mb-30 DM_sans">
             LaunchConnect is a platform that bridges the gap between startups
             and job seekers, making it easier to connect, collaborate, and grow.
-            Startups can find passionate talent, while job seekers gain valuable
-            experience in dynamic roles.
+            Startups can find “passionate talent”, while job seekers gain
+            valuable experience in dynamic roles.
           </p>
         </div>
 
         {/* Wave SVG at Bottom for larger screens ------------------------------------- */}
-        <div className="absolute -bottom-1 left-0 w-full hidden md:block pointer-events-none z-0">
+        <div className="absolute -bottom-1 left-0 w-full hidden md:block">
           <svg
             viewBox="0 0 1440 320"
             className="w-full h-auto"
@@ -43,12 +43,12 @@ const Hero_2: React.FC = () => {
         </div>
 
         {/* Wave SVG at Bottom for smaller screens ------------------------------------- */}
-        <div className="absolute -bottom-1 left-0 w-full md:hidden pointer-events-none">
-          <img src="assets/images/Frame.png" alt="" />
+        <div className="absolute -bottom-1 left-0 w-full md:hidden">
+          <img src="/images/Frame.png" alt="" />
         </div>
 
         {/* Floating Buttons for larger screens ------------------------------------- */}
-        <div className="absolute top-[15%] right-[12%] hidden md:block lg:block">
+        <div className="absolute top-[15%] right-[12%] hidden md:block">
           <div className="border-2 border-green-600 p-2 rounded-xl w-[105%]">
             <div className="bg-[#D7F6DE] px-4 py-8 w-full rounded-xl">
               <h2 className="text-[#192F1E] font-semibold text-xl relative pb-2">
@@ -64,18 +64,15 @@ const Hero_2: React.FC = () => {
                 strong team and scale your startup.
               </p>
               <button
-                onClick={() => {
-                  router.push("/sign_up");
-                  window.scrollTo(0, 0);
-                }}
-                className="text-[#192F1E] px-4 py-2 mt-3 w-42 border DM_sans font-semibold whitespace-nowrap  border-green-500 bg-[#FFFFFF] rounded-md cursor-pointer"
+                onClick={() => router.push("/sign_up")}
+                className="text-[#192F1E] px-4 py-2 mt-3 w-42 border DM_sans font-semibold whitespace-nowrap  border-green-500 bg-[#FFFFFF] rounded-md cursor-pointer pl-3"
               >
                 Post Opportunities
               </button>
             </div>
           </div>
 
-          <div className="mt-5 border-2 border-green-600 p-2 rounded-xl w-[105%] relative z-10">
+          <div className="mt-5 border-2 border-green-600 p-2 rounded-xl w-[105%]">
             <div className="bg-[#D7F6DE] px-4 py-8 rounded-xl">
               <h2 className="text-[#192F1E] font-semibold text-xl relative pb-2">
                 <span className="relative z-10 cal_sans">
@@ -90,10 +87,7 @@ const Hero_2: React.FC = () => {
                 kickstart your career.
               </p>
               <button
-                onClick={() => {
-                  router.push("/sign_up");
-                  window.scrollTo(0, 0);
-                }}
+                onClick={() => router.push("/sign_up")}
                 className="text-[#192F1E] px-4 py-2 mt-3 w-42 border DM_sans font-semibold border-green-500 bg-[#FFFFFF] rounded-md cursor-pointer"
               >
                 Start Applying
@@ -110,13 +104,16 @@ const Hero_2: React.FC = () => {
                 <span className="relative z-10 cal_sans">
                   Are you a Start-Up Founder?
                 </span>
-                <span className="absolute bottom-0 -right-6 w-[115%] border-b border-green-300"></span>
+                <span className="absolute bottom-0 -right-6 w-[116%] border-b border-green-300"></span>
               </h2>
               <p className="text-[#75897A] pt-4 text-[15px] DM_sans">
                 Post volunteer, internship, and entry-level jobs to build a
                 strong team and scale your startup.
               </p>
-              <button className="text-[#192F1E] px-4 py-2 mt-3 w-42 border DM_sans font-semibold whitespace-nowrap border-green-500 bg-[#FFFFFF] rounded-md cursor-pointer pl-3">
+              <button
+                onClick={() => router.push("/sign_up")}
+                className="text-[#192F1E] px-4 py-2 mt-3 w-42 border DM_sans font-semibold whitespace-nowrap border-green-500 bg-[#FFFFFF] rounded-md cursor-pointer pl-3"
+              >
                 Post Opportunities
               </button>
             </div>
@@ -128,7 +125,7 @@ const Hero_2: React.FC = () => {
                 <span className="relative z-10 cal_sans">
                   Are you a Job Seeker?
                 </span>
-                <span className="absolute bottom-0 -right-6 w-[115%] border-b border-green-300"></span>
+                <span className="absolute bottom-0 -right-6 w-[116%] border-b border-green-300"></span>
               </h2>
               <div className="text-[#75897A] pt-4 text-[15px] DM_sans">
                 <p>
@@ -136,12 +133,21 @@ const Hero_2: React.FC = () => {
                   kickstart your career.
                 </p>
               </div>
-              <button className="text-[#192F1E] px-4 py-2 mt-3 w-42 border DM_sans font-semibold border-green-500 bg-[#FFFFFF] rounded-md cursor-pointer">
+              <button
+                onClick={() => router.push("/sign_up")}
+                className="text-[#192F1E] px-4 py-2 mt-3 w-42 border DM_sans font-semibold border-green-500 bg-[#FFFFFF] rounded-md cursor-pointer"
+              >
                 Start Applying
               </button>
             </div>
           </div>
         </div>
+        {/* image for small screen */}
+        <img
+          src="assets/images/frame.png"
+          alt=""
+          className="absolute -bottom-20 right-[5%] md:hidden scale-[1.2]"
+        />
       </section>
     </>
   );

@@ -1,10 +1,13 @@
 "use client"; // Required if using Next.js App Router
-import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react"; // Icons
+import Link from "next/link";
+import React, { useState } from "react";
+import { FcGoogle } from "react-icons/fc"; // Google Icon
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FcGoogle } from "react-icons/fc"; // Google Icon
-import Link from "next/link";
+
+
 
 function SignIn() {
   const [password, setPassword] = useState("");
@@ -84,7 +87,7 @@ function SignIn() {
 
       {/* Sign Up Link */}
       <p className="text-center text-sm text-gray-600">
-        Don't have an account?{" "}
+        Don&#39;t have an account?{" "}
         <Link href="/sign_up" className="text-green-500 font-medium">Sign Up</Link>
       </p>
     </div>

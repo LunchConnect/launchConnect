@@ -1,11 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import withHeaderAndFooter from "@/Hoc/withHeaderAndFooter";
+import withHeaderAndFooter from "../../Hoc/withHeaderAndFooter";
 import { CiLocationOn } from "react-icons/ci";
 import { LuWallet } from "react-icons/lu";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Check, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { scrollToTop } from "@/lib/utils";
+import Image from "next/image";
 
 // Define types
 interface Job {
@@ -45,7 +47,7 @@ const FindJobs: React.FC = () => {
     id: i + 1,
     title: "Software Engineer",
     company: "Company Name",
-    salary: "$40000 - $42000",
+    salary: Math.random() > 0.5 ? "Paid" : "Not Paid",
     city: "Name of City",
   }));
 
@@ -66,8 +68,6 @@ const FindJobs: React.FC = () => {
   interface FilterOptions {
     categories: string[];
     jobTypes: string[];
-    experienceLevels: string[];
-    datePosted: string[];
   }
 
   const filters: FilterOptions = {
@@ -82,21 +82,29 @@ const FindJobs: React.FC = () => {
       "Technology",
     ],
     jobTypes: ["All", "Volunteer", "Internship"],
-    experienceLevels: ["No-Experience", "Fresher", "Intermediate", "Expert"],
-    datePosted: [
-      "All",
-      "Last Hour",
-      "Last 24 Hours",
-      "Last 7 Days",
-      "Last 30 Days",
-    ],
   };
 
   return (
     <section className="">
       {/* Header */}
-      <div className="bg-[#08230E] mini-header mini-header-p mini-header-smallscreen py-10 md:py-15 text-center text-4xl font-bold text-white cal_sans">
-        <h2>Find Jobs</h2>
+      <div className="">
+        <div className="bg-[#08230E] mini-header mini-header-p mini-header-smallscreen px-[4%] md:px-[10%] py-15 text-center text-4xl font-bold text-white pointer-events-none">
+          <Image
+            src="/assets/images/findjobplus2.png"
+            alt=""
+            width={982}
+            height={497.73}
+            className="absolute left-0 top-0"
+          />
+          <h2>Find Jobs</h2>
+          <Image
+            src="/assets/images/findjobplus.png"
+            alt=""
+            width={982}
+            height={497.73}
+            className="absolute right-0 top-0"
+          />
+        </div>
       </div>
 
       {/* Body */}
@@ -105,16 +113,16 @@ const FindJobs: React.FC = () => {
           {/* Sidebar Filters */}
           <div className="md:w-1/4 border border-[#E7EFE8] p-5 rounded-lg shadow md:self-start">
             {/* Categories */}
-            <h3 className="text-lg text-[#495C4E] cal_sans">Categories</h3>
+            <h3 className="text-lg cal_sans text-[#495C4E]">Categories</h3>
             <ul className="space-y-2 mt-3 border-b border-[#E7EFE8] pb-3">
               {filters.categories.map((category) => (
                 <li
                   key={category}
-                  className="flex items-center gap-2 relative text-color DM_sans"
+                  className="flex items-center gap-2 relative DM_sans text-[#000000]"
                 >
                   <input
                     type="checkbox"
-                    className="custom-checkbox relative"
+                    className="custom-checkbox"
                     checked={selectedFilters.category === category}
                     onChange={() => handleSelect("category", category)}
                   />
@@ -128,15 +136,15 @@ const FindJobs: React.FC = () => {
 
             {/* Job Type */}
             <h3 className="text-lg mt-5 cal_sans text-[#495C4E]">Job Type</h3>
-            <ul className="space-y-2 mt-3 border-b border-[#E7EFE8] pb-3">
+            <ul className="space-y-2 mt-3">
               {filters.jobTypes.map((jobType) => (
                 <li
                   key={jobType}
-                  className="flex items-center gap-2 relative text-color DM_sans"
+                  className="flex items-center gap-2 relative DM_sans text-[#000000]"
                 >
                   <input
                     type="checkbox"
-                    className="appearance-none w-4 h-4 border checked:border-[#E7EFE8] rounded-sm custom-checkbox relative"
+                    className="custom-checkbox"
                     checked={selectedFilters.jobType === jobType}
                     onChange={() => handleSelect("jobType", jobType)}
                   />
@@ -144,54 +152,6 @@ const FindJobs: React.FC = () => {
                     <Check className="absolute top-1 text-white w-4 h-4" />
                   )}
                   {jobType}
-                </li>
-              ))}
-            </ul>
-
-            {/* Experience Level */}
-            <h3 className="text-lg mt-5 cal_sans text-[#495C4E]">
-              Experience Level
-            </h3>
-            <ul className="space-y-2 mt-3 border-b border-[#E7EFE8] pb-3">
-              {filters.experienceLevels.map((level) => (
-                <li
-                  key={level}
-                  className="flex items-center gap-2 relative text-color DM_sans"
-                >
-                  <input
-                    type="checkbox"
-                    className="appearance-none w-4 h-4 border checked:border-[#E7EFE8] rounded-sm custom-checkbox relative"
-                    checked={selectedFilters.experienceLevel === level}
-                    onChange={() => handleSelect("experienceLevel", level)}
-                  />
-                  {selectedFilters.experienceLevel === level && (
-                    <Check className="absolute top-1 text-white w-4 h-4" />
-                  )}
-                  {level}
-                </li>
-              ))}
-            </ul>
-
-            {/* Date Posted */}
-            <h3 className="font-semibold text-lg mt-5 cal_sans text-[#495C4E]">
-              Date Posted
-            </h3>
-            <ul className="space-y-2 mt-3">
-              {filters.datePosted.map((date) => (
-                <li
-                  key={date}
-                  className="flex items-center gap-2 relative text-color DM_sans"
-                >
-                  <input
-                    type="checkbox"
-                    className="appearance-none w-4 h-4 border rounded-sm checked:border-[#ffffff] custom-checkbox relative"
-                    checked={selectedFilters.datePosted === date}
-                    onChange={() => handleSelect("datePosted", date)}
-                  />
-                  {selectedFilters.datePosted === date && (
-                    <Check className="absolute top-1  text-white w-4 h-4" />
-                  )}
-                  {date}
                 </li>
               ))}
             </ul>
@@ -223,10 +183,14 @@ const FindJobs: React.FC = () => {
                       {job.title}
                     </h4>
                   </div>
-                  <p className="text-gray-600 mt-3 DM_sans">{job.company}</p>
+                  <p className="text-[#6F8674] mt-3 DM_sans">{job.company}</p>
                   <div className="flex items-center gap-2 mt-2">
-                    <p className="text-sm text-gray-500 flex items-center gap-2 DM_sans">
-                      <LuWallet /> {job.salary}
+                    <LuWallet className="text-[#6F8674]" />
+                    <p
+                      className={`text-sm flex items-center gap-2 DM_sans"
+                       ${job.salary === "Paid" ? "text-green-600 bg-[#1FC16B1A] px-2 py-1" : "text-red-500 bg-[#FFEEEE] px-2 py-1"}`}
+                    >
+                      {job.salary}
                     </p>
                     <p className="text-gray-600 flex items-center gap-2">
                       <CiLocationOn size={17} /> {job.city}
@@ -235,9 +199,9 @@ const FindJobs: React.FC = () => {
                   <button
                     onClick={() => {
                       router.push(`/job_details/${job.id}`);
-                      window.scrollTo(0, 0);
+                      scrollToTop();
                     }}
-                    className="mt-3 px-4 py-2 rounded-lg border border-[#9CB8A2] text-[#526F58] cal_sans"
+                    className="mt-3 px-4 py-2 rounded-lg border border-[#9CB8A2] text-[#526F58] cal_sans cursor-pointer"
                   >
                     Job Details
                   </button>
@@ -245,7 +209,7 @@ const FindJobs: React.FC = () => {
               ))}
             </div>
 
-            {/* Pagination --------------------------------------------------*/}
+            {/* Pagination */}
             {totalPages > 1 && (
               <>
                 <div className="mt-8 flex justify-between items-center">
@@ -253,7 +217,7 @@ const FindJobs: React.FC = () => {
                   <button
                     onClick={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="px-2 md:px-4 py-2 border border-[#E9E9E9] text-[#313131] flex items-center text-[12px] md:text-[15px] gap-2 rounded-sm disabled:opacity-15"
+                    className="px-2 md:px-4 py-2 border text-[#313131] border-[#E9E9E9] flex items-center text-[12px] md:text-[15px] gap-2 rounded-sm disabled:opacity-15"
                   >
                     <IoIosArrowBack size={15} /> Back
                   </button>
@@ -352,7 +316,7 @@ const FindJobs: React.FC = () => {
                   <button
                     onClick={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="px-2 md:px-4 py-2 border border-[#E9E9E9] text-[#313131] rounded-sm text-[12px] md:text-[15px] disabled:opacity-15 flex items-center gap-2"
+                    className="px-2 md:px-4 py-2 border text-[#313131] border-[#E9E9E9] rounded-sm text-[12px] md:text-[15px] disabled:opacity-15 flex items-center gap-2"
                   >
                     Next <IoIosArrowForward size={15} />
                   </button>
