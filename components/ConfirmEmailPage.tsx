@@ -4,9 +4,12 @@ import React, { useState, useRef, ChangeEvent, KeyboardEvent, useEffect } from "
 
 import { verifyEmail } from "@/actions/action"; // ✅ Import OTP verification function
 
+import { resendOtp } from "@/actions/action"; // ✅ Import Resend OTP function
 function ConfirmEmailPage() {
   const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
   const [message, setMessage] = useState("");
+  const [isResendDisabled, setIsResendDisabled] = useState(false); // ✅ Track Resend button state
+  const [countdown, setCountdown] = useState(0); // ✅ Timer countdown
   const inputRefs = [
     useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null),
@@ -19,11 +22,26 @@ function ConfirmEmailPage() {
 
 
 
+
+
+
+
+  // Countdown timer logic
   useEffect(() => {
+    let timer: NodeJS.Timeout;
     if (!email) {
       router.push("/sign_up"); // ✅ Redirect back if no email
     }
-  }, [email, router]);
+    if (countdown > 0) {
+      timer = setTimeout(() => setCountdown((prev) => prev - 1), 1000);
+    } else {
+      setIsResendDisabled(false); // Enable button after timer ends
+    }
+    return () => clearTimeout(timer);
+  }, [countdown,email,router]);
+
+
+
 
   const handleChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -45,7 +63,7 @@ function ConfirmEmailPage() {
     const enteredOtp = otp.join("");
     
     if (enteredOtp.length < 4) {
-      setMessage("❌ Please enter the full 4-digit code.");
+      setMessage("Please enter the full 4-digit code.");
       return;
     }
   
@@ -57,8 +75,24 @@ function ConfirmEmailPage() {
       setMessage("✅ Verification successful! Redirecting...");
       setTimeout(() => router.push("/sign_up/welcome"), 2000); // Redirect to dashboard
     } else {
-      setMessage(`❌ ${response.message}`); // Show API error message
+      setMessage(`${response.message}`); // Show API error message
     }
+  };
+
+
+  const handleResendOtp = async () => {
+    if (!email) {
+      setMessage("Email is required to resend OTP.");
+      return;
+    }
+  
+    setMessage("⏳ Sending new OTP...");
+    setIsResendDisabled(true);
+    setCountdown(120); // Start 2-minute countdown
+  
+    const response = await resendOtp(email);
+  
+    setMessage(response.message);
   };
 
   return (
@@ -93,8 +127,16 @@ function ConfirmEmailPage() {
 
       {/* Resend Code */}
       <p className="mt-2 text-sm text-gray-600">
-        Didn&apos;t get a code? <span className="text-green-600 font-semibold cursor-pointer">Resend</span>
+        Didn&apos;t get a code?{" "}
+        <button
+          onClick={handleResendOtp}
+          disabled={isResendDisabled}
+          className={`font-semibold ${isResendDisabled ? "text-gray-400 cursor-not-allowed" : "text-green-600 hover:underline"}`}
+        >
+          {isResendDisabled ? `Resend in ${countdown}s` : "Resend"}
+        </button>
       </p>
+
 
       {/* Create Account Button */}
       <button onClick={handleVerifyOtp} className="mt-4 w-full max-w-xs bg-green-500 text-white py-2 rounded-md font-medium hover:bg-green-600">

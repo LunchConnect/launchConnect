@@ -3,22 +3,33 @@
 import { verifyForgotPasswordOtp } from "@/actions/action"; // ✅ Import function
 import { useSearchParams, useRouter } from "next/navigation"; 
 import React, { useState, useRef, ChangeEvent, KeyboardEvent, useEffect } from "react";
-
+import { resendOtpforpassword } from "@/actions/action"; // ✅ Import Resend OTP function
 function ConfirmOtpPage() {
   const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
   const [message, setMessage] = useState("");
   const searchParams = useSearchParams();
+    const [isResendDisabled, setIsResendDisabled] = useState(false); // ✅ Track Resend button state
+    const [countdown, setCountdown] = useState(0); // ✅ Timer countdown
   const router = useRouter();
   const email = searchParams.get("email") || localStorage.getItem("user_email") || ""; 
 
   // Input field references
   const inputRefs = Array(4).fill(null).map(() => useRef<HTMLInputElement>(null));
 
+  // Countdown timer logic
   useEffect(() => {
+    let timer: NodeJS.Timeout;
     if (!email) {
-      router.push("/sign_up");
+      router.push("/sign_up"); // ✅ Redirect back if no email
     }
-  }, [email, router]);
+    if (countdown > 0) {
+      timer = setTimeout(() => setCountdown((prev) => prev - 1), 1000);
+    } else {
+      setIsResendDisabled(false); // Enable button after timer ends
+    }
+    return () => clearTimeout(timer);
+  }, [countdown,email,router]);
+
 
   // ✅ Handle OTP Input Change
   const handleChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +74,20 @@ function ConfirmOtpPage() {
   
 
   
+    const handleResendOtp = async () => {
+      if (!email) {
+        setMessage("Email is required to resend OTP.");
+        return;
+      }
+    
+      setMessage("⏳ Sending new OTP...");
+      setIsResendDisabled(true);
+      setCountdown(120); // Start 2-minute countdown
+    
+      const response = await resendOtpforpassword(email);
+    
+      setMessage(response.message);
+    };
   return (
     <div className="flex flex-col items-center justify-start min-h-screen p-6 bg-white">
       <div className="w-full max-w-md mt-10 space-y-2">
@@ -92,6 +117,18 @@ function ConfirmOtpPage() {
 
       {message && <p className={`mt-2 text-sm ${message.includes("successful") ? "text-green-500" : "text-red-500"}`}>{message}</p>}
 
+
+      {/* Resend Code */}
+      <p className="mt-2 text-sm text-gray-600">
+        Didn&apos;t get a code?{" "}
+        <button
+          onClick={handleResendOtp}
+          disabled={isResendDisabled}
+          className={`font-semibold ${isResendDisabled ? "text-gray-400 cursor-not-allowed" : "text-green-600 hover:underline"}`}
+        >
+          {isResendDisabled ? `Resend in ${countdown}s` : "Resend"}
+        </button>
+      </p>
       {/* ✅ Submit OTP */}
       <button onClick={handleVerifyOtp} className="mt-4 w-full max-w-xs bg-green-500 text-white py-2 rounded-md font-medium hover:bg-green-600">
         Next

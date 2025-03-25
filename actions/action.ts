@@ -140,3 +140,47 @@ export const resetPassword = async (tempToken: string, newPassword: string) => {
     };
   }
 };
+
+
+
+// ✅ Resend OTP For Email API
+export const resendOtp = async (email: string) => {
+  try {
+    console.log("🔄 Resending OTP for:", email);
+
+    const response = await publicRequest.post("/auth/resend-otp", { email });
+
+    console.log("✅ OTP Resent Successfully:", response.data);
+    return { success: true, message: "A new OTP has been sent to your email." };
+  } catch (error: any) {
+    console.error("❌ Resend OTP Error:", error.response?.data || error.message);
+
+    return { 
+      success: false, 
+      message: error.response?.data?.message || "Failed to resend OTP. Try again."
+    };
+  }
+};
+
+
+
+
+// ✅ Resend OTP For Password API
+export const resendOtpforpassword = async (email: string) => {
+  try {
+    console.log("🔄 Resending OTP for:", email);
+
+    const response = await publicRequest.post("/password/resend-otp", { email });
+
+    console.log("✅ OTP Resent Successfully:", response.data);
+    return { success: true, message: "A new OTP has been sent to your email." };
+  } catch (error: any) {
+    console.error("❌ Resend OTP Error:", error.response?.data || error.message);
+
+    return { 
+      success: false, 
+      message: error.response?.data?.message || "Failed to resend OTP. Try again."
+    };
+  }
+};
+
