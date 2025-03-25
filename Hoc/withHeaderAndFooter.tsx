@@ -14,8 +14,8 @@ const withHeaderAndFooter = <P extends object>(
     </div>
   );
 
-  // ✅ Set a display name for better debugging
-  ComponentWithLayout.displayName = `withHeaderAndFooter(${WrappedComponent.displayName || WrappedComponent.name || "Component"})`;
+ // ✅ Set a display name for better debugging
+ ComponentWithLayout.displayName = `withHeaderAndFooter(${WrappedComponent.displayName || WrappedComponent.name || "Component"})`;
 
   return ComponentWithLayout;
 };
