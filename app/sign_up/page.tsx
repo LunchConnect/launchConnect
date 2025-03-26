@@ -7,6 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { register } from "@/actions/action"; // Import signup function
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 function Signup() {
   const router = useRouter();
@@ -138,6 +139,12 @@ function Signup() {
           </button>
           {message && <p className={`text-sm ${message.includes("success") ? "text-green-500" : "text-red-500"}`}>{message}</p>}
         </div>
+         {/* Sign Up Link */}
+      <p className="text-center text-sm text-gray-600">
+        I have an account?{" "}
+        <Link href="/sign_in" className="text-green-500 font-medium">Sign In</Link>
+      </p>
+
       </form>
     </div>
   );

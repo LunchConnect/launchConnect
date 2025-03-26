@@ -18,7 +18,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
    
  <SidebarProvider>
             <AppSidebar />
-            <main className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-screen">
+            <main className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-screen ml-64">
            
             
               <DashboardNav/>

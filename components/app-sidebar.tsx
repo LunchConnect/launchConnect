@@ -9,7 +9,7 @@ const menuItems = [
 
 export function AppSidebar() {
   return (
-    <aside className="h-screen w-64 min-w-64 bg-white border-r shadow-sm p-4">
+    <aside className="fixed left-0 top-0 h-screen w-64 min-w-64 bg-white border-r shadow-sm p-4">
       {/* Logo */}
       <div className="px-4 pb-6 flex items-center gap-2">
         <img src="/assets/images/logo.png" alt="Launch Connect" className="h-6" />
