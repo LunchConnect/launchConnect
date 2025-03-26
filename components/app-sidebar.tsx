@@ -2,8 +2,8 @@ import { LayoutGrid, Briefcase, Eye } from "lucide-react";
 import Link from "next/link";
 
 const menuItems = [
-  { title: "Dashboard", url: "#", icon: LayoutGrid },
-  { title: "Find Jobs", url: "/findjobs", icon: Briefcase },
+  { title: "Dashboard", url: "/dashboard", icon: LayoutGrid },
+  { title: "Find Jobs", url: "dashboard/findjobs", icon: Briefcase },
   { title: "Application Tracking", url: "#", icon: Eye },
 ];
 
