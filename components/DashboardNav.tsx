@@ -51,7 +51,7 @@ const DashboardNav = () => {
         {isDropdownOpen && (
           <div className="absolute right-0 mt-2 w-56 bg-white shadow-lg rounded-md border p-2">
             <button    onClick={() => {
-                                  router.push("dashboard/profilemanagement");
+                                  router.push("/dashboard/profilemanagement");
                                   scrollToTop();
                                 }} className="flex items-center gap-2 p-2 hover:bg-gray-100 w-full text-left">
               <User className="w-5 h-5 text-gray-600" />
