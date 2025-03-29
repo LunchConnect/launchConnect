@@ -47,7 +47,7 @@ const jobData = [
 
 
 const RelatedJobs: React.FC = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   const handlefindJob = () => {
     router.push("/findjobs");
@@ -66,9 +66,7 @@ const RelatedJobs: React.FC = () => {
         >
           Show all jobs <FaArrowRight size={20} />
         </button>
-      </div> 
-
-    
+      </div>
 
       {/* Job Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

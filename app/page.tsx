@@ -6,7 +6,7 @@ const Home = () => {
   // const [showSuccess, setShowSuccess] = useState(false);
   return (
     <div className="">
-<LandingPage/>
+    <LandingPage/>
     </div>
   );
 };

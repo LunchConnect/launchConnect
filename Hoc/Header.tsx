@@ -44,7 +44,7 @@ export const Header: React.FC = () => {
         </button>
       </div>
 
-      <div className="gap-4 items-center DM_sans md:flex hidden">
+      <div className="gap-4  DM_sans md:flex hidden">
         <button
           onClick={() => router.push("/sign_in")}
           className="text-[#192F1E] cursor-pointer"
@@ -74,7 +74,7 @@ export const Header: React.FC = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -50, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed top-1 left-0 w-full bg-white border border-gray-200 shadow-lg py-5 md:hidden DM_sans z-40 mt-15"
+            className="fixed top-0 left-0 w-full bg-white border border-gray-200 shadow-lg py-5 md:hidden DM_sans z-40 pt-up"
           >
             <div className="flex flex-col items-start gap-3 px-5 pb-5 DM_sans">
               <button

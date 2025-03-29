@@ -63,7 +63,9 @@ const Hero4: React.FC = () => {
       <section className="bg-white section md:px-[10%] py-10 md:py-20">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-4xl font-bold text-[#08230E]">Featured jobs</h2>
+        <h2 className="text-4xl font-bold text-[#08230E] cal_sans">
+          Featured jobs
+        </h2>
         <button
           onClick={handlefindJob}
           className="text-green-600 gap-3 items-center font-semibold cursor-pointer hidden md:flex"
@@ -116,7 +118,7 @@ const Hero4: React.FC = () => {
                   </span>
                 )}
               </p>
-              <p className="text-gray-500 text-sm flex items-center gap-2 mt-2">
+              <p className="text-gray-500 text-sm flex items-center gap-2 mt-2 DM_sans">
                 <CiLocationOn size={17} />
                 {job.location}
               </p>

@@ -6,10 +6,10 @@ import { RiTwitterXFill } from "react-icons/ri";
 import { scrollToTop } from "@/lib/utils";
 import Image from "next/image";
 export const Footer: React.FC = () => {
-  const router = useRouter()
+ const router = useRouter()
   return (
     <footer className="custom-background section py-10">
-    <div className="flex flex-col md:flex-row  gap-8 md:md-gap-footer  customGreen_3">
+    <div className="flex flex-col md:flex-row md-gap-footer  customGreen_3">
       {/* Left Section - Logo & Description */}
       <div className="">
         <div
