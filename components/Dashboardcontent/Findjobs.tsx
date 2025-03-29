@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { LuWallet } from "react-icons/lu";
-
-import withHeaderAndFooter from "@/Hoc/withHeaderAndFooter";
 import { scrollToTop } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -82,29 +80,9 @@ const FindJobs: React.FC = () => {
 
   return (
     <section className="">
-      {/* Header */}
-      <div className="">
-        <div className="bg-[#08230E] mini-header mini-header-p mini-header-smallscreen px-[4%] md:px-[10%] py-15 text-center text-4xl font-bold text-white pointer-events-none">
-          <Image
-            src="/assets/images/findjobplus2.png"
-            alt=""
-            width={982}
-            height={497.73}
-            className="absolute left-0 top-0"
-          />
-          <h2>Find Jobs</h2>
-          <Image
-            src="/assets/images/findjobplus.png"
-            alt=""
-            width={982}
-            height={497.73}
-            className="absolute right-0 top-0"
-          />
-        </div>
-      </div>
       {/* Body */}
-      <div className="px-[4%] md:px-[10%] py-10 md:py-20 bg-white">
-        <div className="flex gap-6 flex-col md:flex-row">
+      <div className="px-[4%] md:px-5 py-10 my-20 bg-white rounded-2xl">
+        <div className="flex gap-6 flex-col md:flex-row border-3 border-white">
           {/* Sidebar Filters */}
           <div className="md:w-1/4 border border-[#E7EFE8] p-5 rounded-lg shadow md:self-start">
             {/* Categories */}
@@ -152,7 +130,7 @@ const FindJobs: React.FC = () => {
             </ul>
           </div>
 
-          {/* Job Listings */}
+          {/* Job Listings ------------------------------------*/}
           <div className="md:w-3/4">
             <div className="relative mb-5">
               <Search
@@ -180,18 +158,18 @@ const FindJobs: React.FC = () => {
                   </div>
                   <p className="text-[#6F8674] mt-3 DM_sans">{job.company}</p>
                   <div className="flex items-center gap-2 mt-2">
+                    <p className="text-gray-600 flex items-center gap-2">
+                      <CiLocationOn size={17} /> {job.city}
+                    </p>
                     <LuWallet className="text-[#6F8674]" />
                     <p
                       className={`text-sm flex items-center gap-2 DM_sans"
                        ${job.salary === "Paid" ? "text-green-600 bg-[#1FC16B1A] px-2 py-1" : "text-red-500 bg-[#FFEEEE] px-2 py-1"}`}
-                    ></p>
-                    <p className="text-gray-600 flex items-center gap-2">
-                      <CiLocationOn size={17} /> {job.city}
-                    </p>
+                        >{job.salary}</p>
                   </div>
                   <button
                     onClick={() => {
-                      router.push(`/job_details/${job.id}`);
+                      router.push(`/dashboard/Jobdetails/${job.id}`);
                       scrollToTop();
                     }}
                     className="mt-3 px-4 py-2 rounded-lg border border-[#9CB8A2] text-[#526F58] cal_sans cursor-pointer"
@@ -202,6 +180,7 @@ const FindJobs: React.FC = () => {
               ))}
             </div>
 
+            {/* Pagination --------------------------------------------------*/}
             {totalPages > 1 && (
               <>
                 <div className="mt-8 flex justify-between items-center">
@@ -322,4 +301,4 @@ const FindJobs: React.FC = () => {
   );
 };
 
-export default withHeaderAndFooter(FindJobs);
+export default FindJobs;
