@@ -4,7 +4,7 @@ import Link from "next/link";
 const menuItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutGrid },
   { title: "Find Jobs", url: "dashboard/findjobs", icon: Briefcase },
-  { title: "Application Tracking", url: "#", icon: Eye },
+  { title: "Application Tracking", url: "dashboard/Application_Tracking", icon: Eye },
 ];
 
 export function AppSidebar() {

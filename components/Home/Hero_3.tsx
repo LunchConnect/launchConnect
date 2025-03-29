@@ -109,7 +109,7 @@ const Hero3: React.FC = () => {
                   alt="wave"
                   className="rounded-full bg-[#E1FFE8] p-4"
                 />
-                <h3 className="font-semibold text-xl pt-3 text-[#08230E]">
+                <h3 className="font-semibold text-xl pt-3 text-[#08230E] cal_sans">
                   Find Top Talent
                 </h3>
                 <p className="text-gray-600 text-[18px] DM_sans">
@@ -124,7 +124,7 @@ const Hero3: React.FC = () => {
                   alt="wave"
                   className="rounded-full bg-[#E1FFE8] p-4"
                 />
-                <h3 className="font-semibold text-xl pt-3 text-[#08230E]">
+                <h3 className="font-semibold text-xl pt-3 text-[#08230E] cal_sans">
                   Access a Talent Network
                 </h3>
                 <p className="text-gray-600 text-[18px] DM_sans">
@@ -139,7 +139,7 @@ const Hero3: React.FC = () => {
                   alt="wave"
                   className="rounded-full bg-[#E1FFE8] p-4"
                 />
-                <h3 className="font-semibold text-xl pt-3 text-[#08230E]">
+                <h3 className="font-semibold text-xl pt-3 text-[#08230E] cal_sans">
                   Build Your Dream Team
                 </h3>
                 <p className="text-gray-600 text-[18px] DM_sans">

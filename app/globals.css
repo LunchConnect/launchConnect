@@ -516,8 +516,8 @@ body {
 .mini-header {
   padding-left: 10%;
   padding-right: 10%;
-  padding-top: 65px;
-  padding-bottom: 65px;
+  padding-top: 45px;
+  padding-bottom: 45px;
 }
 
 .mini-header-p {
@@ -536,23 +536,6 @@ body {
 .text-color {
   color: #192F1E;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 .custom-input {
@@ -577,10 +560,6 @@ body {
   appearance: none; /* Removes default styles */
   cursor: pointer;
 }
-/* Margin Top (15px) for small screens header------------------------ */
-.mt-15 {
-  margin-top: 3.75rem; /* 15 * 0.25rem = 3.75rem */
-}
 
 /* Checked State */
 .custom-checkbox:checked {
@@ -601,21 +580,62 @@ body {
   margin-top: 100px;
 }
 
-.px-30 {
-  padding-left: 6.5rem; /* 30 * 0.25rem (Tailwind scale) */
-  padding-right: 6.5rem;
+.gap-header {
+  gap: 30px;
 }
-
-.px-50 {
-  padding-left: 7.5rem; /* 30 * 0.25rem (Tailwind scale) */
-  padding-right: 9.5rem;
-}
-
 
 .md-gap-footer {
-    gap: 400px;
+  gap: 300px; /* Default for big screens */
 }
 
-.gap-header {
-  gap: 20px;
+/* Adjust for small screens */
+@media (max-width: 640px) { /* sm breakpoint */
+  .md-gap-footer {
+    gap: 50px; /* Adjust this value as needed */
+  }
+}
+
+
+
+/*Dashbord styling -----------------------------------------------------------------------*/
+/*Job Details--------------*/
+.my-20 {
+  margin-top: 6rem; /* Equivalent to mt-20 */
+  margin-bottom: 2rem; /* Equivalent to mb-20 */
+}
+
+/*Text font for last used on*/
+.text-size {
+  font-size: 55%;
+}
+/* Custom Checkbox for modal*/
+.custom-checkbox-modal {
+  appearance: none; /* Remove default styles */
+  width: 18px;
+  height: 18px;
+  background-color: #22c55e; /* Green background */
+  border-radius: 4px;
+  border: 2px solid #22c55e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: not-allowed; /* Prevent clicking */
+  position: relative;
+}
+
+/* Ensures the green background stays */
+.custom-checkbox-modal:checked {
+  background-color: #22c55e !important;
+  border-color: #22c55e !important;
+}
+
+/* Prevents clicking */
+.custom-checkbox-modal:disabled {
+  pointer-events: none;
+}
+
+/*Custo size for submit*/
+.custom-size {
+  width: 30%;
+  height: 30%;
 }
