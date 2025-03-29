@@ -4,7 +4,8 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Image from "next/image"
-
+import { useRouter } from 'next/navigation'
+import { scrollToTop } from "@/lib/utils"
 // Sample job data
 const jobs = [
   {
@@ -37,12 +38,17 @@ const jobs = [
 ]
 
 export default function JobsForYou() {
+
+  const router = useRouter()
   return (
     <Card className="w-full p-4">
       {/* Header */}
       <CardHeader className="flex flex-row justify-between items-center pb-4">
         <CardTitle className="text-lg font-semibold">Jobs For You</CardTitle>
-        <Button className="px-4 py-1 text-white  bg-green-500">
+        <Button onClick={() => {
+                              router.push("/dashboard/jobforyou");
+                              scrollToTop();
+                            }} className="px-4 py-1 text-white  bg-green-500">
           See All
         </Button>
       </CardHeader>
