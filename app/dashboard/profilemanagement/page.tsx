@@ -83,7 +83,7 @@ const ProfileManagement = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen mt-20">
+    <div className="p-6 bg-white rounded-xl min-h-screen mt-20">
       <h1 className="text-xl mb-4 font-extrabold">Profile Management</h1>
 
       {/* Tabs */}
@@ -115,15 +115,19 @@ const ProfileManagement = () => {
         {activeTab === "profile" && (
           <form className="space-y-6">
             {/* Personal Info */}
-            <div className="bg-green-50 p-6 rounded-2xl border border-green-200">
-              <h2 className="text-lg font-semibold text-gray-800">Personal Information</h2>
-              <p className="text-sm text-gray-500">
+            <div>
+            <h2 className="text-[16px] font-semibold text-gray-800">Personal Information</h2>
+              <p className="text-[14px] mt-2 text-gray-500">
                 Keep your profile up to date. This helps you stay visible to the right opportunities.
               </p>
 
-              <div className="mt-4 space-y-4">
+            </div>
+         
+            <div className="bg-[#F7FFF9] p-6 rounded-2xl border border-green-200">
+             
+              <div className="mt-2 space-y-4">
                 {/* First Name */}
-                <div className="grid grid-cols-3 items-center gap-4">
+                <div className="grid grid-cols-3 items-center gap-4 border-b-2 pb-3 border-[#ECF1ED]">
                   <label className="text-gray-700 font-medium">First Name</label>
                   <input
                     {...register("firstName")}
@@ -133,7 +137,7 @@ const ProfileManagement = () => {
                 </div>
 
                 {/* Last Name */}
-                <div className="grid grid-cols-3 items-center gap-4">
+                <div className="grid grid-cols-3 items-center gap-4 border-b-2 pb-3 border-[#ECF1ED]">
                   <label className="text-gray-700 font-medium">Last Name</label>
                   <input
                     {...register("lastName")}
@@ -143,7 +147,7 @@ const ProfileManagement = () => {
                 </div>
 
                 {/* Email */}
-                <div className="grid grid-cols-3 items-center gap-4">
+                <div className="grid grid-cols-3 items-center gap-4 border-b-2 pb-3 border-[#ECF1ED]">
                   <label className="text-gray-700 font-medium">Email</label>
                   <input
                     {...register("email")}
