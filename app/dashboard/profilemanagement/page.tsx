@@ -180,7 +180,7 @@ const ProfileManagement = () => {
               
               {/* Resume Upload */}
            
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 border-b-2 pb-3 border-[#ECF1ED]">
                   <label htmlFor="resumeUpload" className="text-gray-700 font-medium">
                     Upload Resume
                   </label>
@@ -212,13 +212,15 @@ const ProfileManagement = () => {
           
 
               {/* Skills Input */}
-              <h3 className="text-sm font-semibold text-gray-800">Skills</h3>
+
+              <div className="flex justify-between gap-6 items-center">  <h3 className="text-[16px] font-semibold text-[#3B4D3F]">Skills</h3>
               <input
                 type="text"
                 placeholder="Add up to 5 skills"
-                className="border p-2 rounded w-full mt-2 min-w-[300px]"
+                className="border p-2 rounded-md w-[49%] mt-2 min-w-[300px]"
                 onKeyDown={handleSkillAdd}
-              />
+              /></div>
+             
               <div className="flex flex-wrap gap-2 mt-2 ">
                 {skills.map((skill, index) => (
                   <span key={index} className="bg-green-100 text-green-700 px-2 py-1 rounded flex items-center">
