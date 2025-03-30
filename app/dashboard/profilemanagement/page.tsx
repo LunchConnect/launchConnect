@@ -84,6 +84,7 @@ const ProfileManagement = () => {
 
   return (
     <div className="p-6 bg-white rounded-xl min-h-screen mt-20">
+      <div className="border-2 p-4 rounded-xl border-[#EDEFF2]">
       <h1 className="text-xl mb-4 font-extrabold">Profile Management</h1>
 
       {/* Tabs */}
@@ -233,15 +234,19 @@ const ProfileManagement = () => {
 
 
  {/* Online Profiles */}
-<div className="bg-green-50 p-6 rounded-2xl border border-green-200">
-  <h2 className="text-lg font-semibold text-gray-800">Online Profiles</h2>
+ <div>
+ <h2 className="text-lg font-semibold text-gray-800">Online Profiles</h2>
   <p className="text-sm text-gray-500">Boost your credibility by linking your professional profiles.</p>
+
+ </div>
+
+<div className="bg-green-50 p-6 rounded-2xl border border-green-200">
 
   {/* Portfolio Input */}
   <div className="flex items-center mt-4">
     <label className="w-1/4 text-sm font-medium text-gray-700">Portfolio Website</label>
     <div className="flex-1 flex items-center border border-green-300 rounded-md overflow-hidden">
-      <span className="px-3 bg-green-100 text-gray-600">https://</span>
+      <span className="px-3 border-r-2 bg-white text-gray-600">https://</span>
       <input 
         {...register("portfolio")} 
         placeholder="yourwebsite.com"
@@ -254,7 +259,7 @@ const ProfileManagement = () => {
   <div className="flex items-center mt-4">
     <label className="w-1/4 text-sm font-medium text-gray-700">Other Relevant Links</label>
     <div className="flex-1 flex items-center border border-green-300 rounded-md overflow-hidden">
-      <span className="px-3 bg-green-100 text-gray-600">https://</span>
+      <span className="px-3 border-r-2 bg-white text-gray-600">https://</span>
       <input 
         {...register("links")} 
         placeholder="GitHub, Behance, etc."
@@ -369,6 +374,7 @@ const ProfileManagement = () => {
 
 
       </div>
+    </div>
     </div>
   );
 };
