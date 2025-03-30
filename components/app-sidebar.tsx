@@ -33,7 +33,7 @@ export function AppSidebar() {
               href={item.url}
               className={`flex items-center gap-3 p-3 rounded-lg transition ${
                 isActive
-                  ? "bg-green-100 text-green-700 font-semibold"
+                  ? "bg-green-100 text-primary font-semibold"
                   : "text-gray-700 hover:bg-gray-100"
               }`}
             >

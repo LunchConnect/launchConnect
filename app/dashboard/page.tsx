@@ -5,15 +5,15 @@ import JobsForYou from "@/components/JobsForYou";
 
 export default function Page() {
   return (
-    <div className="flex flex-1 flex-col gap-6 p-6 mt-20">
+    <div className="flex flex-1 flex-col gap-6 mt-20 bg-[#FAFAFA]">
       {/* Top Section: Job Applications & Status */}
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="flex gap-4 justify-between">
         <JobApplicationsCard />
         <ApplicationStatusChart />
       </div>
 
       {/* Bottom Section: Jobs For You & Trends */}
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="flex gap-4 justify-between">
         <JobsForYou />
         <ApplicationTrends />
       </div>

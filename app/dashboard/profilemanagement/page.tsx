@@ -192,7 +192,7 @@ const ProfileManagement = () => {
               </div>
 
               {/* Skills Input */}
-              <h3 className="text-sm font-semibold text-gray-800">Skills & Expertise</h3>
+              <h3 className="text-sm font-semibold text-gray-800">Skills</h3>
               <input
                 type="text"
                 placeholder="Add up to 5 skills"

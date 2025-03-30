@@ -115,6 +115,19 @@ function Signup() {
           ))}
         </div>
 
+
+        <p className="text-gray-600 text-sm">
+      By registering for an account, you are consenting to our{" "}
+      <Link href="/terms" className="text-green-500 hover:underline">
+        Terms of Service
+      </Link>{" "}
+      and confirming that you have reviewed and accepted the{" "}
+      <Link href="/privacy" className="text-green-500 hover:underline">
+        Global Privacy Statement
+      </Link>.
+    </p>
+
+    
         <div className="flex flex-col items-center justify-center space-y-3">
           <button 
             type="submit"
@@ -142,7 +155,7 @@ function Signup() {
          {/* Sign Up Link */}
       <p className="text-center text-sm text-gray-600">
         I have an account?{" "}
-        <Link href="/sign_in" className="text-green-500 font-medium">Sign In</Link>
+        <Link href="/sign_in" className="text-green-500 font-medium">Login</Link>
       </p>
 
       </form>

@@ -18,9 +18,9 @@ const chartData = [
 
 const ApplicationStatusChart = () => {
   return (
-    <Card className="flex flex-col bg-white shadow-md rounded-lg">
+    <Card className="flex flex-col bg-white w-[40%] shadow-md rounded-lg h-[220px]">
       <CardHeader className="pb-4">
-        <CardTitle className="text-gray-900">Application Status</CardTitle>
+        <CardTitle className="text-gray-900 text-[16px]">Application Status</CardTitle>
       </CardHeader>
       <CardContent className="flex items-center justify-between">
         {/* Donut Chart */}
