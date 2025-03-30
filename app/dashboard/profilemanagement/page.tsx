@@ -24,7 +24,7 @@ const ProfileManagement = () => {
       firstName: "Ikenna",
       lastName: "Okafor",
       email: "kenawilson99@gmail.com",
-      bio: "",
+      bio: "e.g., “Passionate UI/UX Designer looking for an internship at a startup.”",
       skills: [],
       portfolio: "",
       links: "",
@@ -151,6 +151,16 @@ const ProfileManagement = () => {
                   <label className="text-gray-700 font-medium">Email</label>
                   <input
                     {...register("email")}
+                    className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
+                    disabled
+                  />
+                </div>
+
+                 {/* Bio */}
+                 <div className="grid grid-cols-3 items-center gap-4 pb-3">
+                  <label className="text-gray-700 font-medium">Short bio</label>
+                  <textarea
+                    {...register("bio")}
                     className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
                     disabled
                   />
