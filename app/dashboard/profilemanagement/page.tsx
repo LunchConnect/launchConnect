@@ -169,11 +169,17 @@ const ProfileManagement = () => {
             </div>
 
             {/* Resume & Skills */}
-            <div className="bg-green-50 p-6 rounded-2xl border border-green-200">
-              <h2 className="text-lg font-semibold text-gray-800">Resume & Skills</h2>
-
+            <div>
+            <h2 className="text-lg font-semibold text-gray-800">Resume & Skills</h2>
+            <p className="text-[14px] text-gray-500">
+            Showcase your experience and expertise.
+              </p>
+            </div>
+         
+            <div className="bg-[#F7FFF9] p-6 rounded-2xl border border-[#E1ECE3]">
+              
               {/* Resume Upload */}
-              <div className="p-4 border border-green-200 bg-green-50 rounded-2xl">
+           
                 <div className="grid grid-cols-2 gap-4">
                   <label htmlFor="resumeUpload" className="text-gray-700 font-medium">
                     Upload Resume
@@ -182,7 +188,7 @@ const ProfileManagement = () => {
                   <div>
                     <label
                       htmlFor="resumeUpload"
-                      className="flex flex-col items-center justify-center gap-5 h-[200px] p-4 border border-dashed rounded cursor-pointer bg-[#BED3C2]"
+                      className="flex flex-col items-center justify-center gap-5 h-[200px] p-4 border border-dashed rounded cursor-pointer bg-[#E6FFEB]"
                     >
                       <UploadCloud className="w-6 h-6 text-gray-500" />
                       <span className="text-sm text-gray-500">
@@ -203,7 +209,7 @@ const ProfileManagement = () => {
                     )}
                   </div>
                 </div>
-              </div>
+          
 
               {/* Skills Input */}
               <h3 className="text-sm font-semibold text-gray-800">Skills</h3>
