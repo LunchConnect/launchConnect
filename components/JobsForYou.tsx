@@ -74,7 +74,7 @@ export default function JobsForYou() {
             </div>
 
             {/* Apply Button */}
-            <Button variant="outline">Apply Now</Button>
+            <button >Apply Now</button>
           </div>
         ))}
       </CardContent>
