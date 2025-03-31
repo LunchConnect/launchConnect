@@ -33,10 +33,10 @@ export default function ApplicationTrends() {
   const [selectedRange, setSelectedRange] = useState("Monthly")
 
   return (
-    <Card className="w-full">
+    <Card className="w-[70%]">
       <CardHeader className="flex flex-row justify-between items-center">
         <div>
-          <CardTitle>Application Trends</CardTitle>
+          <CardTitle className="text-[16px]">Application Trends</CardTitle>
           {/* <CardDescription>Showing total visitors for the last 6 months</CardDescription> */}
         </div>
 
@@ -58,7 +58,7 @@ export default function ApplicationTrends() {
       <CardContent>
         <div className="w-full h-[250px]">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={chartData} margin={{ left: 20, right: 12, top: 10, bottom: 10 }}>
+            <AreaChart data={chartData} margin={{ right: 12, top: 10, bottom: 10 }}>
               <CartesianGrid vertical={false} strokeDasharray="3 3" />
               
               {/* ✅ Add Y-axis for left-side values */}

@@ -4,13 +4,13 @@ import { FiLink } from "react-icons/fi";
 
 const Startup = () => {
   return (
-    <div className="flex flex-col items-center min-h-screen p-4">
+    <div className="flex flex-col items-center min-h-screen ">
       <div className="w-full max-w-lg">
         {/* Header */}
-        <h1 className="text-xl font-bold text-black">
+        <h1 className="text-[32px] font-bold text-black">
           Set Up Your Startup Founder Profile
         </h1>
-        <p className="text-gray-600 text-sm mt-1">
+        <p className="text-[#606060] text-[16px] mt-1">
           Help potential team members and investors learn about your startup, showcase your vision, mission, and opportunities.
         </p>
 
@@ -18,42 +18,42 @@ const Startup = () => {
         <form className="mt-4 space-y-3">
           {/* Full Name */}
           <div>
-            <label className="text-md font-medium block mb-1">Full Name</label>
+            <label className="text-[16px] text-[#4A4A4A] font-medium block mb-1">Full Name</label>
             <input
               type="text"
               placeholder="eg. Ikenna Okafor"
-              className="w-full p-2 border bg-white rounded-md"
+              className="w-full p-2 border bg-[#777777] text-[14px] rounded-md"
             />
           </div>
 
           {/* Company Name */}
           <div>
-            <label className="text-md font-medium block mb-1">Company Name</label>
+            <label className="text-[16px] text-[#4A4A4A]  font-medium block mb-1">Company Name</label>
             <input
               type="text"
               placeholder="eg. LaunchConnect Limited"
-              className="w-full p-2 border bg-white rounded-md"
+              className="w-full p-2 border bg-[#777777] text-[14px]  rounded-md"
             />
           </div>
 
           {/* Industry */}
           <div>
-            <label className="text-md font-medium block mb-1">Industry</label>
+            <label className="text-[16px] text-[#4A4A4A]  font-medium block mb-1">Industry</label>
             <input
               type="text"
               placeholder="eg. AI-Powered SaaS"
-              className="w-full p-2 border bg-white rounded-md"
+              className="w-full p-2 border bg-[#777777] text-[14px]  rounded-md"
             />
           </div>
 
           {/* Website */}
           <div className="relative">
-            <label className="text-md font-medium block mb-1">Website</label>
+            <label className="text-[16px] text-[#4A4A4A]  font-medium block mb-1">Website</label>
             <div className="relative">
               <input
                 type="text"
                 placeholder="eg. enter your website URL"
-                className="w-full p-2 border rounded-md bg-white pr-8"
+                className="w-full p-2 border rounded-md bg-[#777777] text-[14px]  pr-8"
               />
               {/* Website Icon */}
               <FiLink className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
@@ -62,18 +62,18 @@ const Startup = () => {
 
           {/* Role in Startup */}
           <div>
-            <label className="text-md font-medium block mb-1">Role in Startup</label>
+            <label className="text-[16px] text-[#4A4A4A]  font-medium block mb-1">Role in Startup</label>
             <input
               type="text"
               placeholder="eg. Co-Founder"
-              className="w-full p-2 border bg-white rounded-md"
+              className="w-full p-2 border bg-[#777777] text-[14px]  rounded-md"
             />
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-green-500 text-white p-2 rounded-md mt-3"
+            className="w-full bg-primary text-white p-2 rounded-md mt-3"
           >
             Save & Continue
           </button>

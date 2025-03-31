@@ -1,13 +1,19 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { LayoutGrid, Briefcase, Eye } from "lucide-react";
 import Link from "next/link";
 
 const menuItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutGrid },
-  { title: "Find Jobs", url: "dashboard/findjobs", icon: Briefcase },
-  { title: "Application Tracking", url: "dashboard/Application_Tracking", icon: Eye },
+  { title: "Find Jobs", url: "/dashboard/findjobs", icon: Briefcase },
+ { title: "Application Tracking", url: "/dashboard/Application_Tracking", icon: Eye },
+  // { title: "Application Tracking", url: "/dashboard/Application_Tracking", icon: Eye },
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname(); // Get the current route
+
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 min-w-64 bg-white border-r shadow-sm p-4">
       {/* Logo */}
@@ -18,18 +24,24 @@ export function AppSidebar() {
 
       {/* Menu */}
       <nav className="space-y-1">
-        {menuItems.map((item, index) => (
-          <Link
-            key={index}
-            href={item.url}
-            className={`flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-gray-100 transition ${
-              item.title === "Dashboard" ? "bg-green-100 text-green-700 font-semibold" : ""
-            }`}
-          >
-            <item.icon className="w-5 h-5" />
-            {item.title}
-          </Link>
-        ))}
+        {menuItems.map((item, index) => {
+          const isActive = pathname === item.url; // Check if the current route matches the menu item URL
+
+          return (
+            <Link
+              key={index}
+              href={item.url}
+              className={`flex items-center gap-3 p-3 rounded-lg transition ${
+                isActive
+                  ? "bg-green-100 text-primary font-semibold"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              <item.icon className="w-5 h-5" />
+              {item.title}
+            </Link>
+          );
+        })}
       </nav>
     </aside>
   );

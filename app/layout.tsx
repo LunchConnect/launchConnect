@@ -14,7 +14,7 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: "lunch_connect",
   description:
-    "lunch_connect",
+    "A healthcare patient management System designed to streamline patient registration, appointment scheduling, and medical records management for healthcare providers.",
   icons: {
     icon: "/assets/images/logo.png",
   },
@@ -37,7 +37,6 @@ export default function RootLayout({
 
           {children}
 
-        </ThemeProvider>
       </body>
     </html>
   );

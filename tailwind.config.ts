@@ -9,7 +9,7 @@ module.exports = {
   theme: {
   	extend: {
   		colors: {
-  			primary: '#4CAF50',
+  			primary: '#1AC23F',
   			customGreen: '#5D7061',
   			sidebar: {
   				DEFAULT: 'hsl(var(--sidebar-background))',
