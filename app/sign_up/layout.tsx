@@ -1,11 +1,12 @@
 import Image from "next/image";
 import React from "react";
-
+import { Bell ,Handshake} from "lucide-react"; // You can replace with your icon library
+ 
 function SignupLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col md:flex-row h-screen">
       {/* Left Container (Static) */}
-      <div className="relative hidden md:flex md:w-1/2 bg-[#08230E] p-10">
+      <div className="relative hidden md:flex md:w-1/2 bg-[#08230E] p-5">
         {/* Top-Right Image */}
         <Image
           src="/assets/images/small_box.png"
@@ -16,16 +17,16 @@ function SignupLayout({ children }: { children: React.ReactNode }) {
         />
 
         {/* Centered Content in Left Section */}
-        <div className="flex flex-col gap-6 justify-start h-full pt-10 ml-10">
+        <div className="flex flex-col gap-3 justify-start h-full ml-16">
           {/* Logo */}
           <div className="flex items-center gap-3">
   <Image
     src="/assets/images/logo.png"
-    width={50}
-    height={40}
+    width={100}
+    height={100}
     alt="Launch Connect Logo"
   />
- <h1 className="text-white text-xl font-bold">
+ <h1 className="text-[#C7E9CF] text-[34.95px] font-bold">
   <span className="block">Launch</span>
   Connect
 </h1>
@@ -33,20 +34,50 @@ function SignupLayout({ children }: { children: React.ReactNode }) {
 
 
           {/* Text Content */}
-          <div className="text-white max-w-sm">
-            <h1 className="text-3xl font-bold leading-tight">
+          <div className="text-white">
+            <h1 className="text-[44px] font-bold leading-tight">
               Take control of your startup journey today.
             </h1>
             <p className="mt-4 text-lg text-gray-300">
               Effortlessly connect with top talent or find the perfect startup opportunity.
             </p>
           </div>
+
+
+
+         <div className="flex items-center bg-white rounded-lg shadow-md p-4 w-[80%]">
+      {/* Icon */}
+      <div className="w-10 h-10 flex items-center justify-center bg-green-500 rounded-full">
+        <Handshake size={20} className="text-white" />
+      </div>
+
+      {/* Notification Content */}
+      <div className="ml-3">
+        <p className="font-semibold text-black">New Job Application!</p>
+        <p className="text-gray-500 text-sm">John Doe just applied for Product Designer</p>
+      </div>
+    </div>
+
+    <div className="flex items-center bg-white rounded-lg shadow-md p-4 w-[80%]">
+      {/* Icon */}
+      <div className="w-10 h-10 flex items-center justify-center bg-green-500 rounded-full">
+        <Bell size={20} className="text-white" />
+      </div>
+
+      {/* Notification Content */}
+      <div className="ml-3">
+        <p className="font-semibold text-black">Your Application Was Viewed</p>
+        <p className="text-gray-500 text-sm">Your UI/UX application was reviewed.</p>
+      </div>
+    </div>
+
         </div>
+        
 
         {/* Bottom-Left Image */}
         <Image
           src="/assets/images/big_box.png"
-          width={200}
+          width={100}
           height={100}
           alt="Bottom Left Image"
           className="absolute bottom-0 left-0"

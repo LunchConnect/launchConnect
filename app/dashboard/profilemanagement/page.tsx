@@ -125,7 +125,7 @@ const ProfileManagement = () => {
      
         {activeTab === "profile" && (
           <div className="">
-          <form className="space-y-6 rounded-lg border-2 p-4">
+          <form className="space-y-6 rounded-lg border-2 p-4 mt-6">
             {/* Personal Info */}
             <div>
             <h2 className="text-[16px] font-semibold text-gray-800">Personal Information</h2>
