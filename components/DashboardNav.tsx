@@ -35,16 +35,17 @@ const DashboardNav = () => {
           className="flex items-center gap-3 cursor-pointer"
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         >
-          <div className="relative w-10 h-10">
-            <Image
+         
+            {/* <Image
               src="/assets/images/dr-livingston.png"
               alt="User Profile"
               width={40}
               height={40}
               className="rounded-full border"
-            />
-          </div>
-          <ChevronDown className="w-5 h-5 text-gray-600" />
+            /> */}
+             <User className="w-8 h-8 p-1 bg-[#4A4A4A] rounded-full  text-white" />
+      
+          <ChevronDown className="w-7 h-7 text-gray-600" />
         </div>
 
         {/* Dropdown Menu */}

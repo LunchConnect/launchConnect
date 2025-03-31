@@ -34,7 +34,17 @@ const ProfileManagement = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [file, setFile] = useState<File | null>(null);
   const [skills, setSkills] = useState<string[]>([]);
+ const [bio, setBio] = useState("");
+    const maxWords = 200;
 
+      const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+          const words = e.target.value.split(/\s+/).filter((word) => word.length > 0);
+          if (words.length <= maxWords) {
+            setBio(e.target.value);
+          }
+        };
+    
+  
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
@@ -83,8 +93,8 @@ const ProfileManagement = () => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-xl min-h-screen mt-20">
-      <div className="border-2 p-4 rounded-xl border-[#EDEFF2]">
+    <div className="p-6 bg-white border-2 border-[#913be722] rounded-xl mt-20 mb-6">
+      <div className="p-4 rounded-xl ">
       <h1 className="text-xl mb-4 font-extrabold">Profile Management</h1>
 
       {/* Tabs */}
@@ -112,9 +122,10 @@ const ProfileManagement = () => {
       </div>
 
       {/* Tab Content */}
-      <div className="mt-6">
+     
         {activeTab === "profile" && (
-          <form className="space-y-6">
+          <div className="">
+          <form className="space-y-6 rounded-lg border-2 p-4">
             {/* Personal Info */}
             <div>
             <h2 className="text-[16px] font-semibold text-gray-800">Personal Information</h2>
@@ -131,7 +142,7 @@ const ProfileManagement = () => {
                 <div className="grid grid-cols-3 items-center gap-4 border-b-2 pb-3 border-[#ECF1ED]">
                   <label className="text-gray-700 font-medium">First Name</label>
                   <input
-                    {...register("firstName")}
+              placeholder='Ikenna'
                     className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
                     disabled
                   />
@@ -141,7 +152,7 @@ const ProfileManagement = () => {
                 <div className="grid grid-cols-3 items-center gap-4 border-b-2 pb-3 border-[#ECF1ED]">
                   <label className="text-gray-700 font-medium">Last Name</label>
                   <input
-                    {...register("lastName")}
+                     placeholder='Okafor'
                     className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
                     disabled
                   />
@@ -151,7 +162,7 @@ const ProfileManagement = () => {
                 <div className="grid grid-cols-3 items-center gap-4 border-b-2 pb-3 border-[#ECF1ED]">
                   <label className="text-gray-700 font-medium">Email</label>
                   <input
-                    {...register("email")}
+            placeholder='kenawilson99@gmail.com'
                     className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
                     disabled
                   />
@@ -160,11 +171,20 @@ const ProfileManagement = () => {
                  {/* Bio */}
                  <div className="grid grid-cols-3 items-center gap-4 pb-3">
                   <label className="text-gray-700 font-medium">Short bio</label>
+                  <div className="w-full col-span-2 ">
                   <textarea
-                    {...register("bio")}
-                    className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
+                       value={bio}
+                          placeholder='e.g. "Passionate UI/UX Designer looking for an internship at a startup."'
+                       onChange={handleBioChange}
+                    className="border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
                     disabled
                   />
+                   {/* Word Count - Positioned Outside Bottom Right */}
+      <div className="text-right mt-1 text-sm text-[#344054]">
+        {bio.split(/\s+/).filter((word) => word.length > 0).length}/{maxWords} Words Max
+      </div>
+                  </div>
+                
                 </div>
               </div>
             </div>
@@ -181,22 +201,22 @@ const ProfileManagement = () => {
               
               {/* Resume Upload */}
            
-                <div className="grid grid-cols-2 gap-4 border-b-2 pb-3 border-[#ECF1ED]">
+                <div className="grid grid-cols-3 gap-4 border-b-2 pb-3 border-[#ECF1ED]">
                   <label htmlFor="resumeUpload" className="text-gray-700 font-medium">
                     Upload Resume
                   </label>
 
-                  <div>
+                  <div className="col-span-2">
                     <label
                       htmlFor="resumeUpload"
                       className="flex flex-col items-center justify-center gap-5 h-[200px] p-4 border border-dashed rounded cursor-pointer bg-[#E6FFEB]"
                     >
                       <UploadCloud className="w-6 h-6 text-gray-500" />
-                      <span className="text-sm text-gray-500">
-                        Browse and choose the file you want to upload (PDF, DOCX, Max 5MB)
+                      <span className="text-sm text-center text-gray-500">
+                        Browse and choose the file you want to upload <br/> (PDF, DOCX, Max 5MB)
                       </span>
                       <input type="file" id="resumeUpload" className="hidden" onChange={handleFileUpload} />
-                      <TiPlus size={40} className="text-white bg-green-500 p-2 rounded-full" />
+                      <TiPlus size={40} className="text-white bg-green-500 p-2 rounded-lg" />
                     </label>
 
                     {/* Upload Progress Bar */}
@@ -214,11 +234,12 @@ const ProfileManagement = () => {
 
               {/* Skills Input */}
 
-              <div className="flex justify-between gap-6 items-center">  <h3 className="text-[16px] font-semibold text-[#3B4D3F]">Skills</h3>
+              <div className="grid grid-cols-3 gap-4 items-center"> 
+                 <h3 className="text-[16px] font-semibold text-[#3B4D3F]">Skills</h3>
               <input
                 type="text"
                 placeholder="Add up to 5 skills"
-                className="border p-2 rounded-md w-[49%] mt-2 min-w-[300px]"
+                className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[300px]"
                 onKeyDown={handleSkillAdd}
               /></div>
              
@@ -240,11 +261,11 @@ const ProfileManagement = () => {
 
  </div>
 
-<div className="bg-green-50 p-6 rounded-2xl border border-green-200">
+<div className="bg-[#F7FFF9] p-6 rounded-2xl border border-green-200">
 
   {/* Portfolio Input */}
   <div className="flex items-center mt-4">
-    <label className="w-1/4 text-sm font-medium text-gray-700">Portfolio Website</label>
+    <label className="w-1/4 text-sm font-medium text-gray-700">Portfolio Website (If applicable)</label>
     <div className="flex-1 flex items-center border border-green-300 rounded-md overflow-hidden">
       <span className="px-3 border-r-2 bg-white text-gray-600">https://</span>
       <input 
@@ -269,19 +290,25 @@ const ProfileManagement = () => {
   </div>
 </div>
 
+          
+          
+          </form>
             {/* Submit Button */}
             <div className="flex justify-end mb-6 mt-6">
               <button className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition">Update</button>
             </div>
-          </form>
+          </div>
+
+     
         )}
 
 
 
 
 {activeTab === "security" && (
-  <div className="p-6 bg-white rounded-lg shadow-sm">
+  <div className="p-6 bg-white rounded-lg">
     {/* Section Header */}
+    <div className="rounded-lg border-2 p-4 shadow-sm">
     <div className="flex justify-between items-center px-4 py-2 rounded-md border pb-3">
       <div>
         <h2 className="text-lg font-semibold text-gray-800">Password Management</h2>
@@ -356,8 +383,10 @@ const ProfileManagement = () => {
         </div>
       </div>
     </div>
-    {/* Update Button */}
-    <div className="flex justify-end mt-6">
+  
+    </div>
+      {/* Update Button */}
+      <div className="flex justify-end mt-6">
       <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
         Update
       </button>
@@ -373,7 +402,7 @@ const ProfileManagement = () => {
 
 
 
-      </div>
+    
     </div>
     </div>
   );
