@@ -16,11 +16,11 @@ const WelcomePage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen items-center p-6 mt-10">
+    <div className="mx-auto md:p-10 bg-white rounded-lg w-ful">
       <div className="w-full max-w-md">
         {/* Header */}
-        <h1 className="text-2xl font-bold text-black">Welcome to LaunchConnect</h1>
-        <p className="text-gray-600 text-sm mt-2">
+        <h1 className="text-[32px] font-bold text-black">Welcome to LaunchConnect</h1>
+        <p className="text-gray-600 text-[16px] mt-2">
           To get started, choose if you’d like to join LaunchConnect as a startup founder or a job seeker.
         </p>
 

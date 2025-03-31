@@ -54,15 +54,15 @@ function CreateNewPassword() {
   };
 
   return (
-    <div className="max-w-md mx-auto space-y-6 p-10 bg-white rounded-lg">
+    <div className="mx-auto md:p-10 bg-white rounded-lg w-full">
       {/* Header */}
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-black">Create New Password</h1>
-        <p className="text-gray-600 text-sm">Secure your account with a new password.</p>
+      <div className="">
+        <h1 className="text-[32px] font-bold text-black">Create New Password</h1>
+        <p className="text-gray-600 text-[16px]">Secure your account with a new password.</p>
       </div>
 
       {/* Password Input */}
-      <div className="space-y-2">
+      <div className="mt-10">
         <Label htmlFor="password" className="text-black">Password</Label>
         <div className="relative">
           <Input
@@ -71,7 +71,7 @@ function CreateNewPassword() {
             placeholder="Enter password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="!bg-white !text-black !border-gray-300 !rounded-md !p-2 focus:!border-green-500 focus:!ring-2 focus:!ring-green-500 pr-10"
+            className="bg-white !text-black mt-5"
           />
           <button
             type="button"
@@ -84,7 +84,7 @@ function CreateNewPassword() {
       </div>
 
       {/* Confirm Password Input */}
-      <div className="space-y-2">
+      <div className="mt-7">
         <Label htmlFor="confirmPassword" className="text-black">Confirm Password</Label>
         <div className="relative">
           <Input
@@ -93,7 +93,7 @@ function CreateNewPassword() {
             placeholder="Enter password again"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="!bg-white !text-black !border-gray-300 !rounded-md !p-2 focus:!border-green-500 focus:!ring-2 focus:!ring-green-500 pr-10"
+            className="!bg-white !text-black mt-5"
           />
           <button
             type="button"
@@ -109,6 +109,7 @@ function CreateNewPassword() {
       {message && <p className={`text-sm ${message.includes("✅") ? "text-green-500" : "text-red-500"}`}>{message}</p>}
 
       {/* Submit Button */}
+      <div className="w-full mt-5"> 
       <button
         onClick={handleSubmit}
         disabled={loading}
@@ -116,6 +117,7 @@ function CreateNewPassword() {
       >
         {loading ? "Processing..." : "Create Password"}
       </button>
+      </div>
     </div>
   );
 }
