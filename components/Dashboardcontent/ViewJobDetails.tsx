@@ -8,6 +8,7 @@ import { TbCopy } from "react-icons/tb";
 import { IoIosArrowBack } from "react-icons/io";
 import JobModal from "./JobModal";
 import { Check } from "lucide-react";
+import RelatedJobs from "./RelatedJobs";
 
 // Sample job data
 const jobs = [
@@ -89,8 +90,12 @@ interface JobDetailsProps {
 }
 
 const ViewJobdetails: React.FC<JobDetailsProps> = () => {
-      const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [selectedJob, setSelectedJob] = useState(null);
   const router = useRouter();
+
+
+
   return (
     <>
       <section className="">
@@ -112,7 +117,7 @@ const ViewJobdetails: React.FC<JobDetailsProps> = () => {
                     {job.title}
                   </h1>
                 </div>
-                <button className="bg-gray-400 text-black px-4 py-2 rounded-3xl cursor-pointer cal_sans self-start md:self-center">
+                <button className="bg-[#E8E8E8] text-[#4A4A4A] px-4 py-2 rounded-3xl cursor-pointer cal_sans self-start md:self-center">
                   pending
                 </button>
               </div>
@@ -139,7 +144,7 @@ const ViewJobdetails: React.FC<JobDetailsProps> = () => {
                   {job.location}
                 </p>
               </div>
-              <div className="flex items-center gap-3 text-[#1AC23F] cal_sans">
+              <div className="flex items-center gap-3 text-[#1AC23F] pt-2 cal_sans">
                 <div className="relative flex items-center">
                   {/* Styled checkbox with Tailwind for consistent UI */}
                   <input
@@ -164,8 +169,11 @@ const ViewJobdetails: React.FC<JobDetailsProps> = () => {
                       Job Description
                     </h2>
                     <p className="text-[#606060] mt-2 DM_sans">
-                      {job.description}
+                      {job.description.map((desc, idx) => (
+                        <span key={idx}>{desc}</span>
+                      ))}
                     </p>
+
                     <p className="text-[#606060] mt-2 DM_sans">
                       <strong>Location:</strong> {job.remoteLocation}
                     </p>
@@ -210,7 +218,7 @@ const ViewJobdetails: React.FC<JobDetailsProps> = () => {
                   <h2 className="text-[17px] mb-4 text-[#01011A] cal_sans">
                     Explore company insights
                   </h2>
-                  <ul className="grid grid-cols-3 gap-x-10 gap-y-4 text-xl">
+                  <ul className="grid grid-rows-1 md:grid-cols-3 gap-x-10 gap-y-4 text-xl">
                     {companyInsights.map((item, index) => (
                       <li key={index} className="text-gray-700">
                         <div className="flex items-start gap-4">
@@ -242,9 +250,15 @@ const ViewJobdetails: React.FC<JobDetailsProps> = () => {
             </div>
           ))}
 
+          <RelatedJobs />
+
           {/* Render modal and pass modal state */}
-          {isModalOpen && (
-            <JobModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+          {isModalOpen && selectedJob && (
+            <JobModal
+              isOpen={isModalOpen}
+              setIsOpen={setIsModalOpen}
+              job={selectedJob}
+            />
           )}
         </div>
       </section>

@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { LuWallet } from "react-icons/lu";
 import { CiLocationOn } from "react-icons/ci";
-import { MdShare } from "react-icons/md";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { TbCopy } from "react-icons/tb";
@@ -89,7 +88,8 @@ interface JobDetailsProps {
 }
 
 const Jobdetails: React.FC<JobDetailsProps> = () => {
-      const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<any>(null); // State for selected job
   const router = useRouter();
   return (
     <>
@@ -113,7 +113,10 @@ const Jobdetails: React.FC<JobDetailsProps> = () => {
                   </h1>
                 </div>
                 <button
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => {
+                    setSelectedJob(job); // Set the selected job
+                    setIsModalOpen(true);
+                  }}
                   className="bg-green-500 text-white px-4 py-2 rounded-lg cursor-pointer cal_sans self-start md:self-center"
                 >
                   Apply Now
@@ -199,7 +202,7 @@ const Jobdetails: React.FC<JobDetailsProps> = () => {
                   <h2 className="text-[17px] mb-4 text-[#01011A] cal_sans">
                     Explore company insights
                   </h2>
-                  <ul className="grid grid-cols-3 gap-x-10 gap-y-4 text-xl">
+                  <ul className="grid grid-rows-1 md:grid-cols-3 gap-x-10 gap-y-4 text-xl">
                     {companyInsights.map((item, index) => (
                       <li key={index} className="text-gray-700">
                         <div className="flex items-start gap-4">
@@ -232,8 +235,12 @@ const Jobdetails: React.FC<JobDetailsProps> = () => {
           ))}
 
           {/* Render modal and pass modal state */}
-          {isModalOpen && (
-            <JobModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+          {isModalOpen && selectedJob && (
+            <JobModal
+              isOpen={isModalOpen}
+              setIsOpen={setIsModalOpen}
+              job={selectedJob}
+            />
           )}
         </div>
       </section>

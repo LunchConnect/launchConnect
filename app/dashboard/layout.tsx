@@ -16,7 +16,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
       <div  className={cn( "min-h-screen font-sans antialiased",
        fontSans.variable )} >
    
- <SidebarProvider>
+          <SidebarProvider>
             <AppSidebar />
             <main className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-screen ml-64 bg-[#FAFAFA]">
            

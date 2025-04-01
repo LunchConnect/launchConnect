@@ -4,9 +4,6 @@ import withHeaderAndFooter from "@/Hoc/withHeaderAndFooter";
 import { CiLocationOn } from "react-icons/ci";
 import { LuWallet } from "react-icons/lu";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { LuWallet } from "react-icons/lu";
-
-import withHeaderAndFooter from "@/Hoc/withHeaderAndFooter";
 import { scrollToTop } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -30,8 +27,6 @@ const FindJobs: React.FC = () => {
   const [selectedFilters, setSelectedFilters] = useState<Filters>({
     category: "",
     jobType: "",
-    experienceLevel: "",
-    datePosted: "",
   });
 
   const router = useRouter();
@@ -48,7 +43,7 @@ const FindJobs: React.FC = () => {
     id: i + 1,
     title: "Software Engineer",
     company: "Company Name",
-    salary: "$40000 - $42000",
+    salary: Math.random() > 0.5 ? "Paid" : "Not Paid",
     city: "Name of City",
   }));
 
@@ -83,14 +78,6 @@ const FindJobs: React.FC = () => {
       "Technology",
     ],
     jobTypes: ["All", "Volunteer", "Internship"],
-    experienceLevels: ["No-Experience", "Fresher", "Intermediate", "Expert"],
-    datePosted: [
-      "All",
-      "Last Hour",
-      "Last 24 Hours",
-      "Last 7 Days",
-      "Last 30 Days",
-    ],
   };
 
   return (
@@ -182,7 +169,7 @@ const FindJobs: React.FC = () => {
                     <p
                       className={`text-sm flex items-center gap-2 DM_sans"
                        ${job.salary === "Paid" ? "text-green-600 bg-[#1FC16B1A] px-2 py-1" : "text-red-500 bg-[#FFEEEE] px-2 py-1"}`}
-                    ></p>
+                    >{job.salary}</p>
                     <p className="text-gray-600 flex items-center gap-2">
                       <CiLocationOn size={17} /> {job.city}
                     </p>
@@ -190,7 +177,7 @@ const FindJobs: React.FC = () => {
                   <button
                     onClick={() => {
                       router.push(`/job_details/${job.id}`);
-                      window.scrollTo(0, 0);
+                      scrollToTop()
                     }}
                     className="mt-3 px-4 py-2 rounded-lg border border-[#9CB8A2] text-[#526F58] cal_sans"
                   >

@@ -3,15 +3,18 @@ import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
 import { Fragment, useState } from "react";
 import { useRouter } from "next/navigation";
+import { scrollToTop } from "@/lib/utils";
 
 interface JobModalProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  job: { id: string };
 }
 
-const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen }) => {
-    const [showSuccessModal, setShowSuccessModal] = useState(false);
-    const router = useRouter();
+const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen, job }) => {
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const router = useRouter();
+  if (!isOpen) return null; // Don't render if the modal is not open
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -22,11 +25,11 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen }) => {
       >
         <div className="fixed inset-0 bg-black bg-opacity-25" />
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <Dialog.Panel className="w-full max-w-lg bg-white p-6 rounded-lg shadow-lg">
+          <div className="flex min-h-full items-center justify-center p-7 md:p-4">
+            <Dialog.Panel className="w-full max-w-md md:max-w-lg bg-white p-6 rounded-lg shadow-lg">
               {showSuccessModal ? (
                 // Success Message
-                <div className="text-center ">
+                <div className="text-center">
                   <button
                     onClick={() => setIsOpen(false)}
                     className="ml-auto rounded-full shadow-md p-1.5 flex items-center justify-center"
@@ -53,7 +56,6 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen }) => {
                       </motion.div>
 
                       {/* Confetti Particles Circular Animation */}
-                     
                     </div>
                     <h2 className="text-[#4A4A4A] text-2xl font-semibold mt-4 cal_sans">
                       Your application was a success!
@@ -64,16 +66,22 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen }) => {
                     </p>
                   </div>
 
-                  <div className="flex justify-center gap-3 mt-5 cal_sans">
+                  <div className="flex flex-col-reverse md:flex-row justify-center gap-3 mt-5 cal_sans">
                     <button
-                      onClick={() => router.push("/dashboard/ViewJobdetails")}
-                      className="px-4 py-2 border w-1/2 border-gray-200 text-black rounded"
+                      onClick={() => {
+                        router.push(`/dashboard/ViewJobdetails/${job.id}`);
+                        scrollToTop();
+                      }}
+                      className="px-4 py-2 border md:w-1/2 border-gray-200 text-black rounded"
                     >
                       Back to Find Jobs
                     </button>
-                    <button 
-                    onClick={() => router.push("/dashboard/Application_Tracking")}
-                    className="px-4 py-2 w-1/2 bg-green-500 text-white rounded">
+                    <button
+                      onClick={() =>
+                        router.push("/dashboard/Application_Tracking")
+                      }
+                      className="px-4 py-2 md:w-1/2 bg-green-500 text-white rounded"
+                    >
                       Track Application
                     </button>
                   </div>
@@ -99,15 +107,15 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen }) => {
                       setShowSuccessModal(true); // Show success modal inside same modal
                     }}
                   >
-                    <div className="flex flex-row gap-2 text-black">
-                      <label className="w-1/2">
+                    <div className="flex flex-col md:flex-row gap-2 text-black">
+                      <label className="md:w-1/2">
                         <span>Name</span>
                         <input
                           type="text"
                           className="w-full border p-2 rounded mt-1"
                         />
                       </label>
-                      <label className="w-1/2">
+                      <label className="md:w-1/2">
                         <span>Email</span>
                         <input
                           type="email"
@@ -148,17 +156,17 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen }) => {
                       </p>
                     </div>
 
-                    <div className="flex justify-between mt-4 gap-2">
+                    <div className="flex flex-col-reverse md:flex-row justify-between mt-4 gap-2">
                       <button
                         type="button"
                         onClick={() => setIsOpen(false)}
-                        className="px-4 py-2 w-1/2 border border-gray-200 text-black rounded"
+                        className="px-4 py-2 md:w-1/2 border border-gray-200 text-black rounded"
                       >
                         Back
                       </button>
                       <button
                         type="submit"
-                        className="px-4 py-2 w-1/2 bg-green-500 text-white rounded"
+                        className="px-4 py-2 md:w-1/2 bg-green-500 text-white rounded"
                       >
                         Submit Application
                       </button>
