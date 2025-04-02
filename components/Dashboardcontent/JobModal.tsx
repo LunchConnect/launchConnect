@@ -17,11 +17,11 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen }) => {
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-[90]"
         onClose={() => setIsOpen(false)}
       >
-        <div className="fixed inset-0 bg-black bg-opacity-25" />
-        <div className="fixed inset-0 overflow-y-auto">
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-0 z-[50]" />
+          <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
           <div className="flex min-h-full items-center justify-center p-4">
             <Dialog.Panel className="w-full max-w-lg bg-white p-6 rounded-lg shadow-lg">
               {showSuccessModal ? (

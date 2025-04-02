@@ -27,7 +27,7 @@ export function AppSidebar({ isOpen }: { isOpen: boolean }) {
 />
 
     <aside   className={cn(
-      "fixed left-0 top-0 h-screen w-64 bg-white border-r shadow-sm p-4 transition-transform duration-300 lg:translate-x-0 z-[100]",
+      "fixed left-0 top-0 h-screen w-64 bg-white border-r shadow-sm p-4 transition-transform duration-300 lg:translate-x-0 z-[90]",
       isOpen ? "translate-x-0" : "-translate-x-full"
     )}>
       {/* Logo */}
