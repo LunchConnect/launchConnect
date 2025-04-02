@@ -93,15 +93,15 @@ const ProfileManagement = () => {
   };
 
   return (
-    <div className="p-6 bg-white border-2 border-[#913be722] rounded-xl mt-20 mb-6">
-      <div className="p-4 rounded-xl ">
+    <div className="p-6 bg-white border-2  rounded-xl mt-20 mb-6">
+      <div className="p-2 rounded-xl ">
       <h1 className="text-xl mb-4 font-extrabold">Profile Management</h1>
 
       {/* Tabs */}
       <div className="border-b pb-3 flex space-x-6">
         <button
           onClick={() => setActiveTab("profile")}
-          className={`pb-2 font-semibold ${
+          className={`font-semibold ${
             activeTab === "profile"
               ? "text-green-600 border-b-2 border-green-500"
               : "text-gray-500 hover:text-gray-700"
@@ -213,7 +213,7 @@ const ProfileManagement = () => {
                     >
                       <UploadCloud className="w-6 h-6 text-gray-500" />
                       <span className="text-sm text-center text-gray-500">
-                        Browse and choose the file you want to upload <br/> (PDF, DOCX, Max 5MB)
+                        Browse and choose the file you want to upload <br/> (PDF, Max 5MB)
                       </span>
                       <input type="file" id="resumeUpload" className="hidden" onChange={handleFileUpload} />
                       <TiPlus size={40} className="text-white bg-green-500 p-2 rounded-lg" />
@@ -306,9 +306,10 @@ const ProfileManagement = () => {
 
 
 {activeTab === "security" && (
-  <div className="p-6 bg-white rounded-lg">
+  <>
+  <div className="space-y-6 rounded-lg border-2 p-4 mt-6">
     {/* Section Header */}
-    <div className="rounded-lg border-2 p-4 shadow-sm">
+    <div className="rounded-lg p-4 shadow-sm">
     <div className="flex justify-between items-center px-4 py-2 rounded-md border pb-3">
       <div>
         <h2 className="text-lg font-semibold text-gray-800">Password Management</h2>
@@ -326,7 +327,7 @@ const ProfileManagement = () => {
     <div className="mt-4 p-6 bg-green-50 rounded-lg border border-green-200">
       <div className="space-y-4">
         {/* Old Password */}
-        <div className="grid grid-cols-3 items-center gap-4">
+        <div className="grid grid-cols-3 items-center gap-4 border-b-2 pb-2">
           <label className="text-gray-700 font-medium">Old Password</label>
           <div className="col-span-2 relative">
             <Input
@@ -345,7 +346,7 @@ const ProfileManagement = () => {
         </div>
 
         {/* New Password */}
-        <div className="grid grid-cols-3 items-center gap-4">
+        <div className="grid grid-cols-3 items-center gap-4 border-b-2 pb-2">
           <label className="text-gray-700 font-medium">New Password</label>
           <div className="col-span-2 relative">
             <Input
@@ -385,13 +386,16 @@ const ProfileManagement = () => {
     </div>
   
     </div>
-      {/* Update Button */}
-      <div className="flex justify-end mt-6">
+    
+  
+  </div>
+    {/* Update Button */}
+    <div className="flex justify-end mt-6">
       <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
         Update
       </button>
     </div>
-  </div>
+  </>
 )}
 
 
