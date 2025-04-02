@@ -18,13 +18,13 @@ interface Job {
 }
 
 interface Filters {
-  category: string;
+  Industry: string;
   jobType: string;
 }
 
 const FindJobs: React.FC = () => {
   const [selectedFilters, setSelectedFilters] = useState<Filters>({
-    category: "",
+    Industry: "",
     jobType: "",
   });
 
@@ -61,11 +61,11 @@ const FindJobs: React.FC = () => {
   };
 
   interface FilterOptions {
-    categories: string[];
+    Industry: string[];
     jobTypes: string[];
   }
   const filters: FilterOptions = {
-    categories: [
+    Industry: [
       "All",
       "Commerce",
       "Telecommunications",
@@ -86,23 +86,23 @@ const FindJobs: React.FC = () => {
           {/* Sidebar Filters */}
           <div className="md:w-1/4 border border-[#E7EFE8] p-5 rounded-lg shadow md:self-start">
             {/* Categories */}
-            <h3 className="text-lg cal_sans text-[#495C4E]">Categories</h3>
+            <h3 className="text-lg cal_sans text-[#495C4E]">Industry</h3>
             <ul className="space-y-2 mt-3 border-b border-[#E7EFE8] pb-3">
-              {filters.categories.map((category) => (
+              {filters.Industry.map((Industry) => (
                 <li
-                  key={category}
+                  key={Industry}
                   className="flex items-center gap-2 relative DM_sans text-[#000000]"
                 >
                   <input
                     type="checkbox"
                     className="custom-checkbox"
-                    checked={selectedFilters.category === category}
-                    onChange={() => handleSelect("category", category)}
+                    checked={selectedFilters.Industry === Industry}
+                    onChange={() => handleSelect("Industry", Industry)}
                   />
-                  {selectedFilters.category === category && (
+                  {selectedFilters.Industry === Industry && (
                     <Check className="absolute top-1 text-white w-4 h-4" />
                   )}
-                  {category}
+                  {Industry}
                 </li>
               ))}
             </ul>
@@ -165,7 +165,9 @@ const FindJobs: React.FC = () => {
                     <p
                       className={`text-sm flex items-center gap-2 DM_sans"
                        ${job.salary === "Paid" ? "text-green-600 bg-[#1FC16B1A] px-2 py-1" : "text-red-500 bg-[#FFEEEE] px-2 py-1"}`}
-                        >{job.salary}</p>
+                    >
+                      {job.salary}
+                    </p>
                   </div>
                   <button
                     onClick={() => {

@@ -99,12 +99,12 @@ const ViewJobdetails: React.FC<JobDetailsProps> = () => {
   return (
     <>
       <section className="">
-        <div className="px-[4%] md:px-6 py-10 my-20 bg-white rounded-2xl">
+        <div className="px-[4%] md:px-6 py-3 my-20 bg-white rounded-2xl">
           <button
             onClick={() => router.push("/dashboard/Application_Tracking")}
-            className="flex items-center gap-2 text-black text-xl cal_sans"
+            className="flex items-center gap-2 text-black text-xl cal_sans pb-5"
           >
-            <IoIosArrowBack size={20} />
+            <IoIosArrowBack size={20} className="" />
             <span className="mt-1">Back</span>
           </button>
           {jobs.map((job) => (
@@ -219,31 +219,53 @@ const ViewJobdetails: React.FC<JobDetailsProps> = () => {
                     Explore company insights
                   </h2>
                   <ul className="grid grid-rows-1 md:grid-cols-3 gap-x-10 gap-y-4 text-xl">
-                    {companyInsights.map((item, index) => (
-                      <li key={index} className="text-gray-700">
-                        <div className="flex items-start gap-4">
-                          <img src={item.icon} alt="" className="w-5 h-5 " />
-                          <div>
-                            <strong className="block cal_sans text-[#3B4D3F]">
-                              {item.label}
-                            </strong>
-                            <div className="text-[15px] DM_sans">
-                              {item.link ? (
-                                <a
-                                  href={item.link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  {item.value}
-                                </a>
-                              ) : (
-                                <span>{item.value}</span>
-                              )}
+                    {/* Map all items except "Company Overview" */}
+                    {companyInsights
+                      .filter((item) => item.label !== "Company Overview")
+                      .map((item, index) => (
+                        <li key={index} className="text-gray-700">
+                          <div className="flex items-start gap-4">
+                            <img src={item.icon} alt="" className="w-5 h-5" />
+                            <div>
+                              <strong className="block cal_sans text-[#3B4D3F]">
+                                {item.label}
+                              </strong>
+                              <div className="text-[15px] DM_sans">
+                                {item.link ? (
+                                  <a
+                                    href={item.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {item.value}
+                                  </a>
+                                ) : (
+                                  <span>{item.value}</span>
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </li>
-                    ))}
+                        </li>
+                      ))}
+
+                    {/* Render "Company Overview" separately at the bottom */}
+                    {companyInsights
+                      .filter((item) => item.label === "Company Overview")
+                      .map((item, index) => (
+                        <li key={index} className="text-gray-700 md:col-span-3">
+                          <div className="flex items-start gap-4">
+                            <img src={item.icon} alt="" className="w-5 h-5" />
+                            <div>
+                              <strong className="block cal_sans text-[#3B4D3F]">
+                                {item.label}
+                              </strong>
+                              <p className="text-[15px] DM_sans">
+                                {item.value}
+                              </p>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
                   </ul>
                 </div>
               </div>

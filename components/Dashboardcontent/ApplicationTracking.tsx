@@ -150,7 +150,7 @@ const ApplicationTracking: React.FC = () => {
                       router.push(`/dashboard/ViewJobdetails/${app.id}`);
                       scrollToTop();
                     }}
-                    className="text-[#526F58] border border-[#9CB8A2] hover:bg-green-500 hover:text-white cal_sans px-5 py-2 rounded-md text-sm text-center"
+                    className="text-[#526F58] border border-[#9CB8A2] hover:bg-green-500 hover:text-white cal_sans px-5 py-2 rounded-md text-sm cursor-pointer"
                   >
                     View Job
                   </button>
@@ -174,17 +174,50 @@ const ApplicationTracking: React.FC = () => {
 
           {/* Page Numbers */}
           <div className="flex gap-2">
-            {Array.from({ length: totalPages }, (_, i) => (
-              <button
-                key={i + 1}
-                onClick={() => goToPage(i + 1)}
-                className={`px-4 py-2 border border-[#E9E9E9] rounded-sm ${
-                  currentPage === i + 1 ? "bg-green-600 text-white" : ""
-                }`}
-              >
-                {i + 1}
-              </button>
-            ))}
+            {currentPage > 2 && (
+              <>
+                <button
+                  onClick={() => goToPage(1)}
+                  className="px-4 py-2 border border-[#E9E9E9] rounded-sm"
+                >
+                  1
+                </button>
+                {currentPage > 3 && <span className="px-2">...</span>}
+              </>
+            )}
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter(
+                (page) =>
+                  page === 1 ||
+                  page === totalPages ||
+                  Math.abs(currentPage - page) <= 1
+              )
+              .map((page) => (
+                <button
+                  key={page}
+                  onClick={() => goToPage(page)}
+                  className={`px-4 py-2 border border-[#E9E9E9] rounded-sm ${
+                    currentPage === page ? "bg-green-600 text-white" : ""
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+
+            {currentPage < totalPages - 1 && (
+              <>
+                {currentPage < totalPages - 2 && (
+                  <span className="px-2">...</span>
+                )}
+                <button
+                  onClick={() => goToPage(totalPages)}
+                  className="px-4 py-2 border border-[#E9E9E9] rounded-sm"
+                >
+                  {totalPages}
+                </button>
+              </>
+            )}
           </div>
 
           <button
