@@ -44,31 +44,31 @@ const handleLogin = async () => {
 };
 
   return (
-    <div className="mx-auto space-y-6 p-10 bg-white rounded-lg">
+    <div className=" bg-white rounded-lg w-full">
       {/* Sign In Header */}
       <div>
-        <h1 className="text-2xl font-bold text-black">Welcome back!</h1>
-        <h3 className="text-[#606060] text-sm">
+        <h1 className="text-[32px] font-bold text-black">Welcome back!</h1>
+        <h3 className="text-[#606060] text-[16px] mt-4">
           Welcome back, enter your credentials to access your account.
         </h3>
       </div>
 
       {/* Email Input */}
-      <div className="space-y-2">
-        <Label htmlFor="email" className="text-black">Email Address</Label>
+      <div className="space-y-2 mt-8">
+        <Label htmlFor="email" className="text-black text-[16px]">Email Address</Label>
         <Input 
           type="email" 
           id="email" 
           placeholder="eg. email@gmail.com"  
-          className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 focus:!border-green-500 focus:!ring-2 focus:!ring-green-500"
+          className="bg-white text-black border-[#BED3C2] rounded-md p-2 mt-2 focus:border-green-500 focus:ring-2 focus:ring-green-500"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
 
       {/* Password Input */}
-      <div className="space-y-2 relative">
-        <Label htmlFor="password" className="text-black">Password</Label>
+      <div className="space-y-2 relative mt-4">
+        <Label htmlFor="password" className="text-black text-[16px]">Password</Label>
         <div className="relative">
           <Input 
             type={showPassword ? "text" : "password"} 
@@ -88,13 +88,13 @@ const handleLogin = async () => {
         </div>
 
         {/* Forgot Password Link */}
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-8">
           <Link href="sign_in/forgot_password" className="text-green-500 text-sm">Forgot Password?</Link>
         </div>
       </div>
 
       {/* Sign In Button */}
-      <div className="flex flex-col items-center justify-center space-y-3">
+      <div className="flex flex-col items-center justify-center space-y-3 mt-4">
         <button 
           onClick={handleLogin} 
           className="w-full bg-green-500 text-white p-2 rounded-md"
@@ -118,7 +118,7 @@ const handleLogin = async () => {
       </div>
 
       {/* Sign Up Link */}
-      <p className="text-center text-sm text-gray-600">
+      <p className="text-center text-sm text-gray-600 mt-6">
         Don&#39;t have an account?{" "}
         <Link href="/sign_up" className="text-green-500 font-medium">Sign Up</Link>
       </p>

@@ -89,11 +89,12 @@ function ConfirmOtpPage() {
       setMessage(response.message);
     };
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-6 bg-white">
-      <div className="w-full max-w-md mt-10 space-y-2">
-        <h1 className="text-2xl font-bold text-black">Confirm OTP Code</h1>
-        <h3 className="text-[#606060] text-sm bg-[#1FC16B1A] p-2 rounded-md">
-          We’ve just sent a code to <span className="font-semibold">{email}</span>.
+    <div className="mx-auto md:p-10 bg-white rounded-lg w-full">
+      <div className="w-full">
+        <h1 className="text-[32px] font-bold text-black">Confirm OTP Code</h1>
+        <p className="text-[16px] mt-3 text-[#606060]">Enter the OTP to verify your identity.</p>
+        <h3 className="text-[#606060] text-[16px] bg-[#1FC16B1A] p-2 rounded-md my-6">
+        We&apos;ve just sent a code to <span className="font-semibold">{email}</span>.
           <br /> Enter the 4-digit code below.
         </h3>
       </div>
@@ -109,7 +110,7 @@ function ConfirmOtpPage() {
             ref={inputRefs[index]} // ✅ Assign ref
             onChange={(e) => handleChange(index, e)}
             onKeyDown={(e) => handleKeyDown(index, e)}
-            className="w-12 h-12 text-center text-xl font-semibold border-2 border-gray-300 rounded-md 
+            className="w-[121px] h-[65px] text-center text-xl font-semibold border-2 border-gray-300 rounded-md 
                        focus:outline-none focus:border-green-500 bg-white text-black"
           />
         ))}
@@ -119,7 +120,7 @@ function ConfirmOtpPage() {
 
 
       {/* Resend Code */}
-      <p className="mt-2 text-sm text-gray-600">
+      <p className="text-[16px] text-gray-600 mt-3">
         Didn&apos;t get a code?{" "}
         <button
           onClick={handleResendOtp}
@@ -130,9 +131,11 @@ function ConfirmOtpPage() {
         </button>
       </p>
       {/* ✅ Submit OTP */}
-      <button onClick={handleVerifyOtp} className="mt-4 w-full max-w-xs bg-green-500 text-white py-2 rounded-md font-medium hover:bg-green-600">
+      <div className="w-full mt-5">  
+      <button onClick={handleVerifyOtp} className="w-full bg-green-500 text-white py-2 rounded-md font-medium hover:bg-green-600">
         Next
       </button>
+      </div>
     </div>
   );
 }

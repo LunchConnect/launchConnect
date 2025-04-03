@@ -15,12 +15,19 @@ export const register = async (email: string, password: string) => {
     const { data } = await publicRequest.post("/auth/signup", { email, password });
 
     console.log("✅ Registration successful:", data);
+
+    // ✅ Save response data to localStorage
+    localStorage.setItem("token", data.token); // Save token
+    localStorage.setItem("user", JSON.stringify(data.user)); // Save user info
+
     return { success: true, data };
   } catch (error: any) {
     console.error("❌ Registration error:", error.response?.data || error.message);
 
     // Extract error message from API response
-    const errorMessage = error.response?.data?.error || error.response?.data?.message || "Registration failed. Please try again.";
+    const errorMessage = error.response?.data?.error || 
+                         error.response?.data?.message || 
+                         "Registration failed. Please try again.";
 
     return { 
       success: false, 
@@ -28,6 +35,7 @@ export const register = async (email: string, password: string) => {
     };
   }
 };
+
 
 
 
@@ -180,6 +188,34 @@ export const resendOtpforpassword = async (email: string) => {
     return { 
       success: false, 
       message: error.response?.data?.message || "Failed to resend OTP. Try again."
+    };
+  }
+};
+
+
+
+
+// ✅ Update User Role API (with Authorization Token)
+export const updateUserRole = async (role: "founder" | "job_seeker", token: string) => {
+  try {
+    const { data } = await publicRequest.put(
+      "/users/update-role",
+      { role },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ Include Bearer Token
+        },
+      }
+    );
+
+    console.log("✅ Role Updated Successfully:", data);
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("❌ Role Update Error:", error.response?.data || error.message);
+
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to update role. Try again.",
     };
   }
 };

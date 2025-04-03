@@ -58,17 +58,17 @@ function Signup() {
   return (
     <div className="mx-auto space-y-6 p-6 md:p-10 bg-white rounded-lg w-full">
       <div>
-        <h1 className="text-2xl font-bold text-black text-center md:text-left">
+        <h1 className="text-[32px] font-bold text-black text-center md:text-left">
           Sign up with LaunchConnect
         </h1>
-        <h3 className="text-[#606060] text-sm text-center md:text-left">
+        <h3 className="text-[#606060] text-[16px] text-center md:text-left">
           Empower your experience, sign up for free today
         </h3>
       </div>
 
       <form onSubmit={handleSignUp} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-black">Email Address</Label>
+          <Label htmlFor="email" className="text-[#4A4A4A] text-[16px]">Email Address</Label>
           <Input
             type="email"
             id="email"
@@ -80,13 +80,13 @@ function Signup() {
         </div>
 
         <div className="space-y-2 relative">
-          <Label htmlFor="password" className="text-black">Password</Label>
+          <Label htmlFor="password" className="text-[#4A4A4A] text-[16px]">Password</Label>
           <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
               id="password"
               placeholder="Enter password"
-              className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 !focus:outline-none !focus:border-green-500"
+              className="bg-white text-black border-[#BED3C2] rounded-md p-2 focus:outline-none focus:border-green-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -102,7 +102,7 @@ function Signup() {
 
         <div className="grid grid-cols-2 gap-x-2 gap-y-1">
           {Object.entries(validations).map(([key, isValid]) => (
-            <div key={key} className="flex items-center gap-1 text-xs text-gray-500">
+            <div key={key} className="flex items-center gap-1 text-[15px] text-gray-500">
               {isValid ? <CheckCircle className="text-green-500" size={12} /> : <Circle className="text-gray-400" size={12} />}
               <span>
                 {key === "lowercase" && "Lowercase"}
@@ -153,9 +153,9 @@ function Signup() {
           {message && <p className={`text-sm ${message.includes("success") ? "text-green-500" : "text-red-500"}`}>{message}</p>}
         </div>
          {/* Sign Up Link */}
-      <p className="text-center text-sm text-gray-600">
-        I have an account?{" "}
-        <Link href="/sign_in" className="text-green-500 font-medium">Login</Link>
+      <p className="text-center text-[16px] text-gray-600">
+      Already have an account?
+         <Link href="/sign_in" className="text-green-500 text-[16px] font-medium"> Login</Link>
       </p>
 
       </form>

@@ -86,7 +86,7 @@ function SigninLayout({ children }: { children: React.ReactNode }) {
 
       {/* Right Container (Dynamic) */}
       <div className="flex w-full md:w-1/2 items-start justify-center overflow-y-auto bg-white py-10 px-6 md:px-10">
-        <div className="w-full max-w-md">{children}</div>
+        <div className="w-ful">{children}</div>
       </div>
     </div>
   );

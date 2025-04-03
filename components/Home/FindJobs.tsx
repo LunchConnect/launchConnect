@@ -155,7 +155,7 @@ const FindJobs: React.FC = () => {
               {currentJobs.map((job) => (
                 <div
                   key={job.id}
-                  className="bg-[#E7EFE8] p-4 rounded-lg shadow"
+                  className="bg-[#F5FFF7] border border-[#E7EFE8] p-4 rounded-lg shadow"
                 >
                   <div className="flex items-center gap-2">
                     <img src="img/logo.png" alt="" className="w-8 h-8" />
