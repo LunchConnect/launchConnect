@@ -220,3 +220,48 @@ export const updateUserRole = async (role: "founder" | "job_seeker", token: stri
   }
 };
 
+export const createJobSeekerProfile = async (
+  fullName: string,
+  bio: string,
+  skills: string[],
+  interests: string[],
+  resume: File | null,
+  role: string,
+  token: string
+) => {
+  try {
+    console.log("🔄 Submitting job seeker profile...");
+
+    const formData = new FormData();
+    formData.append("fullName", fullName);
+    formData.append("shortbio", bio);
+    formData.append("skills", JSON.stringify(skills));  // Assuming backend expects a stringified array
+    formData.append("interests", JSON.stringify(interests));  // Assuming backend expects a stringified array
+    if (resume) {
+      formData.append("resume", resume);
+    }
+    formData.append("role", role);
+
+    // Log formData entries to the console
+    formData.forEach((value, key) => {
+      console.log(`${key}:`, value); // Logs each field and its value
+    });
+
+    const { data } = await publicRequest.post("/profile/setup-profile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("✅ Profile submitted successfully:", data);
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("❌ Profile submission error:", error.response?.data || error.message);
+
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to submit profile. Try again.",
+    };
+  }
+};

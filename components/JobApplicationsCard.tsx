@@ -2,7 +2,7 @@ import { CheckCircle } from "lucide-react";
 
 const JobApplicationsCard = () => {
   return (
-    <div className="bg-white border-2 border-[#EDEFF2] w-[60%] rounded-xl p-6 flex flex-col h-[220px]"> 
+    <div className="bg-white border-2 border-[#EDEFF2]  lg:w-[60%] rounded-xl p-6 flex flex-col h-[220px]"> 
       {/* Header: Title and Icon in a single row */}
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold text-gray-900">Total Job Applications</h2>

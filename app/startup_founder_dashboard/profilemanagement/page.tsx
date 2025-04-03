@@ -11,7 +11,7 @@ const ProfileManagement = () => {
 
   type FormData = {
     firstName: string;
-    lastName: string;
+    role: string;
     email: string;
     bio: string;
     skills: string[];
@@ -21,10 +21,9 @@ const ProfileManagement = () => {
 
   const { register, handleSubmit, setValue, watch } = useForm<FormData>({
     defaultValues: {
-      firstName: "Ikenna",
-      lastName: "Okafor",
+      firstName: "Ikenna Okafor",
       email: "kenawilson99@gmail.com",
-      bio: "e.g., “Passionate UI/UX Designer looking for an internship at a startup.”",
+      role: "Co Founder",
       skills: [],
       portfolio: "",
       links: "",
@@ -130,7 +129,7 @@ const ProfileManagement = () => {
             <div>
             <h2 className="text-[16px] font-semibold text-gray-800">Personal Information</h2>
               <p className="text-[14px] mt-2 text-gray-500">
-                Keep your profile up to date. This helps you stay visible to the right opportunities.
+              Keep your details up to date to stay visible to the right opportunities.
               </p>
 
             </div>
@@ -148,16 +147,7 @@ const ProfileManagement = () => {
                   />
                 </div>
 
-                {/* Last Name */}
-                <div className="grid lg:grid-cols-3 items-center gap-4 border-b-2 pb-3 border-[#ECF1ED]">
-                  <label className="text-gray-700 font-medium">Last Name</label>
-                  <input
-                     placeholder='Okafor'
-                    className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
-                    disabled
-                  />
-                </div>
-
+  
                 {/* Email */}
                 <div className="grid lg:grid-cols-3 items-center gap-4 border-b-2 pb-3 border-[#ECF1ED]">
                   <label className="text-gray-700 font-medium">Email</label>
@@ -168,42 +158,43 @@ const ProfileManagement = () => {
                   />
                 </div>
 
-                 {/* Bio */}
-                 <div className="grid lg:grid-cols-3 items-center gap-4 pb-3">
-                  <label className="text-gray-700 font-medium">Short bio</label>
-                  <div className="w-full col-span-2 ">
-                  <textarea
-                       value={bio}
-                          placeholder='e.g. "Passionate UI/UX Designer looking for an internship at a startup."'
-                       onChange={handleBioChange}
-                    className="border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
+                  {/* Role */}
+                  <div className="grid lg:grid-cols-3 items-center gap-4">
+                  <label className="text-gray-700 font-medium">Role In Startup</label>
+                  <input
+                     placeholder='Co Founder'
+                    className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
                     disabled
                   />
-                   {/* Word Count - Positioned Outside Bottom Right */}
-      <div className="text-right mt-1 text-sm text-[#344054]">
-        {bio.split(/\s+/).filter((word) => word.length > 0).length}/{maxWords} Words Max
-      </div>
-                  </div>
-                
                 </div>
+
               </div>
             </div>
 
             {/* Resume & Skills */}
             <div>
-            <h2 className="text-lg font-semibold text-gray-800">Resume & Skills</h2>
+            <h2 className="text-lg font-semibold text-gray-800">Company Information</h2>
             <p className="text-[14px] text-gray-500">
-            Showcase your experience and expertise.
+            Manage key details about your startup.
               </p>
             </div>
          
             <div className="bg-[#F7FFF9] p-6 rounded-2xl border border-[#E1ECE3]">
               
-              {/* Resume Upload */}
+              {/* LOgo Upload */}
            
+              <div className="grid lg:grid-cols-3 lg:gap-4 items-center border-b-2 pb-3 border-[#ECF1ED mb-6"> 
+                 <h3 className="text-[16px] font-semibold text-[#3B4D3F]">Company Name</h3>
+              <input
+                type="text"
+                placeholder="TechForge"
+                className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[100px]"
+                onKeyDown={handleSkillAdd}
+              />
+               </div>
                 <div className="grid lg:grid-cols-3 gap-4 border-b-2 pb-3 border-[#ECF1ED]">
                   <label htmlFor="resumeUpload" className="text-gray-700 font-medium">
-                    Upload Resume
+                  Company logo
                   </label>
 
                   <div className="col-span-2">
@@ -213,7 +204,7 @@ const ProfileManagement = () => {
                     >
                       <UploadCloud className="w-6 h-6 text-gray-500" />
                       <span className="text-sm text-center text-gray-500">
-                        Browse and choose the file you want to upload <br/> (PDF, Max 5MB)
+                      Browse and chose the files you want to upload from your computer <br/>(JPG, PNG, Max 5MB)
                       </span>
                       <input type="file" id="resumeUpload" className="hidden" onChange={handleFileUpload} />
                       <TiPlus size={40} className="text-white bg-green-500 p-2 rounded-lg" />
@@ -234,61 +225,46 @@ const ProfileManagement = () => {
 
               {/* Skills Input */}
 
-              <div className="grid lg:grid-cols-3 lg:gap-4 items-center"> 
-                 <h3 className="text-[16px] font-semibold text-[#3B4D3F]">Skills</h3>
+              <div className="grid lg:grid-cols-3 lg:gap-4 items-center border-b-2 pb-3 border-[#ECF1ED mb-5"> 
+                 <h3 className="text-[16px] font-semibold text-[#3B4D3F]">Industry</h3>
               <input
                 type="text"
-                placeholder="Add up to 5 skills"
+                placeholder="AI-Powered SaaS"
                 className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[100px]"
-                onKeyDown={handleSkillAdd}
-              /></div>
-             
-              <div className="flex flex-wrap gap-2 mt-2 ">
-                {skills.map((skill, index) => (
-                  <span key={index} className="bg-green-100 text-green-700 px-2 py-1 rounded flex items-center">
-                    {skill}
-                    <button onClick={() => handleRemoveSkill(skill)} className="ml-2 text-red-500">×</button>
-                  </span>
-                ))}
+              />
               </div>
+             
+              <div className="grid lg:grid-cols-3 lg:gap-4 items-center border-b-2 pb-3 border-[#ECF1ED mb-5"> 
+                 <h3 className="text-[16px] font-semibold text-[#3B4D3F]">About your company</h3>
+                 <textarea
+                     
+                          placeholder='TechForge Solutions is an AI-driven platform that helps businesses automate customer interactions and optimize workflows. Our mission is to make AI accessible to all businesses, regardless of size.'
+                      
+                    className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[100px]"
+                    disabled
+                  />
+              </div>
+
+
+
+              <div className="grid lg:grid-cols-3 lg:gap-4 items-center mb-5"> 
+                 <h3 className="text-[16px] font-semibold text-[#3B4D3F]">Company Website </h3>
+                 <div className="flex-1 flex items-center border rounded-md overflow-hidden col-span-2 mt-2 min-w-[100px]">
+      <span className="px-3 border-r-2 bg-white text-gray-600">https://</span>
+      <input 
+  
+      
+        className="flex-1 p-2 focus:outline-none bg-white " 
+      />
+    </div>
+              
+              </div>
+             
             </div>
 
 
- {/* Online Profiles */}
- <div>
- <h2 className="text-lg font-semibold text-gray-800">Online Profiles</h2>
-  <p className="text-sm text-gray-500">Boost your credibility by linking your professional profiles.</p>
 
- </div>
 
-<div className="bg-[#F7FFF9] p-6 rounded-2xl border border-green-200">
-
-  {/* Portfolio Input */}
-  <div className="lg:flex items-center mt-4">
-    <label className="w-1/4 text-sm font-medium text-gray-700">Portfolio Website (If applicable)</label>
-    <div className="flex-1 flex items-center border border-green-300 rounded-md overflow-hidden">
-      <span className="px-3 border-r-2 bg-white text-gray-600">https://</span>
-      <input 
-        {...register("portfolio")} 
-        placeholder="yourwebsite.com"
-        className="flex-1 p-2 focus:outline-none bg-white" 
-      />
-    </div>
-  </div>
-
-  {/* Other Links */}
-  <div className="lg:flex items-center mt-4">
-    <label className="w-1/4 text-sm font-medium text-gray-700">Other Relevant Links</label>
-    <div className="flex-1 flex items-center border border-green-300 rounded-md overflow-hidden">
-      <span className="px-3 border-r-2 bg-white text-gray-600">https://</span>
-      <input 
-        {...register("links")} 
-        placeholder="GitHub, Behance, etc."
-        className="flex-1 p-2 focus:outline-none bg-white" 
-      />
-    </div>
-  </div>
-</div>
 
           
           

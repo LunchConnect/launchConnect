@@ -6,13 +6,13 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const menuItems = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutGrid },
-  { title: "Find Jobs", url: "/dashboard/findjobs", icon: Briefcase },
- { title: "Application Tracking", url: "/dashboard/Application_Tracking", icon: Eye },
+  { title: "Dashboard", url: "/startup_founder_dashboard", icon: LayoutGrid },
+  { title: "Find Posts", url: "/startup_founder_dashboard/findjobs", icon: Briefcase },
+ { title: "Applications", url: "/startup_founder_dashboard/Application_Tracking", icon: Eye },
   // { title: "Application Tracking", url: "/dashboard/Application_Tracking", icon: Eye },
 ];
 
-export function AppSidebar({ isOpen }: { isOpen: boolean }) {
+export function StartupFounderSidebar({ isOpen }: { isOpen: boolean }) {
   const pathname = usePathname(); // Get the current route
 
   return (

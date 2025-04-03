@@ -33,7 +33,7 @@ export default function ApplicationTrends() {
   const [selectedRange, setSelectedRange] = useState("Monthly")
 
   return (
-    <Card className="w-[70%]">
+    <Card className="lg:w-[70%]">
       <CardHeader className="flex flex-row justify-between items-center">
         <div>
           <CardTitle className="text-[16px]">Application Trends</CardTitle>
