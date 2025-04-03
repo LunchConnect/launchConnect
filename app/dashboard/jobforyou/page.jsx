@@ -46,10 +46,10 @@ export default function FindJobsPage() {
       <div className="space-y-4">
         {displayedJobs.map((job) => (
           <div key={job.id} className="border rounded-lg p-4 flex items-center justify-between shadow-sm bg-white">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center lg:gap-4">
               <img src={job.logo} alt={job.company} className="w-10 h-10 rounded-md" />
               <div>
-                <h3 className="font-semibold text-lg">{job.title}</h3>
+                <h3 className="font-semibold text-sm">{job.title}</h3>
                 <p className="text-sm text-gray-500">{job.company} • {job.location}</p>
                 <Badge className="mt-2 bg-green-100 text-green-700">{job.type}</Badge>
               </div>

@@ -41,14 +41,14 @@ export default function JobsForYou() {
 
   const router = useRouter()
   return (
-    <Card className="w-[48%]">
+    <Card className="lg:w-[48%]">
       {/* Header */}
       <CardHeader className="flex flex-row justify-between items-center">
         <CardTitle className="text-[16px] font-semibold">Jobs For You</CardTitle>
         <button onClick={() => {
                               router.push("/dashboard/jobforyou");
                               scrollToTop();
-                            }} className="px-2 py-1 text-white text-[14px]  bg-primary rounded-lg">
+                            }} className="px-4 py-2 text-white text-[14px]  bg-primary rounded-lg">
           See All
         </button>
       </CardHeader>
