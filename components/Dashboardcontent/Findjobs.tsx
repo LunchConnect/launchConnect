@@ -81,7 +81,7 @@ const FindJobs: React.FC = () => {
   return (
     <section className="">
       {/* Body */}
-      <div className="px-[4%] md:px-5 py-10 my-20 bg-white rounded-2xl">
+      <div className="px-[4%] md:px-5 py-10 my-10 bg-white border border-[#EDEFF2] rounded-xl">
         <div className="flex gap-6 flex-col md:flex-row border-3 border-white">
           {/* Sidebar Filters */}
           <div className="md:w-1/4 border border-[#E7EFE8] p-5 rounded-lg shadow md:self-start">

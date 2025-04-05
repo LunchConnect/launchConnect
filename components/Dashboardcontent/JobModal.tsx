@@ -25,8 +25,8 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen, job }) => {
       >
           <div className="fixed inset-0 bg-black/30 backdrop-blur-0 z-[50]" />
           <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <Dialog.Panel className="w-full max-w-lg bg-white p-6 rounded-lg shadow-lg">
+          <div className="flex min-h-full items-center justify-center p-2 md:p-4">
+            <Dialog.Panel className="w-full max-w-lg md:max-w-lg bg-white p-6 rounded-lg shadow-lg">
               {showSuccessModal ? (
                 // Success Message
                 <div className="text-center">

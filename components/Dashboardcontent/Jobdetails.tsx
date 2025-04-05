@@ -94,7 +94,7 @@ const Jobdetails: React.FC<JobDetailsProps> = () => {
   return (
     <>
       <section className="">
-        <div className="px-[4%] md:px-6 py-5 my-20 bg-white rounded-2xl">
+        <div className="px-[4%] md:px-6 py-5 my-10 bg-white border border-[#EDEFF2] rounded-xl">
           <button
             onClick={() => router.push("/dashboard/findjobs")}
             className="flex items-center gap-2 text-black text-xl cal_sans pb-5"

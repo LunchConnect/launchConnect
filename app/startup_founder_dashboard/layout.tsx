@@ -25,31 +25,21 @@ useEffect(() => {
     };
   }, [sidebarOpen]);
   return (
-   
-   
-   
- <SidebarProvider>
-    {sidebarOpen && <div className="fixed inset-0 bg-black opacity-50 z-40 lg:hidden"></div>}
+    <SidebarProvider>
+      {sidebarOpen && (
+        <div className="fixed inset-0 bg-black opacity-50 z-40 lg:hidden"></div>
+      )}
 
-    {/* Sidebar */}
-    <StartupFounderSidebar isOpen={sidebarOpen} />
+      {/* Sidebar */}
+      <StartupFounderSidebar isOpen={sidebarOpen} />
 
+      {/* Top Navbar */}
+      <StartDashboardNav onMenuClick={() => setSidebarOpen(true)} />
 
-     {/* Top Navbar */}
-     <StartDashboardNav onMenuClick={() => setSidebarOpen(true)} />
-
-     <main className="flex flex-1 flex-col gap-4 p-2 pt-0 w-full h-full lg:ml-64 md:ml-0 bg-gray-200">
-           
-            
-    
-           
-           {children}
-         </main>
-
-          </SidebarProvider>
-      
- 
-    
+      <main className="flex flex-1 flex-col gap-4 p-2 pt-0 w-full lg:ml-64 md:ml-0 bg-[#FAFAFA]">
+        {children}
+      </main>
+    </SidebarProvider>
   );
 }
 

@@ -6,9 +6,10 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { TbCopy } from "react-icons/tb";
 import { IoIosArrowBack } from "react-icons/io";
-import JobModal from "./JobModal";
-import { Check } from "lucide-react";
-import RelatedJobs from "./RelatedJobs";
+import { HiDotsHorizontal } from "react-icons/hi";
+import PostModal from "./PostModal";
+import { FiTrash2 } from "react-icons/fi";
+import RecentApplication from "./RecentApplication";
 
 // Sample job data
 const jobs = [
@@ -50,76 +51,59 @@ const jobs = [
   },
 ];
 
-const companyInsights = [
-  {
-    label: "Startup Name",
-    value: "LaunchConnect",
-    icon: "/assets/images/img1.png",
-  },
-  {
-    label: "Industry",
-    value: "AI-Powered SaaS",
-    icon: "/assets/images/img2.png",
-  },
-  {
-    label: "Website",
-    value: "www.techforge.ai",
-    link: "https://www.techforge.ai",
-    icon: "/assets/images/img3.png",
-  },
-  {
-    label: "Application Deadline",
-    value: "March 31, 2025",
-    icon: "/assets/images/img5.png",
-  },
-  {
-    label: "Commitment Level",
-    value: "Part-time (10-15 hours per week) for 3 months",
-    icon: "/assets/images/img6.png",
-  },
-  {
-    label: "Company Overview",
-    value:
-      "TechForge Solutions is an AI-driven platform that helps businesses automate customer interactions and optimize workflows. Our mission is to make AI accessible to all businesses, regardless of size.",
-    icon: "/assets/images/img4.png",
-  },
-];
-
 interface JobDetailsProps {
   jobId: string;
 }
 
 const ViewJobdetails: React.FC<JobDetailsProps> = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-  const [selectedJob, setSelectedJob] = useState(null);
+  const [isDeleteJob, setIsdeleteJob] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [postedJob, setPostedJob] = useState(null);
   const router = useRouter();
-
-
 
   return (
     <>
       <section className="">
-        <div className="px-[4%] md:px-6 py-3 my-10 bg-white border border-[#EDEFF2] rounded-xl">
+        <div className="my-20">
+          {" "}
           <button
-            onClick={() => router.push("/dashboard/Application_Tracking")}
-            className="flex items-center gap-2 text-black text-xl cal_sans pb-5"
+            onClick={() => router.push("/startup_founder_dashboard/PostJob")}
+            className="flex items-center gap-2 text-black text-xl cal_sans"
           >
             <IoIosArrowBack size={20} className="" />
             <span className="mt-1">Back</span>
           </button>
+        </div>
+        <div className="px-[4%] md:px-6 py-3 bg-white border bordeer-[#EDEFF2] rounded-2xl">
           {jobs.map((job) => (
             <div key={job.id}>
               {/* Job Header */}
-              <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-4">
+              <div className="flex flex-row justify-between items-center space-y-4">
                 <div className="flex items-center gap-2">
                   <img src={job.imageUrl} alt="" className="w-10 h-10" />
                   <h1 className="text-2xl text-[#243428] cal_sans">
                     {job.title}
                   </h1>
                 </div>
-                <button className="bg-[#E8E8E8] text-[#4A4A4A] px-4 py-2 rounded-3xl cursor-pointer cal_sans self-start md:self-center hidden md:block">
-                  pending
-                </button>
+                <div className="relative flex items-center">
+                  {/* Three-dot Button */}
+                  <button
+                    onClick={() => setIsdeleteJob(!isDeleteJob)}
+                    className="text-[#4A4A4A] border border-[#D0D5DD] px-4 py-1 rounded-md cursor-pointer cal_sans"
+                  >
+                    <HiDotsHorizontal />
+                  </button>
+
+                  {/* Delete Button (Shows on Click) */}
+                  {isDeleteJob && (
+                    <div className="absolute right-full mr-2 -bottom-7 flex items-center gap-2 px-8 py-2 bg-white border border-[#EDEFF2] rounded shadow-md transition-opacity">
+                      <FiTrash2 size={20} className="text-[#FC0202]" />
+                      <button className="text-[#FC0202] whitespace-nowrap">
+                        Delete Job
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="flex items-center gap-2 mt-2 space-y-2 md:space-y-0 DM_sans">
@@ -144,24 +128,6 @@ const ViewJobdetails: React.FC<JobDetailsProps> = () => {
                   {job.location}
                 </p>
               </div>
-              <div className="flex items-center gap-3 text-[#1AC23F] pt-2 cal_sans">
-                <div className="relative flex items-center">
-                  {/* Styled checkbox with Tailwind for consistent UI */}
-                  <input
-                    type="checkbox"
-                    className="custom-checkbox-modal peer"
-                    checked
-                    disabled
-                  />
-                  {/* Check icon overlay (only visible if checked) */}
-                  <Check className="absolute inset-0 m-auto w-4 h-4 text-white peer-checked:block hidden pointer-events-none" />
-                </div>
-                <p className="text-xl">You applied 8 seconds ago</p>
-              </div>
-
-              <button className="bg-[#E8E8E8] text-[#4A4A4A] px-4 py-2 rounded-3xl mt-3 cursor-pointer cal_sans self-start md:self-center md:hidden">
-                pending
-              </button>
 
               {/* Job Details */}
               <div className="flex flex-col gap-6 md:mt-5 mt-8">
@@ -216,77 +182,20 @@ const ViewJobdetails: React.FC<JobDetailsProps> = () => {
                   </span>
                   <TbCopy size={25} className=" text-black " />
                 </div>
-
-                {/* Company Insights */}
-                <div className="bg-[#F5FFF7] p-4 rounded-2xl shadow">
-                  <h2 className="text-[17px] mb-4 text-[#01011A] cal_sans">
-                    Explore company insights
-                  </h2>
-                  <ul className="grid grid-rows-1 md:grid-cols-3 gap-x-10 gap-y-4 text-xl">
-                    {/* Map all items except "Company Overview" */}
-                    {companyInsights
-                      .filter((item) => item.label !== "Company Overview")
-                      .map((item, index) => (
-                        <li key={index} className="text-gray-700">
-                          <div className="flex items-start gap-4">
-                            <img src={item.icon} alt="" className="w-5 h-5" />
-                            <div>
-                              <strong className="block cal_sans text-[#3B4D3F]">
-                                {item.label}
-                              </strong>
-                              <div className="text-[15px] DM_sans">
-                                {item.link ? (
-                                  <a
-                                    href={item.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    {item.value}
-                                  </a>
-                                ) : (
-                                  <span>{item.value}</span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-
-                    {/* Render "Company Overview" separately at the bottom */}
-                    {companyInsights
-                      .filter((item) => item.label === "Company Overview")
-                      .map((item, index) => (
-                        <li key={index} className="text-gray-700 md:col-span-3">
-                          <div className="flex items-start gap-4">
-                            <img src={item.icon} alt="" className="w-5 h-5" />
-                            <div>
-                              <strong className="block cal_sans text-[#3B4D3F]">
-                                {item.label}
-                              </strong>
-                              <p className="text-[15px] DM_sans">
-                                {item.value}
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
               </div>
             </div>
           ))}
 
-          <RelatedJobs />
-
           {/* Render modal and pass modal state */}
-          {isModalOpen && selectedJob && (
-            <JobModal
+          {isModalOpen && postedJob && (
+            <PostModal
               isOpen={isModalOpen}
               setIsOpen={setIsModalOpen}
-              job={selectedJob}
+              job={postedJob}
             />
           )}
         </div>
+        <RecentApplication />
       </section>
     </>
   );
