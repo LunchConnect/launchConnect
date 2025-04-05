@@ -220,6 +220,12 @@ export const updateUserRole = async (role: "founder" | "job_seeker", token: stri
   }
 };
 
+
+
+
+
+
+
 export const createJobSeekerProfile = async (
   fullName: string,
   bio: string,

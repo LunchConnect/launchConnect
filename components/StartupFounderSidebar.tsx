@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 
 const menuItems = [
   { title: "Dashboard", url: "/startup_founder_dashboard", icon: LayoutGrid },
-  { title: "Find Posts", url: "/startup_founder_dashboard/findjobs", icon: Briefcase },
- { title: "Applications", url: "/startup_founder_dashboard/Application_Tracking", icon: Eye },
+  { title: "Job Posts", url: "/startup_founder_dashboard/PostJob", icon: Briefcase },
+ { title: "Applications", url: "/startup_founder_dashboard/Application", icon: Eye },
   // { title: "Application Tracking", url: "/dashboard/Application_Tracking", icon: Eye },
 ];
 
