@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Plus_Jakarta_Sans as FontSans } from "next/font/google";
+import { DM_Sans } from "next/font/google";
+
 import { ThemeProvider } from "next-themes";
 
 import { cn } from "@/lib/utils";
 
-const fontSans = FontSans({
+const fontSans = DM_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-sans",
 });
-
 export const metadata: Metadata = {
   title: "lunch_connect",
   description:
@@ -26,10 +26,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+
       <body
-        className={cn( "min-h-screen font-sans antialiased",
- fontSans.variable )} >
+       className={cn("min-h-screen antialiased", fontSans.variable)} >
       
 
           {children}
