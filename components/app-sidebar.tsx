@@ -4,7 +4,8 @@ import { usePathname } from "next/navigation";
 import { LayoutGrid, Briefcase, Eye } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 const menuItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutGrid },
   { title: "Find Jobs", url: "/dashboard/findjobs", icon: Briefcase },
@@ -14,7 +15,7 @@ const menuItems = [
 
 export function AppSidebar({ isOpen }: { isOpen: boolean }) {
   const pathname = usePathname(); // Get the current route
-
+  const router = useRouter();
   return (
     <>
 
@@ -31,10 +32,36 @@ export function AppSidebar({ isOpen }: { isOpen: boolean }) {
       isOpen ? "translate-x-0" : "-translate-x-full"
     )}>
       {/* Logo */}
-      <div className="px-4 pb-6 flex items-center gap-2 border-b-2">
+      {/* <div className="px-4 pb-6 flex items-center gap-2 border-b-2">
         <img src="/assets/images/logo.png" alt="Launch Connect" className="h-6" />
         <span className="text-lg font-bold text-gray-900">Launch Connect</span>
+      </div> */}
+
+
+
+
+
+
+  <div
+        onClick={() => router.push("/")}
+        className="flex items-center gap-2 cursor-pointer z-50 border-b-2 pb-4"
+      >
+        <Image
+          src="/assets/images/logo.png"
+          alt="Logo"
+          width={40}
+          height={40}
+          className=""
+        />
+        <div className="flex flex-col text-[17px] customGreen cal_sans font-bold text-[#5D7061]">
+          <h2 className="">Launch</h2>
+          <span className="custom-mt-2">Connect</span>
+        </div>
       </div>
+
+
+
+
 
       {/* Menu */}
       <nav className="space-y-1">

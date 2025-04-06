@@ -17,25 +17,24 @@ function SignupLayout({ children }: { children: React.ReactNode }) {
         />
 
         {/* Centered Content in Left Section */}
-        <div className="flex flex-col gap-3 justify-start h-full ml-16">
+        <div className="flex flex-col gap-5 justify-start h-full ml-16 mt-9">
           {/* Logo */}
+
+
           <div className="flex items-center gap-3">
   <Image
-    src="/assets/images/logo.png"
-    width={100}
+    src="/assets/images/Logo_Main.png"
+    width={200}
     height={100}
     alt="Launch Connect Logo"
   />
- <h1 className="text-[#C7E9CF] text-[34.95px] font-bold">
-  <span className="block">Launch</span>
-  Connect
-</h1>
+
 </div>
 
 
           {/* Text Content */}
           <div className="text-white">
-            <h1 className="text-[44px] font-bold leading-tight">
+            <h1 className="text-[35px] font-bold leading-tight">
               Take control of your startup journey today.
             </h1>
             <p className="mt-4 text-lg text-gray-300">
