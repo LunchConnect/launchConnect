@@ -231,7 +231,7 @@ export const createJobSeekerProfile = async (
   bio: string,
   skills: string[],
   interests: string[],
-  resume: File | null,
+  resume: File,
   role: string,
   token: string
 ) => {

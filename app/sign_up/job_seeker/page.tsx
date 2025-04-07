@@ -91,7 +91,7 @@ const JobSeeker = () => {
 
 
   // Validate fields
-  if (!fullName || !bio || skills.length === 0 || interests.length === 0 || !resume) {
+  if (!fullName || !bio || skills.length === 0 || interests.length === 0) {
     console.error("All fields must be filled out. Please check your input.");
     // Optionally, show a message to the user about the missing fields
     alert("Please fill out all required fields (Full Name, Bio, Skills, Interests, and Resume).");

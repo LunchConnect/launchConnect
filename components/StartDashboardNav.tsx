@@ -24,6 +24,11 @@ const StartDashboardNav = ({ onMenuClick }: { onMenuClick: () => void }) => {
     };
   }, []);
 
+  const handleLogout = () => {
+    localStorage.clear(); // Clear all data from localStorage
+    router.push("/"); // Redirect to login page
+  };
+
   return (
     <nav className="w-full lg:w-[calc(100%-256px)] ml-auto flex justify-between items-center py-4 px-6 border-b bg-white fixed top-0 right-0 z-50 md:px-6">
 
@@ -63,7 +68,7 @@ const StartDashboardNav = ({ onMenuClick }: { onMenuClick: () => void }) => {
         <User className="w-5 h-5 text-gray-600" />
         Profile Management
       </button>
-      <button className="flex items-center gap-2 p-2 hover:bg-gray-100 w-full text-left">
+      <button className="flex items-center gap-2 p-2 hover:bg-gray-100 w-full text-left" onClick={handleLogout}>
         <LogOut className="w-5 h-5 text-gray-600" />
         Log-Out
       </button>
