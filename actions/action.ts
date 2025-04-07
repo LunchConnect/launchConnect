@@ -231,7 +231,7 @@ export const createJobSeekerProfile = async (
   bio: string,
   skills: string[],
   interests: string[],
-  resume: File,
+  resume: File | null,
   role: string,
   token: string
 ) => {
@@ -268,6 +268,49 @@ export const createJobSeekerProfile = async (
     return {
       success: false,
       message: error.response?.data?.message || "Failed to submit profile. Try again.",
+    };
+  }
+};
+
+
+
+
+
+
+
+
+
+
+export const createStartupFounderProfile = async (
+  fullName: string,
+  companyName: string,
+  industry: string,
+  website: string,
+  roleInCompany:string,
+  role: string,
+  token: string
+) => {
+  try {
+    console.log("🔄 Submitting start up profile...");
+    const { data } = await publicRequest.post("/profile/setup-profile", {
+      fullName,
+      companyName,
+      industry,
+      website,
+      roleInCompany,
+      role,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("Error submitting founder profile:", error.response?.data || error.message);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to submit founder profile.",
     };
   }
 };
