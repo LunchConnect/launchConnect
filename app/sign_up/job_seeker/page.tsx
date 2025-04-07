@@ -85,7 +85,7 @@ const JobSeeker = () => {
     }
 
   // Hardcoded role
-  const role = "Job_Seeker"; // or any role you want to hardcode
+  const role = "job_seeker"; // or any role you want to hardcode
 
 
 
