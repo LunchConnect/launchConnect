@@ -15,7 +15,7 @@ interface Option {
 }
 
 const JobSeeker = () => {
-  const [resume, setResume] = useState<File>(null);
+  const [resume, setResume] = useState<File>();
   const [selectedSkills, setSelectedSkills] = useState<Option[]>([]);
   const [selectedInterests, setSelectedInterests] = useState<Option[]>([]);
   const [skills, setSkills] = useState<string[]>([]);  // Handling skills as an array of strings
