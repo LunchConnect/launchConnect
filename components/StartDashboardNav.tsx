@@ -40,7 +40,7 @@ const StartDashboardNav = ({ onMenuClick }: { onMenuClick: () => void }) => {
 
 
       {/* Welcome Message */}
-      <h1 className="text-xl font-semibold text-gray-800">Hy, David</h1>
+      <h1 className="text-xl font-semibold text-gray-800">Hey, David</h1>
 
     {/* Profile Section */}
 <div className="relative" ref={dropdownRef}>
