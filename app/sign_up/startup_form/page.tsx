@@ -11,6 +11,7 @@ const [companyName, setCompanyName] = React.useState("");
 const [industry, setIndustry] = React.useState("");
 const [website, setWebsite] = React.useState("");
 const [roleInCompany, setroleInCompany] = React.useState("");
+const [isLoading, setIsLoading] = React.useState(false);
 
   // Modal State
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -20,45 +21,52 @@ const [roleInCompany, setroleInCompany] = React.useState("");
   const router = useRouter(); // ✅ Router for redirection
 
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    alert("Authentication token not found. Please log in again.");
-    return;
-  }
-
-  // Check if all required fields are filled
-  if (!fullName || !companyName || !industry || !website || !roleInCompany) {
-    alert("Please fill in all the required fields.");
-    return;
-  }
-
-  const role = "company"; 
-
-  const result = await createStartupFounderProfile(
-    fullName,
-    companyName,
-    industry,
-    website,
-    roleInCompany,
-    role,
-    token
-  );
-
-  if (result.success) {
-    setModalType("success");
-    setModalMessage("You have successfully created a start up");
-    console.log("Profile created successfully:", result);
-    setTimeout(() => router.push("/sign_in"), 2000); // ✅ 
-  } else {
-    setModalType("error");
-    setModalMessage(result.message || "Error creating profile:");
-    console.error("Error creating profile:", result);
-  }
-};
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true); // ✅ Start loading
+  
+    const token = localStorage.getItem("token");
+  
+    if (!token) {
+      alert("Authentication token not found. Please log in again.");
+      setIsLoading(false);
+      return;
+    }
+  
+    if (!fullName || !companyName || !industry || !website || !roleInCompany) {
+      alert("Please fill in all the required fields.");
+      setIsLoading(false);
+      return;
+    }
+  
+    const role = "company"; 
+  
+    const result = await createStartupFounderProfile(
+      fullName,
+      companyName,
+      industry,
+      website,
+      roleInCompany,
+      role,
+      token
+    );
+  
+    if (result.success) {
+      setModalType("success");
+      setModalMessage("You have successfully created a startup.");
+      setModalOpen(true);
+      console.log("Profile created successfully:", result);
+      setTimeout(() => router.push("/sign_in"), 2000);
+    } else {
+      setModalType("error");
+      setModalMessage(result.message || "Error creating profile.");
+      setModalOpen(true);
+      console.error("Error creating profile:", result);
+    }
+  
+    setIsLoading(false); // ✅ Stop loading
+  };
+  
   return (
     <div className="flex flex-col items-center min-h-screen ">
       <div className="w-full max-w-lg">
@@ -139,23 +147,40 @@ const handleSubmit = async (e: React.FormEvent) => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-primary text-white p-2 rounded-md mt-3"
+            className="w-full bg-primary text-white p-2 rounded-md mt-3" 
+            disabled={isLoading}
           >
-            Save & Continue
+            {isLoading ? (
+    <span className="flex items-center justify-center gap-2">
+      <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+      </svg>
+      Saving...
+    </span>
+  ) : (
+    "Save & Continue"
+  )}
           </button>
         </form>
       </div>
 
         {/* ✅ Success & Error Modal */}
         <AlertModal 
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onAction={() => setModalOpen(false)}
-        type={modalType}
-        title={modalType === "success" ? "Account Creation Successful" : "Incorrect Login Details"}
-        description={modalMessage}
-        buttonText={modalType === "success" ? "Proceed to Dashboard" : "Retry"}
-      />
+  open={modalOpen}
+  onClose={() => setModalOpen(false)}
+  onAction={() => {
+    setModalOpen(false);
+    if (modalType === "success") {
+      router.push("/sign_in");
+    }
+  }}
+  type={modalType}
+  title={modalType === "success" ? "Account Creation Successful" : "Submission Failed"}
+  description={modalMessage}
+  buttonText={modalType === "success" ? "Proceed to Sign In" : "Retry"}
+/>
+
     </div>
   );
 };

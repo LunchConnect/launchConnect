@@ -225,13 +225,13 @@ export const updateUserRole = async (role: "founder" | "job_seeker", token: stri
 
 
 
-
+// ✅ User Job seeker form Role API (with Authorization Token)
 export const createJobSeekerProfile = async (
   fullName: string,
   bio: string,
   skills: string[],
   interests: string[],
-  resume: File | null,
+  resume: File,
   role: string,
   token: string
 ) => {
@@ -240,14 +240,14 @@ export const createJobSeekerProfile = async (
 
     const formData = new FormData();
     formData.append("fullName", fullName);
-    formData.append("shortbio", bio);
-    formData.append("skills", JSON.stringify(skills));  // Assuming backend expects a stringified array
-    formData.append("interests", JSON.stringify(interests));  // Assuming backend expects a stringified array
-    if (resume) {
-      formData.append("resume", resume);
-    }
+    formData.append("shortBio", bio);
+    formData.append("resume", resume);
     formData.append("role", role);
 
+     // Important: use the same key `skills[]` for each item
+     skills.forEach((skill) => formData.append("skills[]", skill));
+     interests.forEach((interest) => formData.append("interests[]", interest));
+ 
     // Log formData entries to the console
     formData.forEach((value, key) => {
       console.log(`${key}:`, value); // Logs each field and its value
@@ -255,7 +255,6 @@ export const createJobSeekerProfile = async (
 
     const { data } = await publicRequest.post("/profile/setup-profile", formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -281,6 +280,8 @@ export const createJobSeekerProfile = async (
 
 
 
+
+// ✅ User Start up form Role API (with Authorization Token)
 export const createStartupFounderProfile = async (
   fullName: string,
   companyName: string,
