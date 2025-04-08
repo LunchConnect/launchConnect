@@ -15,9 +15,8 @@ interface Option {
 }
 
 const JobSeeker = () => {
-  const [resume, setResume] = useState<File>();
-  const [selectedSkills, setSelectedSkills] = useState<Option[]>([]);
-  const [selectedInterests, setSelectedInterests] = useState<Option[]>([]);
+  const [resume, setResume] = useState<File | null>(null);
+
   const [skills, setSkills] = useState<string[]>([]);  // Handling skills as an array of strings
   const [interests, setInterests] = useState<string[]>([]);  // Handling interests as an array of strings
   const [bio, setBio] = useState("");
@@ -106,7 +105,7 @@ const [isLoading, setIsLoading] = React.useState(false);
 
 
   // Validate fields
-  if (!fullName || !bio || skills.length === 0 || interests.length === 0) {
+  if (!fullName || !bio || skills.length === 0 || interests.length === 0 || !resume)   {
     console.error("All fields must be filled out. Please check your input.");
     // Optionally, show a message to the user about the missing fields
     alert("Please fill out all required fields (Full Name, Bio, Skills, Interests, and Resume).");
@@ -130,6 +129,11 @@ const [isLoading, setIsLoading] = React.useState(false);
       setModalMessage("You have successfully created a startup.");
       setModalOpen(true);
       console.log("Profile created successfully:", data);
+      setFullName("");
+      setBio("");
+      setResume(null);
+      setSkills([]);
+      setInterests([]);
       setTimeout(() => router.push("/sign_in"), 2000);
       // Redirect or show success message
     } else {
@@ -186,7 +190,9 @@ const [isLoading, setIsLoading] = React.useState(false);
             >
               <input {...getInputProps()} />
               {resume ? (
-                <p className="text-green-600 text-lg">{resume.name}</p>
+                <p className="text-green-600 text-lg">
+                {resume.name} ({(resume.size / 1024 / 1024).toFixed(2)} MB)
+              </p>
               ) : (
                 <p className="text-[#DFE0E2] text-lg">
                   Choose a file Or Drag and drop <br />PDF Formats up to 5 MB
@@ -269,6 +275,7 @@ const [isLoading, setIsLoading] = React.useState(false);
             type="submit"
             className="w-full bg-[#1AC23F] text-white p-4 rounded-md text-[16px] font-semibold"
             disabled={isLoading}
+            aria-busy={isLoading}
           >
             {isLoading ? (
     <span className="flex items-center justify-center gap-2">
