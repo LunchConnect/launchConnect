@@ -176,7 +176,7 @@ const ProfileManagement = () => {
                        value={bio}
                           placeholder='e.g. "Passionate UI/UX Designer looking for an internship at a startup."'
                        onChange={handleBioChange}
-                    className="border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
+                    className="border p-3 text-[20px] rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
                     disabled
                   />
                    {/* Word Count - Positioned Outside Bottom Right */}
