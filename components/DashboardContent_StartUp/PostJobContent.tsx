@@ -2,9 +2,9 @@
 import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
 import PostModal from "./PostModal";
+import { postJob } from "@/actions/action";
 
 interface Job {
   id: string;
@@ -12,7 +12,7 @@ interface Job {
   description: string;
   responsibilities: string;
   skills: string;
-  jobType: string[];
+  jobType: string;
   industry: string[];
   paidroll: string[];
   deadline: string;
@@ -21,51 +21,29 @@ interface Job {
 }
 
 const PostJobContent: React.FC = () => {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [postedJob, setPostedJob] = useState<Job | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const router = useRouter();
+  // Form states
   const [jobTitle, setJobTitle] = useState("");
   const [jobDescription, setJobDescription] = useState("");
-  const [responsibilities, setresponsibilities] = useState("");
+  const [responsibilities, setResponsibilities] = useState("");
   const [skills, setSkills] = useState("");
-  const [jobType, setJobType] = useState<string[]>([]); // changed to array for multi-select
-  const [industry, setIndustry] = useState<string[]>([]); // changed to array for multi-select
-  const [paidroll, setPaidroll] = useState<string[]>([]); // changed to array for multi-select
+  const [jobType, setJobType] = useState<string>("");
+  const [industry, setIndustry] = useState<string[]>([]);
+  const [paidroll, setPaidroll] = useState<string[]>([]);
   const [deadline, setDeadline] = useState("");
   const [location, setLocation] = useState("");
   const [commitmentlevel, setCommitmentlevel] = useState("");
-  const [isIndustryOpen, setIsIndustryOpen] = useState(false); // for toggling dropdown
-  const [isPaidrollOpen, setIsPaidrollOpen] = useState(false); // for toggling dropdown
-  const [isJobTypeOpen, setIsJobTypeOpen] = useState(false); // for toggling dropdown
 
-  const handleIndustryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setIndustry((prevState) =>
-      prevState.includes(value)
-        ? prevState.filter((item) => item !== value)
-        : [...prevState, value]
-    );
-  };
+  // Dropdown toggles
+  const [isIndustryOpen, setIsIndustryOpen] = useState(false);
+  const [isPaidrollOpen, setIsPaidrollOpen] = useState(false);
+  const [isJobTypeOpen, setIsJobTypeOpen] = useState(false);
 
-  const handlePaidrollChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setPaidroll((prevState) =>
-      prevState.includes(value)
-        ? prevState.filter((item) => item !== value)
-        : [...prevState, value]
-    );
-  };
-
-  const handleJobtypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setJobType((prevState) =>
-      prevState.includes(value)
-        ? prevState.filter((item) => item !== value)
-        : [...prevState, value]
-    );
-  };
-
+  // Options
   const jobTypeOptions = ["Entry-Roll", "Volunteer", "Internship"];
   const industryOptions = [
     "Technology",
@@ -77,6 +55,86 @@ const PostJobContent: React.FC = () => {
     "Health",
   ];
   const roleOptions = ["Not Paid", "Paid"];
+
+  const handleIndustryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setIndustry((prev) =>
+      prev.includes(value) ? prev.filter((i) => i !== value) : [...prev, value]
+    );
+  };
+
+  const handlePaidrollChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPaidroll((prev) =>
+      prev.includes(value) ? prev.filter((i) => i !== value) : [...prev, value]
+    );
+  };
+
+  const handleJobtypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setJobType(e.target.value); // only allow one
+    setIsJobTypeOpen(false); // auto-close dropdown
+  };
+
+  const handleSubmit = async () => {
+    if (
+      !jobTitle ||
+      !jobDescription ||
+      !jobType ||
+      industry.length === 0 ||
+      paidroll.length === 0 ||
+      !deadline
+    ) {
+      alert("Please fill all required fields.");
+      return;
+    }
+
+    setIsLoading(true);
+    const token = localStorage.getItem("token"); // ✅ Add this line
+
+    if (!token) {
+      alert("You must be logged in to post a job.");
+      setIsLoading(false);
+      return;
+    }
+
+    const newJob = {
+      id: crypto.randomUUID(),
+      title: jobTitle,
+      description: jobDescription,
+      responsibilities,
+      skills,
+      jobType,
+      industry,
+      paidroll,
+      deadline,
+      location,
+      commitmentlevel,
+    };
+
+    try {
+      const response = await postJob(newJob, token);
+      if (response?.success) {
+        setPostedJob(newJob);
+        setIsModalOpen(true);
+      } else {
+        alert("Failed to post job. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error posting job:", error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const countWords = (text: string) => text.trim().split(/\s+/).length;
+  const maxResponsibilitiesWords = 100;
+
+  if (countWords(responsibilities) > maxResponsibilitiesWords) {
+    alert("Responsibilities must be under 100 words.");
+    return;
+  }
+
   return (
     <>
       <div className="my-20">
@@ -132,7 +190,7 @@ const PostJobContent: React.FC = () => {
           <textarea
             value={responsibilities}
             rows={5}
-            onChange={(e) => setresponsibilities(e.target.value)}
+            onChange={(e) => setResponsibilities(e.target.value)}
             className="w-full mt-1 p-3 border border-gray-300 rounded-md"
             placeholder="List the main duties and tasks expected in this role. Be specific about daily and long-term responsibilities"
           />
@@ -171,7 +229,7 @@ const PostJobContent: React.FC = () => {
             <span
               className={jobType.length > 0 ? "text-black" : "text-[#A3A3A5]"}
             >
-              {jobType.length > 0 ? jobType.join(", ") : "Select Job Type"}
+              {jobType ? jobType : "Select Job Type"}
             </span>
             <IoIosArrowDown size={20} className="absolute right-3 top-4" />
           </button>
@@ -243,7 +301,7 @@ const PostJobContent: React.FC = () => {
         {/* Paid Roll Dropdown with Click-to-Toggle ---------------------------------------------------*/}
         <div className="mb-4 relative">
           <label className="block text-sm font-semibold text-[#344054] DM_sans">
-            Is This A Paid Roll? <span className="text-red-600 text-lg">*</span>
+            Is This A Paid Role? <span className="text-red-600 text-lg">*</span>
           </label>
           <button
             type="button"
@@ -327,29 +385,15 @@ const PostJobContent: React.FC = () => {
         {/* Submit Button */}
         <div className="flex">
           <button
-            onClick={() => {
-              setPostedJob({
-                id: crypto.randomUUID(), // Generate a unique ID
-                title: jobTitle,
-                description: jobDescription,
-                responsibilities,
-                skills,
-                jobType,
-                industry,
-                paidroll,
-                deadline,
-                location,
-                commitmentlevel,
-              });
-              setIsModalOpen(true);
-            }}
-            className="bg-green-600 text-white px-5 py-3 rounded-md cal_sans transition ml-auto"
+            onClick={handleSubmit}
+            className="bg-green-600 text-white px-5 py-3 rounded-md cal_sans transition ml-auto disabled:opacity-50"
+            disabled={isLoading}
           >
-            Post Job Now
+            {isLoading ? "Posting..." : "Post Job Now"}
           </button>
         </div>
 
-        {/* Render modal and pass modal state */}
+        {/* Render modal */}
         {isModalOpen && postedJob && (
           <PostModal
             isOpen={isModalOpen}

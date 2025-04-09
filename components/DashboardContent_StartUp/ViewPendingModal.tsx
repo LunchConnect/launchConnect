@@ -26,6 +26,15 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
   application,
 }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const portfolioLink = "link.example";
+  const email = "example@gmail.com";
+  const [showCopiedBanner, setShowCopiedBanner] = useState(false);
+
+    const handleCopy = (text: string) => {
+      navigator.clipboard.writeText(text);
+      setShowCopiedBanner(true);
+      setTimeout(() => setShowCopiedBanner(false), 2000); // hide after 2 seconds
+    };
 
   if (!isOpen) return null; // Don't render if the modal is not open
 
@@ -49,7 +58,7 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
                     </h1>
                     <button
                       onClick={() => setIsOpen(false)}
-                      className="ml-auto rounded-full shadow-md p-1.5 flex items-center justify-center"
+                      className="ml-auto rounded-full border border-gray-100 p-1.5 flex items-center justify-center"
                     >
                       <X className="w-5 h-5 text-black" />
                     </button>
@@ -62,9 +71,19 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Email Address</h1>{" "}
                       <div className="flex justify-between">
-                        <p>exanple@gmail.com</p>
-                        <FiCopy size={20} className="text-[#757575]" />
+                        <p>{email}</p>
+                        <FiCopy
+                          size={20}
+                          className="text-[#757575] cursor-pointer"
+                          onClick={() => handleCopy(email)}
+                        />
                       </div>
+                      {/* Copied Banner */}
+                      {showCopiedBanner && (
+                        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
+                          Link copied to clipboard!
+                        </div>
+                      )}
                     </div>
                     <div className="">
                       <h1 className="pb-4">Next Step:</h1>{" "}
@@ -94,7 +113,7 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
                     </h1>
                     <button
                       onClick={() => setIsOpen(false)}
-                      className="rounded-full shadow-md p-1.5"
+                      className="rounded-full border border-gray-100  p-1.5"
                     >
                       <X className="w-5 h-5 text-black" />
                     </button>
@@ -124,14 +143,25 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
                       </div>
 
                       <div className="border-b border-[#DEE6ED] pb-2">
-                        <h1>Portfolio</h1>{" "}
+                        <h1>Portfolio</h1>
                         <div className="flex items-center justify-between gap-2">
                           <a href="#" className="text-[#1FC16B]">
-                            link.example
-                          </a>{" "}
-                          <IoCopyOutline size={20} />
+                            {portfolioLink}
+                          </a>
+                          <IoCopyOutline
+                            size={20}
+                            className="cursor-pointer"
+                            onClick={() => handleCopy(portfolioLink)}
+                          />
                         </div>
                       </div>
+
+                      {/* Copied Banner */}
+                      {showCopiedBanner && (
+                        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
+                          Link copied to clipboard!
+                        </div>
+                      )}
 
                       <div className="border-b border-[#DEE6ED] pb-2">
                         <h1 className="pb-4">Short Motivation Text</h1>{" "}

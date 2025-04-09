@@ -265,3 +265,31 @@ export const createJobSeekerProfile = async (
     };
   }
 };
+
+
+//For Job Posting For Startup Founder ------------------------------------------
+interface JobData {
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  commitmentLevel: string;
+  deadline: string;
+  location: string;
+}
+
+export const postJob = async (jobData: JobData, token: string) => {
+  try {
+    const response = await publicRequest.post("/job/post-job", jobData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    console.error("Error posting job:", error.response?.data || error.message);
+    throw error;
+  }
+};

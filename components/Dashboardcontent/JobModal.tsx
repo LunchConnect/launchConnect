@@ -23,8 +23,8 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen, job }) => {
         className="relative z-[90]"
         onClose={() => setIsOpen(false)}
       >
-          <div className="fixed inset-0 bg-black/30 backdrop-blur-0 z-[50]" />
-          <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-0 z-[50]" />
+        <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
           <div className="flex min-h-full items-center justify-center p-2 md:p-4">
             <Dialog.Panel className="w-full max-w-lg md:max-w-lg bg-white p-6 rounded-lg shadow-lg">
               {showSuccessModal ? (
@@ -32,7 +32,7 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen, job }) => {
                 <div className="text-center">
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="ml-auto rounded-full shadow-md p-1.5 flex items-center justify-center"
+                    className="ml-auto rounded-full border border-gray-100 p-1.5 flex items-center justify-center"
                   >
                     <X className="w-5 h-5 text-black" />
                   </button>
@@ -69,7 +69,7 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen, job }) => {
                   <div className="flex flex-col-reverse md:flex-row justify-center gap-3 mt-5 cal_sans">
                     <button
                       onClick={() => {
-                        router.push(`/dashboard/ViewJobdetails/${job.id}`);
+                        router.push(`/dashboard/findjobs`);
                         scrollToTop();
                       }}
                       className="px-4 py-2 border md:w-1/2 border-gray-200 text-black rounded"
@@ -95,7 +95,7 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen, job }) => {
                     </h1>
                     <button
                       onClick={() => setIsOpen(false)}
-                      className="rounded-full shadow-md p-1.5"
+                      className="rounded-full border border-gray-100 p-1.5"
                     >
                       <X className="w-5 h-5 text-black" />
                     </button>

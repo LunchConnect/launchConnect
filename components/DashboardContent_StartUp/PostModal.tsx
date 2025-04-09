@@ -32,7 +32,7 @@ const PostModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen, job }) => {
                 <div className="text-center">
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="ml-auto rounded-full shadow-md p-1.5 flex items-center justify-center"
+                    className="ml-auto rounded-full border border-gray-100 p-1.5 flex items-center justify-center"
                   >
                     <X className="w-5 h-5 text-black" />
                   </button>

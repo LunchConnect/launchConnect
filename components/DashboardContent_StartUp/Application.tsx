@@ -1,6 +1,6 @@
 "use client"; // Required for Next.js App Router
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoDash } from "react-icons/go";
 import { SlBriefcase } from "react-icons/sl";
 import { PiClockCountdown } from "react-icons/pi";
@@ -20,6 +20,7 @@ interface Application {
   status: "Pending" | "Accepted" | "Rejected";
 }
 
+//hard coded Applications --------------- waiting for API 
 const Applications: Application[] = [
   {
     id: 1,
@@ -83,12 +84,18 @@ const Application: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedApplication, setSelectedApplication] =
     useState<Application | null>(null);
-  const [hasJobs, setHasJobs] = useState(Applications.length > 0); // Change later to real job check
+  const [applications, setApplications] = useState<Application[]>([]); // Change later to real job check
   const router = useRouter();
+
+  // Replace with API fetch later--------------------------------------------------------
+  // useEffect(() => {
+
+  //   setApplications();
+  // }, []);
 
   return (
     <div className="">
-      {!hasJobs ? (
+      {applications.length === 0 ? (
         <>
           <div className="flex flex-col md:flex-row gap-3 my-20">
             <div className="w-full bg-[#ffffff] border border-[#EDEFF2] px-5 py-5 flex justify-between items-center rounded-lg">
@@ -174,9 +181,7 @@ const Application: React.FC = () => {
                 <div className="grid grid-cols-5 bg-gray-100 text-[#4D5461] p-4 font-semibold">
                   <div className="text-left">NAME</div>
                   <div className="text-left">ROLE</div>
-                  <div className="text-left">
-                    APPLICATION DATE
-                  </div>
+                  <div className="text-left">APPLICATION DATE</div>
                   <div className="text-left">STATUS</div>
                   <div className="text-left">ACTION</div>
                 </div>
@@ -201,9 +206,7 @@ const Application: React.FC = () => {
                       </div>
 
                       {/* Role Column */}
-                      <div className="text-[#1F2937]">
-                        {app.jobRole}
-                      </div>
+                      <div className="text-[#1F2937]">{app.jobRole}</div>
 
                       {/* Application Date Column */}
                       <div className="text-[#1F2937]">

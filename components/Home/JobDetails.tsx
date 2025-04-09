@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import withHeaderAndFooter from "@/Hoc/withHeaderAndFooter";
 import { LuWallet } from "react-icons/lu";
 import { CiLocationOn } from "react-icons/ci";
@@ -89,10 +89,36 @@ interface JobDetailsProps {
 }
 
 const JobDetails: React.FC<JobDetailsProps> = () => {
+  const [showCopiedBanner, setShowCopiedBanner] = useState(false);
   const router = useRouter();
+
+   const handleCopyJobDetails = (job: any) => {
+     const jobText = `
+    Job Title: ${job.title}
+    Image URL: ${job.imageUrl || "N/A"}
+    Company: ${job.company}
+    Salary: ${job.salary}
+    Location: ${job.location}
+    Remote Location: ${job.remoteLocation}
+
+    Job Description:
+    ${job.description.join("\n")}
+
+    Key Responsibilities:
+    ${job.responsibilities.join("\n")}
+
+    Required Skills:
+    ${job.requiredSkills.join("\n")}
+    `;
+
+     navigator.clipboard.writeText(jobText);
+     setShowCopiedBanner(true);
+     setTimeout(() => setShowCopiedBanner(false), 2000);
+  };
+  
   return (
     <>
-     <section className="">
+      <section className="">
         <div className="bg-[#08230E] mini-header mini-header-p mini-header-smallscreen px-[4%] md:px-[10%] py-15 text-center text-4xl font-bold text-white pointer-events-none">
           <Image
             src="/assets/images/findjobplus2.png"
@@ -240,19 +266,19 @@ const JobDetails: React.FC<JobDetailsProps> = () => {
                 <span className="text-[#606060] font-semibold text-[20px] md:text-[19px] cal_sans">
                   Share Job:
                 </span>
-                <MdShare size={25} className=" text-black " />
-                {/* <div className="ml-4 flex space-x-3 text-black">
-                  <button className="cursor-pointer">
-                    <FaFacebook size={18} />
-                  </button>
-                  <button className="cursor-pointer">
-                    <RiTwitterXFill size={18} />
-                  </button>
-                  <button className="cursor-pointer">
-                    <FaLinkedin size={18} />
-                  </button>
-                </div> */}
+                <MdShare
+                  size={25}
+                  className=" text-black cursor-pointer"
+                  onClick={() => handleCopyJobDetails(job)}
+                />
               </div>
+
+              {/* Copied Banner */}
+              {showCopiedBanner && (
+                <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
+                  Link copied to clipboard!
+                </div>
+              )}
             </div>
           ))}
         </div>

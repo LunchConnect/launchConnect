@@ -58,8 +58,33 @@ interface JobDetailsProps {
 const ViewJobdetails: React.FC<JobDetailsProps> = () => {
   const [isDeleteJob, setIsdeleteJob] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showCopiedBanner, setShowCopiedBanner] = useState(false);
   const [postedJob, setPostedJob] = useState(null);
   const router = useRouter();
+
+  const handleCopyJobDetails = (job: any) => {
+    const jobText = `
+    Job Title: ${job.title}
+    Image URL: ${job.imageUrl || "N/A"}
+    Company: ${job.company}
+    Salary: ${job.salary}
+    Location: ${job.location}
+    Remote Location: ${job.remoteLocation}
+
+    Job Description:
+    ${job.description.join("\n")}
+
+    Key Responsibilities:
+    ${job.responsibilities.join("\n")}
+
+    Required Skills:
+    ${job.requiredSkills.join("\n")}
+    `;
+
+    navigator.clipboard.writeText(jobText);
+    setShowCopiedBanner(true);
+    setTimeout(() => setShowCopiedBanner(false), 2000);
+  };
 
   return (
     <>
@@ -180,8 +205,19 @@ const ViewJobdetails: React.FC<JobDetailsProps> = () => {
                   <span className="text-[#606060] font-semibold text-[20px] md:text-[19px] cal_sans">
                     Share Job:
                   </span>
-                  <TbCopy size={25} className=" text-black " />
+                  <TbCopy
+                    size={25}
+                    className=" text-black cursor-pointer"
+                    onClick={() => handleCopyJobDetails(job)}
+                  />
                 </div>
+
+                {/* Copied Banner */}
+                {showCopiedBanner && (
+                  <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
+                    Link copied to clipboard!
+                  </div>
+                )}
               </div>
             </div>
           ))}
