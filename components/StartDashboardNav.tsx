@@ -9,7 +9,17 @@ const StartDashboardNav = ({ onMenuClick }: { onMenuClick: () => void }) => {
   const router = useRouter()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [fullName, setFullName] = useState<string>("");
 
+
+   // Get user name from localStorage on mount
+   useEffect(() => {
+    const storedProfile = localStorage.getItem("profile");
+    if (storedProfile) {
+      const parsedProfile = JSON.parse(storedProfile);
+      setFullName(parsedProfile.fullName || "User");
+    }
+  }, []);
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,8 +50,7 @@ const StartDashboardNav = ({ onMenuClick }: { onMenuClick: () => void }) => {
 
 
       {/* Welcome Message */}
-      <h1 className="text-xl font-semibold text-gray-800">Hey, David</h1>
-
+      <h1 className="text-xl font-semibold text-gray-800">Hey, {fullName}</h1>
     {/* Profile Section */}
 <div className="relative" ref={dropdownRef}>
   <div

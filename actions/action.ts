@@ -315,3 +315,70 @@ export const createStartupFounderProfile = async (
     };
   }
 };
+
+
+
+
+// ✅ User getJobSeekerSummary API (with Authorization Token)
+export const getJobSeekerSummary = async (token: string) => {
+  try {
+    const { data } = await publicRequest.get("/job/get-job-seeker-summary", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("❌ Failed to fetch job seeker summary:", error.response?.data || error.message);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to fetch summary.",
+    };
+  }
+};
+
+
+
+
+// ✅ User startupSummary API (with Authorization Token)
+export const getStartupSummary = async (token: string) => {
+  try {
+    const { data } = await publicRequest.get("/job/get-startup-dashboard-summary", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("❌ Failed to fetch job seeker summary:", error.response?.data || error.message);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to fetch summary.",
+    };
+  }
+};
+
+
+
+
+// ✅ Fetch Jobs For You
+export const getJobsForYou = async (token: string) => {
+  try {
+    // Send a GET request to the "/job/job-for-you" endpoint
+    const { data } = await publicRequest.get("/job/job-for-you", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("✅ Jobs fetched successfully:", data);
+    return { success: true, data: data.jobs }; // Assuming the API returns a 'jobs' array
+  } catch (error: any) {
+    console.error("❌ Failed to fetch jobs:", error.response?.data || error.message);
+
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to fetch jobs. Try again.",
+    };
+  }
+};
