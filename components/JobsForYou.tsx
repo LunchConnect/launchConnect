@@ -43,7 +43,7 @@ export default function JobsForYou() {
     };
 
     fetchJobs();
-  }, [token]);
+  }, []);
 
   return (
     <Card className="lg:w-[48%]">
