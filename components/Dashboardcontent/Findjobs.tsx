@@ -180,7 +180,7 @@ const FindJobs: React.FC = () => {
               ))}
             </div>
 
-            {/* Pagination --------------------------------------------------*/}
+          
             {totalPages > 1 && (
               <>
                 <div className="mt-8 flex justify-between items-center">

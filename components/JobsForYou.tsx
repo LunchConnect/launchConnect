@@ -66,7 +66,30 @@ export default function JobsForYou() {
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
-          <p>{error}</p>
+          <div className="flex flex-col items-center justify-center text-center bg-[#FAFAFA] border border-[#EDEFF2] rounded-lg py-10">
+          <Image
+            src="/assets/images/bear.png"
+            alt="No Jobs"
+            width={124.46}
+            height={132.03}
+          />
+          <h2 className="text-2xl font-semibold text-[#101828] mt-6 cal_sans">
+            No application to Show yet
+          </h2>
+          <p className="text-[#667085] mt-2 DM_sans">
+            You haven’t applied for any job yet. <br /> Click the button below
+            to get started
+          </p>
+          <button
+            className="mt-6 bg-[#1AC23F] text-white px-8 py-2 rounded-lg transition cal_sans"
+            onClick={() => {
+              router.push("/dashboard/findjobs");
+              scrollToTop();
+            }}
+          >
+            Apply For Job
+          </button>
+        </div>
         ) : (
           jobs.map((job) => (
             <div
