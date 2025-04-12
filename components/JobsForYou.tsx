@@ -23,10 +23,11 @@ export default function JobsForYou() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
 
   useEffect(() => {
     const fetchJobs = async () => {
+      const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
+
       if (token) {
         const response = await getJobsForYou(token);
 

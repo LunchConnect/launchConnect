@@ -8,12 +8,7 @@ import { Search } from "lucide-react"; // Using Lucide React Icons
 import { getJobsForYou } from "@/actions/action"; // Make sure the correct path is 
 
 
-// const jobListings = [
-//   { id: 1, title: "Social Media Assistant", company: "Nomad", location: "Paris, France", type: "Volunteer", logo: "/icons/nomad.png" },
-//   { id: 2, title: "Brand Designer", company: "Dropbox", location: "San Francisco, USA", type: "Internship", logo: "/icons/dropbox.png" },
-//   { id: 3, title: "Interactive Developer", company: "Terraform", location: "Hamburg, Germany", type: "Entry-Level Role", logo: "/icons/terraform.png" },
-//   { id: 4, title: "Software Engineer", company: "Google", location: "Remote", type: "Full-Time", logo: "/icons/google.png" },
-// ];
+
 
 export default function FindJobsPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,11 +18,13 @@ export default function FindJobsPage() {
   const [error, setError] = useState(null); // No TypeScript type here
 
   const router = useRouter();
-  const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
 
 
   useEffect(() => {
     const fetchJobs = async () => {
+      const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
+
+
       if (token) {
         const response = await getJobsForYou(token);
 

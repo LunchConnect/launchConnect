@@ -9,9 +9,10 @@ const JobApplicationsCard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+
 
     const fetchData = async () => {
+      const token = localStorage.getItem("token");
       if (!token) return;
 
       const res = await getJobSeekerSummary(token);
