@@ -432,3 +432,44 @@ export const createJobSeekerProfileManagement = async (
     };
   }
 };
+
+
+
+
+
+// ✅ User Start up update  API (with Authorization Token)
+export const updateStartupFounderProfile = async (
+  fullName: string,
+  companyName: string,
+  industry: string,
+  website: string,
+  roleInCompany:string,
+  companyLogo: File,
+  token: string
+) => {
+  try {
+    console.log("🔄 Submitting start up profile...");
+    const { data } = await publicRequest.patch("/profile//update-profile-startupfounders", {
+      fullName,
+      companyName,
+      industry,
+      website,
+      companyLogo,
+      roleInCompany,
+      token
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("Error updating founder profile:", error.response?.data || error.message);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to update founder profile.",
+    };
+  }
+};
+

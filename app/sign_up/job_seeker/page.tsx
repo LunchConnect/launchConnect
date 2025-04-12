@@ -56,6 +56,8 @@ const [isLoading, setIsLoading] = React.useState(false);
     },
     multiple: false, // optional: only allow 1 file
   });
+
+  
   const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const words = e.target.value.split(/\s+/).filter((word) => word.length > 0);
     if (words.length <= maxWords) {

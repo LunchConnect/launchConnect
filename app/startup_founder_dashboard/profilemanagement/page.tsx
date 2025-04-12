@@ -1,56 +1,88 @@
 "use client";
 
-import { useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UploadCloud, Trash2 } from "lucide-react";
 import { TiPlus } from "react-icons/ti";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { useDropzone } from "react-dropzone";
+import { updateStartupFounderProfile } from "@/actions/action";
+import AlertModal from "@/components/AlertModal";
+
 const ProfileManagement = () => {
   const [activeTab, setActiveTab] = useState<"profile" | "security">("profile");
 
-  type FormData = {
-    firstName: string;
-    role: string;
-    email: string;
-    bio: string;
-    skills: string[];
-    portfolio: string;
-    links: string;
-  };
+  const [fullName, setFullName] = React.useState("");
+const [companyName, setCompanyName] = React.useState("");
+const [industry, setIndustry] = React.useState("");
+const [website, setWebsite] = React.useState("");
+const [roleInCompany, setroleInCompany] = React.useState("");
+const [isLoading, setIsLoading] = React.useState(false);
+ const [Email, setEmail] = useState("");
+const [companyLogo, setcompanyLogo] = useState<File | null>(null);
+const [aboutCompany, setaboutCompany] = useState("");
+  // Modal State
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [modalType, setModalType] = React.useState<"success" | "error">("success");
+ const [modalMessage, setModalMessage] = React.useState("");
 
-  const { register, handleSubmit, setValue, watch } = useForm<FormData>({
-    defaultValues: {
-      firstName: "Ikenna Okafor",
-      email: "kenawilson99@gmail.com",
-      role: "Co Founder",
-      skills: [],
-      portfolio: "",
-      links: "",
-    },
-  });
 
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [file, setFile] = useState<File | null>(null);
-  const [skills, setSkills] = useState<string[]>([]);
- const [bio, setBio] = useState("");
-    const maxWords = 200;
 
-      const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-          const words = e.target.value.split(/\s+/).filter((word) => word.length > 0);
-          if (words.length <= maxWords) {
-            setBio(e.target.value);
-          }
-        };
-    
-  
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-      setUploadProgress(40);
-      setTimeout(() => setUploadProgress(100), 1500);
+  // Handle file drop
+  const onDrop = (acceptedFiles: File[]) => {
+    if (acceptedFiles.length > 0) {
+      const file = acceptedFiles[0];
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size exceeds 5MB limit.");
+        return;
+      }
+      setcompanyLogo(file);
     }
   };
+
+
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: {
+      "image/png": [".png"],
+      "image/jpeg": [".jpg", ".jpeg"],
+    },
+    multiple: false, // only allow one file
+  });
+  
+
+
+   // Get user name from localStorage on mount
+   useEffect(() => {
+    const storedProfile = localStorage.getItem("profile");
+    const storedUser = localStorage.getItem("user");
+    if (storedProfile || storedUser) {
+      const parsedProfile = storedProfile ? JSON.parse(storedProfile) : null;
+      const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+      setFullName(parsedProfile.fullName || "User");
+      setroleInCompany(parsedProfile.roleInCompany)
+      setEmail(parsedUser.email)
+    }
+  }, []);
+
+
+      // const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      //     const words = e.target.value.split(/\s+/).filter((word) => word.length > 0);
+      //     if (words.length <= maxWords) {
+      //       setBio(e.target.value);
+      //     }
+      //   };
+    
+  
+  // const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files && e.target.files[0]) {
+  //     setFile(e.target.files[0]);
+  //     setUploadProgress(40);
+  //     setTimeout(() => setUploadProgress(100), 1500);
+  //   }
+  // };
 
 
 
@@ -72,23 +104,50 @@ const ProfileManagement = () => {
     }));
   };
 
-  const handleSkillAdd = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && skills.length < 5) {
-      e.preventDefault();
-      const newSkill = e.currentTarget.value.trim();
-      if (newSkill && !skills.includes(newSkill)) {
-        const updatedSkills = [...skills, newSkill];
-        setSkills(updatedSkills);
-        setValue("skills", updatedSkills);
-        e.currentTarget.value = "";
-      }
-    }
-  };
 
-  const handleRemoveSkill = (skill: string) => {
-    const updatedSkills = skills.filter((s) => s !== skill);
-    setSkills(updatedSkills);
-    setValue("skills", updatedSkills);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true); // ✅ Start loading
+  
+    const token = localStorage.getItem("token");
+  
+    if (!token) {
+      alert("Authentication token not found. Please log in again.");
+      setIsLoading(false);
+      return;
+    }
+  
+    if (!fullName || !companyName || !industry || !website || !roleInCompany || !companyLogo) {
+      alert("Please fill in all the required fields.");
+      setIsLoading(false);
+      return;
+    }
+  
+ 
+  
+    const result = await updateStartupFounderProfile(
+      fullName,
+      companyName,
+      industry,
+      website,
+      roleInCompany,
+      companyLogo,
+      token
+    );
+  
+    if (result.success) {
+      setModalType("success");
+      setModalMessage("You have successfully created a startup.");
+      setModalOpen(true);
+      console.log("Profile created successfully:", result);
+    } else {
+      setModalType("error");
+      setModalMessage(result.message || "Error creating profile.");
+      setModalOpen(true);
+      console.error("Error creating profile:", result);
+    }
+  
+    setIsLoading(false); // ✅ Stop loading
   };
 
   return (
@@ -124,7 +183,7 @@ const ProfileManagement = () => {
      
         {activeTab === "profile" && (
           <div className="">
-          <form className="space-y-6 rounded-lg border-2 p-4 mt-6">
+          <form className="space-y-6 rounded-lg border-2 p-4 mt-6" onSubmit={handleSubmit}>
             {/* Personal Info */}
             <div>
             <h2 className="text-[16px] font-semibold text-gray-800">Personal Information</h2>
@@ -141,9 +200,9 @@ const ProfileManagement = () => {
                 <div className="grid lg:grid-cols-3 items-center gap-4 border-b-2 pb-3 border-[#ECF1ED]">
                   <label className="text-gray-700 font-medium">First Name</label>
                   <input
-              placeholder='Ikenna'
+                    placeholder={fullName}
                     className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
-                    disabled
+                    onChange={(e) => setFullName(e.target.value)}
                   />
                 </div>
 
@@ -152,7 +211,7 @@ const ProfileManagement = () => {
                 <div className="grid lg:grid-cols-3 items-center gap-4 border-b-2 pb-3 border-[#ECF1ED]">
                   <label className="text-gray-700 font-medium">Email</label>
                   <input
-            placeholder='kenawilson99@gmail.com'
+             placeholder={Email}
                     className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
                     disabled
                   />
@@ -162,16 +221,16 @@ const ProfileManagement = () => {
                   <div className="grid lg:grid-cols-3 items-center gap-4">
                   <label className="text-gray-700 font-medium">Role In Startup</label>
                   <input
-                     placeholder='Co Founder'
+                        placeholder={roleInCompany}
                     className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
-                    disabled
+                    onChange={(e) => setroleInCompany(e.target.value)}
                   />
                 </div>
 
               </div>
             </div>
 
-            {/* Resume & Skills */}
+            {/* LOGO */}
             <div>
             <h2 className="text-lg font-semibold text-gray-800">Company Information</h2>
             <p className="text-[14px] text-gray-500">
@@ -189,7 +248,8 @@ const ProfileManagement = () => {
                 type="text"
                 placeholder="TechForge"
                 className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[100px]"
-                onKeyDown={handleSkillAdd}
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
               />
                </div>
                 <div className="grid lg:grid-cols-3 gap-4 border-b-2 pb-3 border-[#ECF1ED]">
@@ -197,33 +257,43 @@ const ProfileManagement = () => {
                   Company logo
                   </label>
 
-                  <div className="col-span-2">
+                  <div  {...getRootProps()} className="col-span-2">
                     <label
                       htmlFor="resumeUpload"
                       className="flex flex-col items-center justify-center gap-5 h-[200px] p-4 border border-dashed rounded cursor-pointer bg-[#E6FFEB]"
                     >
                       <UploadCloud className="w-6 h-6 text-gray-500" />
-                      <span className="text-sm text-center text-gray-500">
-                      Browse and chose the files you want to upload from your computer <br/>(JPG, PNG, Max 5MB)
-                      </span>
-                      <input type="file" id="resumeUpload" className="hidden" onChange={handleFileUpload} />
+
+
+                      {companyLogo ? (
+                <p className="text-green-600 text-lg">
+                {companyLogo.name} ({(companyLogo.size / 1024 / 1024).toFixed(2)} MB)
+              </p>
+              ) : (
+                <span className="text-sm text-center text-gray-500">
+                Browse and chose the files you want to upload from your computer <br/>(JPG, PNG, Max 5MB)
+                </span>
+              )}
+
+
+
+
+
+
+
+
+
+                      <input  {...getInputProps()}/>
+
                       <TiPlus size={40} className="text-white bg-green-500 p-2 rounded-lg" />
                     </label>
 
-                    {/* Upload Progress Bar */}
-                    {file && (
-                      <div className="mt-3 p-2 border h-11 rounded bg-gray-100 flex justify-between items-center">
-                        <span className="text-sm">{file.name} - {uploadProgress}%</span>
-                        <div className="w-24 bg-gray-200 h-1 rounded">
-                          <div className="bg-green-500 h-1 rounded" style={{ width: `${uploadProgress}%` }}></div>
-                        </div>
-                      </div>
-                    )}
+                  
                   </div>
                 </div>
           
 
-              {/* Skills Input */}
+               {/* Industry */}
 
               <div className="grid lg:grid-cols-3 lg:gap-4 items-center border-b-2 pb-3 border-[#ECF1ED mb-5"> 
                  <h3 className="text-[16px] font-semibold text-[#3B4D3F]">Industry</h3>
@@ -231,6 +301,8 @@ const ProfileManagement = () => {
                 type="text"
                 placeholder="AI-Powered SaaS"
                 className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[100px]"
+                value={industry}
+              onChange={(e) => setIndustry(e.target.value)}
               />
               </div>
              
@@ -241,7 +313,8 @@ const ProfileManagement = () => {
                           placeholder='TechForge Solutions is an AI-driven platform that helps businesses automate customer interactions and optimize workflows. Our mission is to make AI accessible to all businesses, regardless of size.'
                       
                     className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[100px]"
-                    disabled
+                    value={aboutCompany}
+                    onChange={(e) => setaboutCompany(e.target.value)}
                   />
               </div>
 
@@ -253,7 +326,8 @@ const ProfileManagement = () => {
       <span className="px-3 border-r-2 bg-white text-gray-600">https://</span>
       <input 
   
-      
+  value={website}
+  onChange={(e) => setWebsite(e.target.value)}
         className="flex-1 p-2 focus:outline-none bg-white " 
       />
     </div>
@@ -266,13 +340,41 @@ const ProfileManagement = () => {
 
 
 
-          
+             {/* Submit Button */}
+             <div className="flex justify-end mb-6 mt-6">
+              <button type="submit" className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"   disabled={isLoading}
+            aria-busy={isLoading} >
+                 {isLoading ? (
+    <span className="flex items-center justify-center gap-2">
+      <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+      </svg>
+      Updating...
+    </span>
+  ) : (
+    "Update"
+  )}</button>
+            </div>
+
           
           </form>
-            {/* Submit Button */}
-            <div className="flex justify-end mb-6 mt-6">
-              <button className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition">Update</button>
-            </div>
+         
+
+
+             {/* ✅ Success & Error Modal */}
+                          <AlertModal
+                    open={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    onAction={() => {
+                      setModalOpen(false);
+                      
+                    }}
+                    type={modalType}
+                    title={modalType === "success" ? "Account Updated Successful" : "Submission Failed"}
+                    description={modalMessage}
+                    buttonText={modalType === "success" ? "OK" : "Retry"}
+                  />
           </div>
 
      
