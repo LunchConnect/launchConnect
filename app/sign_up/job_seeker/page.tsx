@@ -75,6 +75,7 @@ const [isLoading, setIsLoading] = React.useState(false);
     setSkills(skills.filter((skill) => skill !== skillToRemove));
   };
 
+
   const handleAddInterest = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && inputValue.trim() && interests.length < maxInterests) {
       e.preventDefault();
@@ -189,6 +190,7 @@ const [isLoading, setIsLoading] = React.useState(false);
               className="bg-[#F7F7F8] border border-[#E9EAEB] border-solid p-8 text-center rounded-md cursor-pointer relative flex flex-col items-center justify-center gap-4"
             >
               <input {...getInputProps()} />
+              
               {resume ? (
                 <p className="text-green-600 text-lg">
                 {resume.name} ({(resume.size / 1024 / 1024).toFixed(2)} MB)

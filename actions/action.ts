@@ -382,3 +382,53 @@ export const getJobsForYou = async (token: string) => {
     };
   }
 };
+
+
+
+
+
+
+// ✅ User Job seeker form Role API (with Authorization Token)
+export const createJobSeekerProfileManagement = async (
+  fullName: string,
+  bio: string,
+  skills: string[],
+  interests: string[],
+  resume: File,
+  token: string
+) => {
+  try {
+    console.log("🔄 Submitting job seeker profile...");
+
+    const formData = new FormData();
+    formData.append("fullName", fullName);
+    formData.append("shortBio", bio);
+    formData.append("resume", resume);
+
+     // Important: use the same key `skills[]` for each item
+     skills.forEach((skill) => formData.append("skills[]", skill));
+
+     interests.forEach((interest) => formData.append("interests[]", interest));
+ 
+    // Log formData entries to the console
+    formData.forEach((value, key) => {
+      console.log(`${key}:`, value); // Logs each field and its value
+    });
+
+    const { data } = await publicRequest.patch("/profile/update-profile-jobseeker", formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("✅ Profile updated successfully:", data);
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("❌ Profile updated error:", error.response?.data || error.message);
+
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to updated profile. Try again.",
+    };
+  }
+};
