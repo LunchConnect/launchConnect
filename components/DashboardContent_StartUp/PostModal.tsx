@@ -8,8 +8,20 @@ import { scrollToTop } from "@/lib/utils";
 interface JobModalProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  job: { id: string };
+  job: {
+    title: string;
+    description: string;
+    responsibilities: string;
+    skillsRequired: string;
+    jobType: string;
+    industry: string;
+    paidRole: string;
+    deadline: string;
+    location: string;
+    commitmenLevel: string;
+  };
 }
+
 
 const PostModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen, job }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(true);
