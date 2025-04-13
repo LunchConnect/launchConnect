@@ -31,16 +31,35 @@ const handleLogin = async () => {
   setLoading(false);
 
   if (response.success) {
+    const userData = response.data;
+    const { token, user, profile } = userData;
+    const role = user?.role;
+
+    // ✅ Store all relevant data in localStorage
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("profile", JSON.stringify(profile));
+    localStorage.setItem("fullData", JSON.stringify(userData)); // All in one, just in case
+    localStorage.setItem("fullName", profile.fullName); // for easy access later
+
+    // ✅ Modal feedback
     setModalType("success");
     setModalMessage("Welcome back! You’ve logged in successfully.");
-    localStorage.setItem("user", JSON.stringify(response.data)); // ✅ Store user data
-    setTimeout(() => router.push("/dashboard"), 2000); // ✅ Redirect after success
+    setModalOpen(true);
+
+    // ✅ Conditional redirect
+    setTimeout(() => {
+      if (role === "job_seeker") {
+        router.push("/dashboard");
+      } else {
+        router.push("/startup_founder_dashboard");
+      }
+    }, 2000);
   } else {
     setModalType("error");
     setModalMessage(response.message || "Login failed. Check your credentials and try again.");
+    setModalOpen(true);
   }
-
-  setModalOpen(true);
 };
 
   return (

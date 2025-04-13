@@ -10,8 +10,9 @@ export default function Page() {
         <JobDashboard />
       </div>
 
-      {/* Bottom Section: Jobs For You & Trends */}
-      <div className="flex flex-col gap-4 lg:flex-row lg:justify-between min-h-[300px]">
+
+       {/* Bottom Section: Jobs For You & Trends */}
+       <div className="flex flex-col gap-4 lg:flex-row lg:justify-between min-h-[300px]">
         <div className="w-full lg:w-1/2 h-full">
           <ActiveJobPosting />
         </div>

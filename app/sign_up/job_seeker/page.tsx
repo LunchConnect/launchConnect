@@ -6,7 +6,8 @@ import { GrLinkedin } from "react-icons/gr";
 import { TiPlus } from "react-icons/ti";
 import Select, { MultiValue } from "react-select";
 import { createJobSeekerProfile } from "@/actions/action";  // Assuming createJobSeekerProfile is imported
-
+import AlertModal from "@/components/AlertModal";
+import { useRouter } from "next/navigation"; // ✅ To 
 // Define types for options
 interface Option {
   value: string;
@@ -15,8 +16,7 @@ interface Option {
 
 const JobSeeker = () => {
   const [resume, setResume] = useState<File | null>(null);
-  const [selectedSkills, setSelectedSkills] = useState<Option[]>([]);
-  const [selectedInterests, setSelectedInterests] = useState<Option[]>([]);
+
   const [skills, setSkills] = useState<string[]>([]);  // Handling skills as an array of strings
   const [interests, setInterests] = useState<string[]>([]);  // Handling interests as an array of strings
   const [bio, setBio] = useState("");
@@ -24,14 +24,28 @@ const JobSeeker = () => {
   const [inputValue, setInputValue] = useState("");
   const [skillInputValue, setSkillInputValue] = useState("");
 
+  // Modal State
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [modalType, setModalType] = React.useState<"success" | "error">("success");
+ const [modalMessage, setModalMessage] = React.useState("");
+const [isLoading, setIsLoading] = React.useState(false);
+
+  const router = useRouter(); // ✅ Router for redirection
+
+
   const maxWords = 200;
   const maxSkills = 5;
   const maxInterests = 3;
 
-  // Handle file drop for resume
+  // Handle file drop
   const onDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
-      setResume(acceptedFiles[0]);
+      const file = acceptedFiles[0];
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size exceeds 5MB limit.");
+        return;
+      }
+      setResume(file);
     }
   };
 
@@ -39,10 +53,11 @@ const JobSeeker = () => {
     onDrop,
     accept: {
       "application/pdf": [".pdf"],
-      "application/msword": [".doc", ".docx"],
     },
+    multiple: false, // optional: only allow 1 file
   });
 
+  
   const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const words = e.target.value.split(/\s+/).filter((word) => word.length > 0);
     if (words.length <= maxWords) {
@@ -62,6 +77,7 @@ const JobSeeker = () => {
     setSkills(skills.filter((skill) => skill !== skillToRemove));
   };
 
+
   const handleAddInterest = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && inputValue.trim() && interests.length < maxInterests) {
       e.preventDefault();
@@ -76,25 +92,27 @@ const JobSeeker = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsLoading(true); // ✅ Start loading
     const token = localStorage.getItem("token");
 
     if (!token) {
       alert("Authentication token not found. Please log in again.");
+      setIsLoading(false);
       return;
     }
 
   // Hardcoded role
-  const role = "Job_Seeker"; // or any role you want to hardcode
+  const role = "job_seeker"; // or any role you want to hardcode
 
 
 
 
   // Validate fields
-  if (!fullName || !bio || skills.length === 0 || interests.length === 0 || !resume) {
+  if (!fullName || !bio || skills.length === 0 || interests.length === 0 || !resume)   {
     console.error("All fields must be filled out. Please check your input.");
     // Optionally, show a message to the user about the missing fields
     alert("Please fill out all required fields (Full Name, Bio, Skills, Interests, and Resume).");
+    setIsLoading(false);
     return; // Prevent form submission if any field is empty
   }
 
@@ -110,12 +128,25 @@ const JobSeeker = () => {
     );
 
     if (success) {
+      setModalType("success");
+      setModalMessage("You have successfully created a startup.");
+      setModalOpen(true);
       console.log("Profile created successfully:", data);
+      setFullName("");
+      setBio("");
+      setResume(null);
+      setSkills([]);
+      setInterests([]);
+      setTimeout(() => router.push("/sign_in"), 2000);
       // Redirect or show success message
     } else {
+      setModalType("error");
+      setModalMessage(message || "Error creating profile.");
+      setModalOpen(true);
       console.error("Error creating profile:", message);
       // Show error message
     }
+    setIsLoading(false); // ✅ Stop loading
   };
 
   return (
@@ -161,8 +192,11 @@ const JobSeeker = () => {
               className="bg-[#F7F7F8] border border-[#E9EAEB] border-solid p-8 text-center rounded-md cursor-pointer relative flex flex-col items-center justify-center gap-4"
             >
               <input {...getInputProps()} />
+              
               {resume ? (
-                <p className="text-green-600 text-lg">{resume.name}</p>
+                <p className="text-green-600 text-lg">
+                {resume.name} ({(resume.size / 1024 / 1024).toFixed(2)} MB)
+              </p>
               ) : (
                 <p className="text-[#DFE0E2] text-lg">
                   Choose a file Or Drag and drop <br />PDF Formats up to 5 MB
@@ -244,11 +278,38 @@ const JobSeeker = () => {
           <button
             type="submit"
             className="w-full bg-[#1AC23F] text-white p-4 rounded-md text-[16px] font-semibold"
+            disabled={isLoading}
+            aria-busy={isLoading}
           >
-            Save & Continue
+            {isLoading ? (
+    <span className="flex items-center justify-center gap-2">
+      <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+      </svg>
+      Saving...
+    </span>
+  ) : (
+    "Save & Continue"
+  )}
           </button>
         </form>
       </div>
+        {/* ✅ Success & Error Modal */}
+              <AlertModal 
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onAction={() => {
+          setModalOpen(false);
+          if (modalType === "success") {
+            router.push("/sign_in");
+          }
+        }}
+        type={modalType}
+        title={modalType === "success" ? "Account Creation Successful" : "Submission Failed"}
+        description={modalMessage}
+        buttonText={modalType === "success" ? "Proceed to Sign In" : "Retry"}
+      />
     </div>
   );
 };

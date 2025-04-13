@@ -220,12 +220,18 @@ export const updateUserRole = async (role: "founder" | "job_seeker", token: stri
   }
 };
 
+
+
+
+
+
+// ✅ User Job seeker form Role API (with Authorization Token)
 export const createJobSeekerProfile = async (
   fullName: string,
   bio: string,
   skills: string[],
   interests: string[],
-  resume: File | null,
+  resume: File,
   role: string,
   token: string
 ) => {
@@ -234,14 +240,14 @@ export const createJobSeekerProfile = async (
 
     const formData = new FormData();
     formData.append("fullName", fullName);
-    formData.append("shortbio", bio);
-    formData.append("skills", JSON.stringify(skills));  // Assuming backend expects a stringified array
-    formData.append("interests", JSON.stringify(interests));  // Assuming backend expects a stringified array
-    if (resume) {
-      formData.append("resume", resume);
-    }
+    formData.append("shortBio", bio);
+    formData.append("resume", resume);
     formData.append("role", role);
 
+     // Important: use the same key `skills[]` for each item
+     skills.forEach((skill) => formData.append("skills[]", skill));
+     interests.forEach((interest) => formData.append("interests[]", interest));
+ 
     // Log formData entries to the console
     formData.forEach((value, key) => {
       console.log(`${key}:`, value); // Logs each field and its value
@@ -249,7 +255,6 @@ export const createJobSeekerProfile = async (
 
     const { data } = await publicRequest.post("/profile/setup-profile", formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -410,6 +415,41 @@ export const getAllJobApplication = async (
     );
     throw error;
   }
+}
+    
+// ✅ User Start up form Role API (with Authorization Token)
+export const createStartupFounderProfile = async (
+  fullName: string,
+  companyName: string,
+  industry: string,
+  website: string,
+  roleInCompany:string,
+  role: string,
+  token: string
+) => {
+  try {
+    console.log("🔄 Submitting start up profile...");
+    const { data } = await publicRequest.post("/profile/setup-profile", {
+      fullName,
+      companyName,
+      industry,
+      website,
+      roleInCompany,
+      role,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("Error submitting founder profile:", error.response?.data || error.message);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to submit founder profile.",
+    };
+  }
 };
 
 
@@ -508,49 +548,114 @@ export interface ApplyJobResponse {
 }
 
 // action.ts
-export const applyForJob = async (
-  token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwZjUwNWIzLTI4ODMtNGJlNS04OTgyLTRhZjYzMjhmYmU1YSIsImVtYWlsIjoiY2hhbWJlcmV6aWdibzFAZ21haWwuY29tIiwiaWF0IjoxNzQ0MTU5OTQ4LCJleHAiOjE3NDQ3NjQ3NDh9.e3ZkwLYlxwTtK0e-tdcMmk9WOdCtJYVv5hHKRoc8knA",
-  jobId: string = "24710c28-72bf-4099-ad25-fc93a4851aeb", // hardcoded valid jobId
-  applicationData?: {
-    coverLetter?: string;
-    resumeUrl?: string;
-  }
-): Promise<ApplyJobResponse> => {
-  try {
-    const response = await publicRequest.post(
-      `/job/apply/${jobId}`,
-      applicationData || {}, // Send optional fields (e.g., coverLetter, resumeUrl)
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  export const applyForJob = async (
+    token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwZjUwNWIzLTI4ODMtNGJlNS04OTgyLTRhZjYzMjhmYmU1YSIsImVtYWlsIjoiY2hhbWJlcmV6aWdibzFAZ21haWwuY29tIiwiaWF0IjoxNzQ0MTU5OTQ4LCJleHAiOjE3NDQ3NjQ3NDh9.e3ZkwLYlxwTtK0e-tdcMmk9WOdCtJYVv5hHKRoc8knA",
+    jobId: string = "24710c28-72bf-4099-ad25-fc93a4851aeb", // hardcoded valid jobId
+    applicationData?: {
+      coverLetter?: string;
+      resumeUrl?: string;
+    }
+  ): Promise<ApplyJobResponse> => {
+    try {
+      const response = await publicRequest.post(
+        `/job/apply/${jobId}`,
+        applicationData || {}, // Send optional fields (e.g., coverLetter, resumeUrl)
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    // Match the actual API response structure (from your earlier example)
-    const { application } = response.data;
-    return {
-      success: true,
-      message: response.data.message || "Application submitted successfully",
-      applicationId: application.id, // Explicitly map to avoid confusion
-      application, // Optional: Forward full details
+      // Match the actual API response structure (from your earlier example)
+      const { application } = response.data;
+      return {
+        success: true,
+        message: response.data.message || "Application submitted successfully",
+        applicationId: application.id, // Explicitly map to avoid confusion
+        application, // Optional: Forward full details
+      };
+    } catch (error: any) {
+      // Handle Axios errors (4xx/5xx) or network errors
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to submit application";
+
+      console.error("Job application failed:", {
+        status: error.response?.status,
+        data: error.response?.data,
+        error: errorMessage,
+      });
+
+      return {
+        success: false,
+        message: errorMessage,
+      };
     };
-  } catch (error: any) {
-    // Handle Axios errors (4xx/5xx) or network errors
-    const errorMessage =
-      error.response?.data?.message ||
-      error.message ||
-      "Failed to submit application";
+  };
 
-    console.error("Job application failed:", {
-      status: error.response?.status,
-      data: error.response?.data,
-      error: errorMessage,
+
+// ✅ User getJobSeekerSummary API (with Authorization Token)
+export const getJobSeekerSummary = async (token: string) => {
+  try {
+    const { data } = await publicRequest.get("/job/get-job-seeker-summary", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("❌ Failed to fetch job seeker summary:", error.response?.data || error.message);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to fetch summary.",
+    };
+  }
+};
+
+
+
+
+// ✅ User startupSummary API (with Authorization Token)
+export const getStartupSummary = async (token: string) => {
+  try {
+    const { data } = await publicRequest.get("/job/get-startup-dashboard-summary", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("❌ Failed to fetch job seeker summary:", error.response?.data || error.message);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to fetch summary.",
+    };
+  }
+};
+
+
+
+
+// ✅ Fetch Jobs For You
+export const getJobsForYou = async (token: string) => {
+  try {
+    // Send a GET request to the "/job/job-for-you" endpoint
+    const { data } = await publicRequest.get("/job/job-for-you", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("✅ Jobs fetched successfully:", data);
+    return { success: true, data: data.jobs }; // Assuming the API returns a 'jobs' array
+  } catch (error: any) {
+    console.error("❌ Failed to fetch jobs:", error.response?.data || error.message);
 
     return {
       success: false,
-      message: errorMessage,
+      message: error.response?.data?.message || "Failed to fetch jobs. Try again.",
     };
   }
 };
@@ -596,3 +701,92 @@ export const updateJobStatus = async (
     };
   }
 };
+
+
+
+
+
+// ✅ User Job seeker form Role API (with Authorization Token)
+export const createJobSeekerProfileManagement = async (
+  fullName: string,
+  bio: string,
+  skills: string[],
+  interests: string[],
+  resume: File,
+  token: string
+) => {
+  try {
+    console.log("🔄 Submitting job seeker profile...");
+
+    const formData = new FormData();
+    formData.append("fullName", fullName);
+    formData.append("shortBio", bio);
+    formData.append("resume", resume);
+
+     // Important: use the same key `skills[]` for each item
+     skills.forEach((skill) => formData.append("skills[]", skill));
+
+     interests.forEach((interest) => formData.append("interests[]", interest));
+ 
+    // Log formData entries to the console
+    formData.forEach((value, key) => {
+      console.log(`${key}:`, value); // Logs each field and its value
+    });
+
+    const { data } = await publicRequest.patch("/profile/update-profile-jobseeker", formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("✅ Profile updated successfully:", data);
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("❌ Profile updated error:", error.response?.data || error.message);
+
+    return {
+      success: false,
+      message: error.response?.data?.message || "Failed to updated profile. Try again.",
+    };
+  }
+};
+
+
+
+
+
+// ✅ User Start up update  API (with Authorization Token)
+  export const updateStartupFounderProfile = async (
+    fullName: string,
+    companyName: string,
+    industry: string,
+    website: string,
+    roleInCompany: string,
+    companyLogo: File,
+    token: string
+  ) => {
+    try {
+      console.log("🔄 Submitting start up profile...");
+      const { data } = await publicRequest.patch("/profile//update-profile-startupfounders", {
+        fullName,
+        companyName,
+        industry,
+        website,
+        companyLogo,
+        roleInCompany,
+        token
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return { success: true, data };
+    } catch (error: any) {
+      console.error("Error updating founder profile:", error.response?.data || error.message);
+      return {
+        success: false,
+        message: error.response?.data?.message || "Failed to update founder profile.",
+      };
+    }
+  };

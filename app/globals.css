@@ -610,6 +610,11 @@ body {
 }
 
 
+.my-10 {
+  margin-top: 5rem;  /* Same as Tailwind's mt-10 */
+  margin-bottom: 2rem; /* Same as Tailwind's mb-10 */
+}
+
 /*Text font for last used on*/
 .text-size {
   font-size: 55%;
