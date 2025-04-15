@@ -26,16 +26,16 @@ function SignIn() {
 
 
 
- useEffect(() => {
+//  useEffect(() => {
 
-  const token = localStorage.getItem("token");
+//   const token = localStorage.getItem("token");
 
-  if (token) {
-    router.back()
-  }
+//   if (token) {
+//     router.back()
+//   }
 
 
-  }, [router]);
+//   }, [router]);
 
 
 
