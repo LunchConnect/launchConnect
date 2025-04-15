@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 export default function Loading() {
   return (

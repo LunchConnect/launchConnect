@@ -2,9 +2,10 @@
 import { useSearchParams, useRouter } from "next/navigation"; // ✅ Import Next.js utilities
 import React, { useState, useRef, ChangeEvent, KeyboardEvent, useEffect } from "react"
 
-import { verifyEmail } from "@/actions/action"; // ✅ Import OTP verification function
+import AlertModal from "@/components/AlertModal";
+import { verifyEmail,resendOtp } from "@/actions/action"; // ✅ Import OTP verification function
 
-import { resendOtp } from "@/actions/action"; // ✅ Import Resend OTP function
+
 function ConfirmEmailPage() {
   const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
   const [message, setMessage] = useState("");
@@ -21,6 +22,11 @@ function ConfirmEmailPage() {
   const email = searchParams.get("email") || localStorage.getItem("user_email") || ""; // ✅ Retrieve email
 
 
+  // Modal State
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalType, setModalType] = useState<"success" | "error">("success");
+    const [modalMessage, setModalMessage] = useState("");
+  
 
 
 
@@ -63,7 +69,10 @@ function ConfirmEmailPage() {
     const enteredOtp = otp.join("");
     
     if (enteredOtp.length < 4) {
-      setMessage("Please enter the full 4-digit code.");
+      setModalType("error");
+      setModalMessage("Please enter the full 4-digit code.");
+      setModalOpen(true);
+      // setMessage("Please enter the full 4-digit code.");
       return;
     }
   
@@ -72,17 +81,27 @@ function ConfirmEmailPage() {
     const response = await verifyEmail(email, enteredOtp);
   
     if (response.success) {
-      setMessage("✅ Verification successful! Redirecting...");
+      setModalType("success");
+      setModalMessage("✅ Verification successful! Redirecting...");
+      setModalOpen(true);
+
+      // setMessage("✅ Verification successful! Redirecting...");
       setTimeout(() => router.push("/sign_up/welcome"), 2000); // Redirect to dashboard
     } else {
-      setMessage(`${response.message}`); // Show API error message
+      setModalType("error");
+      setModalMessage(response.message );
+      setModalOpen(true);
+      // setMessage(`${response.message}`); 
     }
   };
 
 
   const handleResendOtp = async () => {
     if (!email) {
-      setMessage("Email is required to resend OTP.");
+      setModalType("error");
+      setModalMessage("Email is required to resend OTP." );
+      setModalOpen(true);
+      // setMessage("Email is required to resend OTP.");
       return;
     }
   
@@ -92,7 +111,24 @@ function ConfirmEmailPage() {
   
     const response = await resendOtp(email);
   
-    setMessage(response.message);
+
+    if (response.success) {
+      setModalType("success");
+      setModalMessage(response.message);
+      setModalOpen(true);
+
+      // setMessage("✅ Verification successful! Redirecting...");
+      setTimeout(() => router.push("/sign_up/welcome"), 2000); // Redirect to dashboard
+    } else {
+      setModalType("error");
+      setModalMessage(response.message );
+      setModalOpen(true);
+      // setMessage(`${response.message}`); 
+    }
+
+
+
+    // setMessage(response.message);
   };
 
   return (
@@ -149,7 +185,16 @@ function ConfirmEmailPage() {
     Create Account
   </button>
 </div>
-    
+    {/* ✅ Success & Error Modal */}
+    <AlertModal 
+              open={modalOpen}
+              onClose={() => setModalOpen(false)}
+              onAction={() => setModalOpen(false)}
+              type={modalType}
+              title={modalType === "success" ? "Email Confirmation Successful" : "Email Confirmation Failed"}
+              description={modalMessage}
+              buttonText={modalType === "success" ? "Proceed" : "OK"}
+            />
     </div>
   );
 }

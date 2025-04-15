@@ -2,12 +2,21 @@
 import { CheckCircle } from "lucide-react";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // ✅ Import useRouter
+import AlertModal from "@/components/AlertModal";
 import { updateUserRole } from "@/actions/action"; // ✅ Import API action
 
 const WelcomePage = () => {
   const [selectedOption, setSelectedOption] = useState<"startupFounder" | "job_seeker">("startupFounder");
   const router = useRouter(); // ✅ Initialize router
   const [loading, setLoading] = useState(false);
+   // Modal State
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalType, setModalType] = useState<"success" | "error">("success");
+    const [modalMessage, setModalMessage] = useState("");
+  
+
+
+
 
  const handleContinue = async () => {
   setLoading(true);
@@ -17,7 +26,11 @@ const WelcomePage = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Authentication token not found. Please log in again.");
+      setModalType("error");
+      setModalMessage("Authentication token not found. Please log in again.");
+      setModalOpen(true);
+
+      // alert("Authentication token not found. Please log in again.");
       setLoading(false);
       return;
     }
@@ -26,6 +39,14 @@ const WelcomePage = () => {
     const response = await updateUserRole(selectedOption, token);
 
     if (response.success) {
+
+      setModalType("success");
+      setModalMessage(response.message);
+      setModalOpen(true);
+
+      
+
+
       // ✅ Redirect based on role
       if (selectedOption === "startupFounder") {
         router.push("/sign_up/startup_form");
@@ -33,11 +54,20 @@ const WelcomePage = () => {
         router.push("/sign_up/job_seeker");
       }
     } else {
-      alert(response.message || "Failed to update role. Try again.");
+      setModalType("error");
+      setModalMessage(response.message || "Failed to update role. Try again." );
+      setModalOpen(true);
+
+      // alert(response.message || "Failed to update role. Try again.");
     }
   } catch (error) {
-    console.error("Error updating role:", error);
-    alert("Something went wrong. Try again.");
+
+    setModalType("error");
+    setModalMessage("Something went wrong. Try again.");
+    setModalOpen(true);
+
+    // console.error("Error updating role:", error);
+    // alert("Something went wrong. Try again.");
   } finally {
     setLoading(false);
   }
@@ -93,6 +123,18 @@ const WelcomePage = () => {
       >
         {loading ? "Processing..." : "Continue"}
       </button>
+
+
+        {/* ✅ Success & Error Modal */}
+        <AlertModal 
+              open={modalOpen}
+              onClose={() => setModalOpen(false)}
+              onAction={() => setModalOpen(false)}
+              type={modalType}
+              title={modalType === "success" ? "Sign Up Successful" : "Sign Up Failed"}
+              description={modalMessage}
+              buttonText={modalType === "success" ? "Proceed to Verify Your Account" : "Retry"}
+            />
     </div>
   );
 };

@@ -28,13 +28,23 @@ const [isLoading, setIsLoading] = React.useState(false);
     const token = localStorage.getItem("token");
   
     if (!token) {
-      alert("Authentication token not found. Please log in again.");
+
+      setModalType("error");
+      setModalMessage("Authentication token not found. Please log in again." );
+      setModalOpen(true);
+      // alert("Authentication token not found. Please log in again.");
       setIsLoading(false);
       return;
     }
   
     if (!fullName || !companyName || !industry || !website || !roleInCompany) {
-      alert("Please fill in all the required fields.");
+
+      setModalType("error");
+      setModalMessage("Please fill in all the required fields.");
+      setModalOpen(true);
+
+
+      // alert("Please fill in all the required fields.");
       setIsLoading(false);
       return;
     }

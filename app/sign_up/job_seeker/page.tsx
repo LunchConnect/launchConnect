@@ -100,7 +100,11 @@ const [isLoading, setIsLoading] = React.useState(false);
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Authentication token not found. Please log in again.");
+      setModalType("error");
+      setModalMessage("Authentication token not found. Please log in again." );
+      setModalOpen(true);
+
+      // alert("Authentication token not found. Please log in again.");
       setIsLoading(false);
       return;
     }
@@ -113,9 +117,15 @@ const [isLoading, setIsLoading] = React.useState(false);
 
   // Validate fields
   if (!fullName || !bio || skills.length === 0 || interests.length === 0 || !resume)   {
-    console.error("All fields must be filled out. Please check your input.");
+
+
+    setModalType("error");
+    setModalMessage("Please fill out all required fields (Full Name, Bio, Skills, Interests, and Resume)." );
+    setModalOpen(true);
+
+    // console.error("Please fill out all required fields (Full Name, Bio, Skills, Interests, and Resume).");
     // Optionally, show a message to the user about the missing fields
-    alert("Please fill out all required fields (Full Name, Bio, Skills, Interests, and Resume).");
+    // alert("Please fill out all required fields (Full Name, Bio, Skills, Interests, and Resume).");
     setIsLoading(false);
     return; // Prevent form submission if any field is empty
   }
