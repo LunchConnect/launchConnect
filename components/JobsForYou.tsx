@@ -46,11 +46,25 @@ export default function JobsForYou() {
   }, []);
 
   return (
-    <Card className="lg:w-[48%]">
+    <Card className="lg:w-[100%]">
       {/* Header */}
       <CardHeader className="flex flex-row justify-between items-center">
         <CardTitle className="text-[16px] font-semibold">Jobs For You</CardTitle>
-        <button
+
+
+        {error ? (
+          <button
+          className="px-4 py-2 text-white text-[14px] bg-primary rounded-lg cal_sans"
+          onClick={() => {
+            router.push("/dashboard/findjobs");
+            scrollToTop();
+          }}
+        >
+          Apply For Job
+        </button>
+        )
+         : (
+          <button
           onClick={() => {
             router.push("/dashboard/jobforyou");
             scrollToTop();
@@ -58,7 +72,80 @@ export default function JobsForYou() {
           className="px-4 py-2 text-white text-[14px] bg-primary rounded-lg"
         >
           See All
+          
         </button>
+
+        )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
       </CardHeader>
 
       {/* Job List */}

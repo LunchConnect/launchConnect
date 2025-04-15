@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"; // ✅ Import useRouter
 import { updateUserRole } from "@/actions/action"; // ✅ Import API action
 
 const WelcomePage = () => {
-  const [selectedOption, setSelectedOption] = useState<"founder" | "job_seeker">("founder");
+  const [selectedOption, setSelectedOption] = useState<"startupFounder" | "job_seeker">("startupFounder");
   const router = useRouter(); // ✅ Initialize router
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +27,7 @@ const WelcomePage = () => {
 
     if (response.success) {
       // ✅ Redirect based on role
-      if (selectedOption === "founder") {
+      if (selectedOption === "startupFounder") {
         router.push("/sign_up/startup_form");
       } else {
         router.push("/sign_up/job_seeker");
@@ -54,14 +54,14 @@ const WelcomePage = () => {
       <div className="mt-6 space-y-3">
         {/* Startup Founder Option */}
         <div
-          onClick={() => setSelectedOption("founder")}
+          onClick={() => setSelectedOption("startupFounder")}
           className={`p-4 border rounded-md cursor-pointer transition ${
-            selectedOption === "founder" ? "bg-[#1FC16B1A] border-[#1FC16B] text-black" : "border-gray-300"
+            selectedOption === "startupFounder" ? "bg-[#1FC16B1A] border-[#1FC16B] text-black" : "border-gray-300"
           }`}
         >
           <div className="flex justify-between items-center">
             <h3 className="font-semibold text-black">I&apos;m a Startup Founder</h3>
-            {selectedOption === "founder" && <CheckCircle size={20} className="text-green-500" />}
+            {selectedOption === "startupFounder" && <CheckCircle size={20} className="text-green-500" />}
           </div>
           <p className="text-sm text-gray-600">
             Use LaunchConnect to find top talent, build your team, and grow your business.

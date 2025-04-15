@@ -2,6 +2,10 @@ import {publicRequest} from "@/utils/axiosInstance";
 
 
 
+type LoginResponse = 
+  | { success: true; data: any }
+  | { success: false; message: string; token?: string; redirectTo?: string };
+
 // ✅ Register (Sign Up)
 
 export const register = async (email: string, password: string) => {
@@ -39,7 +43,7 @@ export const register = async (email: string, password: string) => {
 
 
 
-export const login = async (email: string, password: string) => {
+export const login = async (email: string, password: string): Promise<LoginResponse> => {
   try {
     console.log("🔄 Attempting to log in with email:", email);
 
@@ -55,18 +59,17 @@ export const login = async (email: string, password: string) => {
   } catch (error: any) {
     console.error("❌ Login error:", error.response?.data || error.message);
 
-    // Extract error message from API response
-    const errorMessage = error.response?.data?.error || 
-                         error.response?.data?.message || 
-                         "Login failed. Please check your credentials.";
+    const fallbackMessage = "Login failed. Please check your credentials.";
+    const res = error.response?.data || {};
 
     return { 
       success: false, 
-      message: errorMessage
+      message: res.error || res.message || fallbackMessage,
+      token: res.token,
+      redirectTo: res.redirectTo,
     };
   }
 };
-
 
 
 
@@ -196,7 +199,7 @@ export const resendOtpforpassword = async (email: string) => {
 
 
 // ✅ Update User Role API (with Authorization Token)
-export const updateUserRole = async (role: "founder" | "job_seeker", token: string) => {
+export const updateUserRole = async (role: "startupFounder" | "job_seeker", token: string) => {
   try {
     const { data } = await publicRequest.put(
       "/users/update-role",
@@ -473,3 +476,325 @@ export const updateStartupFounderProfile = async (
   }
 };
 
+
+
+
+//For Job Posting For Startup Founder ------------------------------------------
+interface JobData {
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  commitmenLevel: string;
+  deadline: string;
+  location: string;
+  jobType: string;
+}
+
+
+export const postJob = async (jobData: JobData, token: string) => {
+  try {
+    const response = await publicRequest.post("/job/post-job", jobData, {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU`,
+      },
+    });
+    // return response.data;
+    return {
+      status: response.status,
+      data: response.data,
+      fullResponse: response,
+    };
+  } catch (error: any) {
+    console.error("Error posting job:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+
+//For Job Post Management Startup-founder----------------------------
+// interface AllJobData {
+//   id: string;
+//   companyId: string;
+//   title: string;
+//   description: string;
+//   responsibilities: string;
+//   skillsRequired: string;
+//   industry: string;
+//   paidRole: string;
+//   deadline: string;
+//   commitmenLevel: string;
+//   location: string;
+//   jobType: string;
+//   createdAt: string;
+// }
+
+// interface JobsResponse {
+//   total: number;
+//   page: number;
+//   pageSize: number;
+//   totalPages: number;
+//   jobs: AllJobData[];
+// }
+
+export const getJobs = async (
+  token: string,
+  page: number = 1,
+  pageSize: number = 5
+): Promise<JobsResponse> => {
+  try {
+    const response = await publicRequest.get(
+      `/job/jobs?page=${page}&pageSize=${pageSize}`,
+      {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error(
+      "Error fetching jobs:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+//For Manage Jobs by ID Startup Founder------------------------------------------------------
+
+
+
+
+
+
+
+
+
+// For Get All Job Application For Startup founder-----------------------------------------------
+interface AllJobApplication {
+  id: string;
+  companyId: string;
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  deadline: string;
+  commitmenLevel: string;
+  location: string;
+  jobType: string;
+  createdAt: string;
+}
+
+export const getAllJobApplication = async (
+  token: string,
+  page: number = 1,
+  pageSize: number = 5
+): Promise<AllJobApplication[]> => {
+  try {
+    const response = await publicRequest.get(
+      `/job/job-application?page=${page}&pageSize=${pageSize}`,
+      {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error(
+      "Error fetching jobs:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+}
+
+
+// For Findjobs (Job seeker)
+interface AllJobData {
+  id: string;
+  companyId: string;
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  deadline: string;
+  commitmenLevel: string;
+  location: string;
+  jobType: string;
+  createdAt: string;
+}
+
+interface JobsResponse {
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  jobs: AllJobData[];
+  message?: string; // Added optional message field
+}
+
+export const getFindJobs = async (
+  token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU", // Default to your test token
+  page: number = 1,
+  pageSize: number = 12 // Changed to match your UI's jobsPerPage
+): Promise<JobsResponse> => {
+  try {
+    console.log(`Fetching jobs - Page: ${page}, PageSize: ${pageSize}`); // Debug log
+
+    const response = await publicRequest.get(
+      `/job/jobs?page=${page}&pageSize=${pageSize}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log("API Response:", response.data); // Debug log
+
+    // Ensure the response has at least the basic structure
+    const result: JobsResponse = {
+      jobs: response.data?.jobs || [],
+      total: response.data?.total || 0,
+      page: response.data?.page || page,
+      pageSize: response.data?.pageSize || pageSize,
+      totalPages: response.data?.totalPages || 0,
+      message: response.data?.message,
+    };
+
+    return result;
+  } catch (error: any) {
+    console.error("Job Fetch Error:", {
+      status: error.response?.status,
+      url: error.config?.url,
+      message: error.message,
+      responseData: error.response?.data,
+    });
+
+    // Return a consistent error structure
+    return {
+      jobs: [],
+      total: 0,
+      page,
+      pageSize,
+      totalPages: 0,
+      message:
+        error.response?.data?.message ||
+        "Failed to fetch jobs. Please try again.",
+    };
+  }
+};
+
+// For Apply Job API -----------------------------------------------------------------------
+export interface ApplyJobResponse {
+  success: boolean;
+  message: string;
+  applicationId?: string; // Optional, as your API returns `id` in `application`
+  application?: {        // Add this to match your actual API response
+    id: string;
+    status: string;
+    jobId: string;
+    jobSeekerId: string;
+    appliedAt: string;
+  };
+}
+
+// action.ts
+  export const applyForJob = async (
+    token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwZjUwNWIzLTI4ODMtNGJlNS04OTgyLTRhZjYzMjhmYmU1YSIsImVtYWlsIjoiY2hhbWJlcmV6aWdibzFAZ21haWwuY29tIiwiaWF0IjoxNzQ0MTU5OTQ4LCJleHAiOjE3NDQ3NjQ3NDh9.e3ZkwLYlxwTtK0e-tdcMmk9WOdCtJYVv5hHKRoc8knA",
+    jobId: string = "24710c28-72bf-4099-ad25-fc93a4851aeb", // hardcoded valid jobId
+    applicationData?: {
+      coverLetter?: string;
+      resumeUrl?: string;
+    }
+  ): Promise<ApplyJobResponse> => {
+    try {
+      const response = await publicRequest.post(
+        `/job/apply/${jobId}`,
+        applicationData || {}, // Send optional fields (e.g., coverLetter, resumeUrl)
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Match the actual API response structure (from your earlier example)
+      const { application } = response.data;
+      return {
+        success: true,
+        message: response.data.message || "Application submitted successfully",
+        applicationId: application.id, // Explicitly map to avoid confusion
+        application, // Optional: Forward full details
+      };
+    } catch (error: any) {
+      // Handle Axios errors (4xx/5xx) or network errors
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to submit application";
+
+      console.error("Job application failed:", {
+        status: error.response?.status,
+        data: error.response?.data,
+        error: errorMessage,
+      });
+
+      return {
+        success: false,
+        message: errorMessage,
+      };
+    };
+  };
+
+  
+
+  //For Updatiing status of the job ------------------------------------------------------
+interface UpdateStatusResponse {
+  success: boolean;
+  message?: string;
+  data?: any;
+}
+
+export const updateJobStatus = async (
+  applicationId: number,
+  status: string,
+  token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU",// Make token optional (better to pass it when calling)
+): Promise<UpdateStatusResponse> => {
+  try {
+    const response = await publicRequest.put(
+      `/job/applications/${applicationId}/status`,
+      { status }, // Request body
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message ||
+      error.message ||
+      "Failed to update status";
+
+    console.error("Status update error:", errorMessage);
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+};

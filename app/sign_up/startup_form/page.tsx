@@ -39,7 +39,7 @@ const [isLoading, setIsLoading] = React.useState(false);
       return;
     }
   
-    const role = "company"; 
+    const role = "startupFounder"; 
   
     const result = await createStartupFounderProfile(
       fullName,

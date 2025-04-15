@@ -5,6 +5,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import DashboardNav from "@/components/DashboardNav";
 import { ModeToggle } from "@/components/mode-toogle";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation"; // ✅ To 
 import { Plus_Jakarta_Sans as FontSans } from "next/font/google";
 import { useEffect, useState } from "react";
 const fontSans = FontSans({
@@ -16,7 +17,17 @@ const fontSans = FontSans({
 function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
  // Close sidebar when clicking outside
+
+  const router = useRouter(); // ✅ Router for redirection
+ 
  useEffect(() => {
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    router.push("/sign_in")
+  }
+
   const handleClickOutside = (event: MouseEvent) => {
     if (
       sidebarOpen &&

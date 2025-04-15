@@ -1,9 +1,9 @@
 "use client";
 import { CheckCircle, Circle, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-
+import AlertModal from "@/components/AlertModal";
 import { register } from "@/actions/action"; // Import signup function
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +17,13 @@ function Signup() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+
+    // Modal State
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalType, setModalType] = useState<"success" | "error">("success");
+    const [modalMessage, setModalMessage] = useState("");
+  
+
   // Password Validation Rules
   const validations = {
     lowercase: /[a-z]/.test(password),
@@ -26,6 +33,18 @@ function Signup() {
     minLength: password.length >= 8,
   };
 
+   useEffect(() => {
+  
+    const token = localStorage.getItem("token");
+  
+    if (token) {
+      router.back()
+    }
+  
+  
+    }, [router]);
+  
+
   // Handle Signup Submission
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +53,9 @@ function Signup() {
   
     // Ensure password meets all criteria before proceeding
     if (!Object.values(validations).every(Boolean)) {
-      setMessage("Password does not meet requirements.");
+      setModalType("error");
+      setModalMessage("Password does not meet requirements.");
+      setModalOpen(true);
       setLoading(false);
       return;
     }
@@ -43,11 +64,23 @@ function Signup() {
     const response = await register(email, password);
   
     if (response.success) {
+
+      setModalType("success");
+      setModalMessage(response.message);
+      setModalOpen(true);
+
+      
+
       setMessage("Registration successful! Redirecting...");
       setTimeout(() => {
         router.push(`/sign_up/confirm_email?email=${encodeURIComponent(email)}`); // Redirect to dashboard
       }, 2000);
     } else {
+
+      setModalType("error");
+      setModalMessage(response.message );
+      setModalOpen(true);
+
       setMessage(`${response.message || "Something went wrong. Please try again."}`);
     }
   
@@ -150,7 +183,7 @@ function Signup() {
             <FcGoogle size={20} /> {/* Google Icon */}
             Continue with Google
           </button>
-          {message && <p className={`text-sm ${message.includes("success") ? "text-green-500" : "text-red-500"}`}>{message}</p>}
+
         </div>
          {/* Sign Up Link */}
       <p className="text-center text-[16px] text-gray-600">
@@ -159,6 +192,17 @@ function Signup() {
       </p>
 
       </form>
+
+        {/* ✅ Success & Error Modal */}
+            <AlertModal 
+              open={modalOpen}
+              onClose={() => setModalOpen(false)}
+              onAction={() => setModalOpen(false)}
+              type={modalType}
+              title={modalType === "success" ? "Sign Up Successful" : "Sign Up Failed"}
+              description={modalMessage}
+              buttonText={modalType === "success" ? "Proceed to Verify Your Account" : "OK"}
+            />
     </div>
   );
 }

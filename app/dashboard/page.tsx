@@ -14,10 +14,9 @@ export default function Page() {
 
 
       {/* Bottom Section: Jobs For You & Trends */}
-      <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
+   
         <JobsForYou />
-        <ApplicationTrends />
-      </div>
+     
     </div>
   );
 }
