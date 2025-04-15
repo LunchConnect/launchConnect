@@ -33,16 +33,16 @@ function Signup() {
     minLength: password.length >= 8,
   };
 
-   useEffect(() => {
+  //  useEffect(() => {
   
-    const token = localStorage.getItem("token");
+  //   const token = localStorage.getItem("token");
   
-    if (token) {
-      router.back()
-    }
+  //   if (token) {
+  //     router.back()
+  //   }
   
   
-    }, [router]);
+  //   }, [router]);
   
 
   // Handle Signup Submission
