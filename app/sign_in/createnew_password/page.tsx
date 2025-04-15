@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
-
+import AlertModal from "@/components/AlertModal";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { resetPassword } from "@/actions/action"; // ✅ Import API function
@@ -20,6 +20,14 @@ function CreateNewPassword() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+
+    // Modal State
+        const [modalOpen, setModalOpen] = useState(false);
+        const [modalType, setModalType] = useState<"success" | "error">("success");
+        const [modalMessage, setModalMessage] = useState("");
+      
+
+
   // ✅ Handle Password Reset Submission
   const handleSubmit = async () => {
     if (!token) {
@@ -28,12 +36,20 @@ function CreateNewPassword() {
     }
 
     if (password.length < 6) {
-      setMessage("Password must be at least 6 characters long.");
+      setModalType("error");
+      setModalMessage("Password must be at least 6 characters long.");
+      setModalOpen(true);
+      // setMessage("Password must be at least 6 characters long.");
       return;
     }
 
     if (password !== confirmPassword) {
-      setMessage("Passwords do not match.");
+
+      setModalType("error");
+      setModalMessage("Passwords do not match.");
+      setModalOpen(true);
+
+      // setMessage("Passwords do not match.");
       return;
     }
 
@@ -44,10 +60,21 @@ function CreateNewPassword() {
     const response = await resetPassword(token, password);
 
     if (response.success) {
-      setMessage("✅ Password reset successful! Redirecting...");
+
+
+      setModalType("success");
+      setModalMessage("✅ Password reset successful! Redirecting...");
+      setModalOpen(true);
+
+      // setMessage("✅ Password reset successful! Redirecting...");
       setTimeout(() => router.push("/sign_in"), 2000); // ✅ Redirect to login page
     } else {
-      setMessage(response.message || "Password reset failed. Try again.");
+
+      setModalType("error");
+      setModalMessage(response.message || "Password reset failed. Try again." );
+      setModalOpen(true);
+
+      // setMessage(response.message || "Password reset failed. Try again.");
     }
 
     setLoading(false);
@@ -118,6 +145,17 @@ function CreateNewPassword() {
         {loading ? "Processing..." : "Create Password"}
       </button>
       </div>
+
+       {/* ✅ Success & Error Modal */}
+          <AlertModal 
+                    open={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    onAction={() => setModalOpen(false)}
+                    type={modalType}
+                    title={modalType === "success" ? "Password Reset Successful" : "Password reset Failed"}
+                    description={modalMessage}
+                    buttonText={modalType === "success" ? "Proceed" : "OK"}
+                  />
     </div>
   );
 }

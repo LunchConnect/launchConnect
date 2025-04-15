@@ -112,23 +112,9 @@ function ConfirmEmailPage() {
     const response = await resendOtp(email);
   
 
-    if (response.success) {
-      setModalType("success");
-      setModalMessage(response.message);
-      setModalOpen(true);
-
-      // setMessage("✅ Verification successful! Redirecting...");
-      setTimeout(() => router.push("/sign_up/welcome"), 2000); // Redirect to dashboard
-    } else {
-      setModalType("error");
-      setModalMessage(response.message );
-      setModalOpen(true);
-      // setMessage(`${response.message}`); 
-    }
 
 
-
-    // setMessage(response.message);
+    setMessage(response.message);
   };
 
   return (

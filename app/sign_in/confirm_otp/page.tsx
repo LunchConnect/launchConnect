@@ -4,6 +4,7 @@ import { verifyForgotPasswordOtp } from "@/actions/action"; // ✅ Import functi
 import { useSearchParams, useRouter } from "next/navigation"; 
 import React, { useState, useRef, ChangeEvent, KeyboardEvent, useEffect } from "react";
 import { resendOtpforpassword } from "@/actions/action"; // ✅ Import Resend OTP function
+import AlertModal from "@/components/AlertModal";
 function ConfirmOtpPage() {
   const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
   const [message, setMessage] = useState("");
@@ -13,6 +14,15 @@ function ConfirmOtpPage() {
   const router = useRouter();
   const email = searchParams.get("email") || localStorage.getItem("user_email") || ""; 
 
+
+    // Modal State
+      const [modalOpen, setModalOpen] = useState(false);
+      const [modalType, setModalType] = useState<"success" | "error">("success");
+      const [modalMessage, setModalMessage] = useState("");
+    
+  
+  
+  
   // Input field references
   const inputRefs = Array(4).fill(null).map(() => useRef<HTMLInputElement>(null));
 
@@ -58,17 +68,27 @@ function ConfirmOtpPage() {
   const handleVerifyOtp = async () => {
     const otpCode = otp.join(""); // Convert array to string
     if (otpCode.length !== 4) {
-      setMessage("Please enter the 4-digit OTP.");
+      setModalType("error");
+      setModalMessage("Please enter the full 4-digit code.");
+      setModalOpen(true);
+      // setMessage("Please enter the 4-digit OTP.");
       return;
     }
   
     const response = await verifyForgotPasswordOtp(otpCode); // ✅ Call API
   
     if (response.success && response.data.tempToken) {
+
+      setModalType("success");
+      setModalMessage("✅ Verification successful! Redirecting...");
+      setModalOpen(true);
       // ✅ Redirect to create new password page with token
       router.push(`/sign_in/createnew_password?token=${encodeURIComponent(response.data.tempToken)}`);
     } else {
-      setMessage(response.message || "OTP verification failed.");
+      setModalType("error");
+      setModalMessage(response.message || "OTP verification failed." );
+      setModalOpen(true);
+      // setMessage(response.message || "OTP verification failed.");
     }
   };
   
@@ -76,6 +96,9 @@ function ConfirmOtpPage() {
   
     const handleResendOtp = async () => {
       if (!email) {
+        setModalType("error");
+        setModalMessage("Email is required to resend OTP." );
+        setModalOpen(true);
         setMessage("Email is required to resend OTP.");
         return;
       }
@@ -136,6 +159,16 @@ function ConfirmOtpPage() {
         Next
       </button>
       </div>
+       {/* ✅ Success & Error Modal */}
+    <AlertModal 
+              open={modalOpen}
+              onClose={() => setModalOpen(false)}
+              onAction={() => setModalOpen(false)}
+              type={modalType}
+              title={modalType === "success" ? "Email Confirmation Successful" : "Email Confirmation Failed"}
+              description={modalMessage}
+              buttonText={modalType === "success" ? "Proceed" : "OK"}
+            />
     </div>
   );
 }
