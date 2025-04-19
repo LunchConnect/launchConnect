@@ -95,11 +95,12 @@
 
 
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 const Hero2: React.FC = () => {
   const router = useRouter();
   return (
-    <section className="relative bg-white px-[4%] md:px-[10%] md:pb-32">
+    <section className="relative bg-white px-[4%] md:px-[10%] md:pb-[100px]">
       <div className="mx-auto text-center md:py-20 md:pb-52 py-10">
         <h1 className="text-5xl md:text-4xl font-bold md:text-start cal_sans text-[#192F1E]">
           What is <span className="text-[#1AC23F]">LaunchConnect</span>
@@ -113,35 +114,16 @@ const Hero2: React.FC = () => {
         </p>
       </div>
       {/* Wave SVG at Bottom */}
-      <div className="absolute -bottom-1 left-0 w-full hidden md:block">
-        <svg
-          viewBox="0 0 1440 320"
-          className="w-full h-auto"
-          preserveAspectRatio="none"
-        >
-          {/* Dark Green Background */}
-          <path
-            fill="#08230E" // Dark Green Fill
-            d="M1440,288 C1340,250 1140,180 940,200 C740,220 540,300 340,280 C140,260 0,200 0,200 V320 H1440 Z"
-          ></path>
-
-          {/* Light Green Stroke */}
-          <path
-            fill="none"
-            stroke="#06C145"
-            strokeWidth="10"
-            d="M1440,288 C1340,250 1140,180 940,200 C740,220 540,300 340,280 C140,260 0,200 0,200 v3"
-          ></path>
-        </svg>
-      </div>
-
-      {/* Wave SVG at Bottom for smaller screens ------------------------------------- */}
-      <div className="absolute -bottom-1 left-0 w-full md:hidden">
-        <img src="/images/Frame.png" alt="" />
-      </div>
+     <Image
+          src="/assets/images/Frame1.png"
+          alt=""
+          width={2853}
+          height={1080}
+          className="w-full absolute -bottom-1 left-0 hidden md:block"
+        />
 
       {/* Floating Buttons for larger screens ------------------------------------- */}
-      <div className="absolute top-[15%] right-[12%] hidden md:block">
+      <div className="absolute top-[11%] right-[12%] hidden md:block">
         <div className="border-2 border-green-600 p-2 rounded-xl w-[105%]">
           <div className="bg-[#D7F6DE] px-4 py-8 w-full rounded-xl">
             <h2 className="text-[#192F1E] font-semibold text-xl relative pb-2">
@@ -237,7 +219,7 @@ const Hero2: React.FC = () => {
       </div>
       {/* image for small screen */}
       <img
-        src="assets/images/frame.png"
+        src="assets/images/Frame.png"
         alt=""
         className="absolute -bottom-20 right-[5%] md:hidden scale-[1.2]"
       />

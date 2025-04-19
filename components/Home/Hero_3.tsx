@@ -5,7 +5,7 @@ const Hero3: React.FC = () => {
 
   return (
     <section id="hero" className="bg-[#08230E] px-[10%] py-20">
-      <div className="relative pt-30 text-center mb-10">
+      <div className="relative pt-30 text-center mb-5">
         {/* Background pattern */}
         {/* <Image
           src="/assets/images/plussign_2.png"
@@ -20,7 +20,7 @@ const Hero3: React.FC = () => {
           className="absolute left-[-13%] pointer-events-none hidden md:block"
         />
         {/* Title */}
-        <h2 className="font-semibold text-[#ffffff] md:text-6xl text-3xl md:mt-20 mt-5 cal_sans">
+        <h2 className="font-semibold text-[#ffffff] md:text-6xl text-3xl md:mt-0 mt-5 cal_sans">
           How LaunchConnect Works
         </h2>
         <p className="text-[#ffffff] mt-4 md:text-xl DM_sans">
@@ -28,7 +28,7 @@ const Hero3: React.FC = () => {
         </p>
 
         {/* Toggle Buttons */}
-        <div className="mt-6 flex justify-center space-x-2 bg-[#ffffff] p-1 rounded-full w-fit mx-auto">
+        <div className="mt-6 flex justify-center space-x-2 bg-[#ffffff] p-1 rounded-full md:w-fit mx-auto">
           <button
             onClick={() => setActiveTab("jobSeekers")}
             className={`px-6 py-3 text-sm font-semibold rounded-full cal_sans whitespace-nowrap transition-all cursor-pointer duration-300 ${

@@ -43,8 +43,8 @@ const PostJob: React.FC = () => {
 
   const fetchJobs = async (page: number = 1) => {
     setIsLoading(true);
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU";
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("No authentication token");
     try {
       const data = await getJobs(token, page, pagination.pageSize);
       console.log("✅ Fetched Jobs:", data);

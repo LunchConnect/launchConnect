@@ -62,13 +62,21 @@ export const Footer: React.FC = () => {
               className=" p-2 rounded-full custom-link-background hover:text-blue-600"
             />
           </a>
-          <a href="" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.instagram.com/stanixhq?igsh=anNidGprdzBucmVm&utm_source=qr"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FaInstagram
               size={30}
               className=" p-2 rounded-full custom-link-background hover:text-pink-500"
             />
           </a>
-          <a href="" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.linkedin.com/company/stanix-consult/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FaLinkedinIn
               size={30}
               className="p-2 rounded-full custom-link-background hover:text-blue-500"

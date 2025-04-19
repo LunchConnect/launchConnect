@@ -77,7 +77,7 @@ const FindJobs: React.FC = () => {
       "Health",
       "Technology",
     ],
-    jobTypes: ["All", "Volunteer", "Internship"],
+    jobTypes: ["All", "Volunteer", "Internship", "Entry-Role",],
   };
 
   return (

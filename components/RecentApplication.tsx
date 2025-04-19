@@ -9,6 +9,7 @@ import ViewRejectedModal from "./DashboardContent_StartUp/ViewRejectedModal";
 import { Card } from "./ui/card";
 import { scrollToTop } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { getAllJobApplications } from "@/actions/action";
 
 interface Application {
   id: number;
@@ -167,7 +168,7 @@ const RecentApplication: React.FC = () => {
             </div>
           </div>
 
-          {/* Render the correct modal based on status */}
+          {/* Render the correct modal based on status
           {isModalOpen && selectedApplication?.status === "Pending" && (
             <ViewPendingModal
               isOpen={isModalOpen}
@@ -188,7 +189,7 @@ const RecentApplication: React.FC = () => {
               setIsOpen={setIsModalOpen}
               application={selectedApplication}
             />
-          )}
+          )} */}
         </Card>
       )}
     </div>

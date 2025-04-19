@@ -282,7 +282,7 @@ export const createJobSeekerProfile = async (
 
 
 
-//For Job Posting For Startup Founder ------------------------------------------
+//For Job Posting For Startup Founder ---------------------------------------------------->
 interface JobData {
   title: string;
   description: string;
@@ -301,7 +301,7 @@ export const postJob = async (jobData: JobData, token: string) => {
   try {
     const response = await publicRequest.post("/job/post-job", jobData, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU`,
+        Authorization: `Bearer ${token}`,
       },
     });
     // return response.data;
@@ -317,7 +317,7 @@ export const postJob = async (jobData: JobData, token: string) => {
 };
 
 
-//For Job Post Management Startup-founder----------------------------
+//For Job Post Management Startup-founder---------------------------------------------------->
 interface AllJobData {
   id: string;
   companyId: string;
@@ -352,7 +352,7 @@ export const getJobs = async (
       `/job/jobs?page=${page}&pageSize=${pageSize}`,
       {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -366,18 +366,79 @@ export const getJobs = async (
   }
 };
 
-//For Manage Jobs by ID Startup Founder------------------------------------------------------
+//For Manage Jobs by ID Startup Founder--------------------------------------------------------->
+export interface JobSeeker {
+  id: string;
+  resumeUrl: string;
+  skills: string[];
+  interests: string[];
+  fullName: string;
+  shortBio: string;
+}
+
+export interface JobApplication {
+  id: string;
+  jobId: string;
+  jobSeekerId: string;
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  appliedAt: string;
+  jobSeeker: JobSeeker;
+}
+
+export interface SingleJobData {
+  id: string;
+  companyId: string;
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  deadline: string;
+  commitmenLevel: string;
+  location: string;
+  jobType: string;
+  createdAt: string;
+  applications: JobApplication[];
+}
+
+export interface SingleJobResponse {
+  success: boolean;
+  job: SingleJobData;
+}
+
+export const getSingleJob = async (
+  token: string,
+  jobId: string
+): Promise<SingleJobResponse> => {
+  try {
+    const response = await publicRequest.get(`/job/single-job/${jobId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Use dynamic token
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    console.error("Error fetching job:", error.response?.data || error.message);
+    throw error; // Re-throw for component-level handling
+  }
+};
+
+//For Job Delete ------------------------------------------------------------->
+
+export const deleteJob = async (jobId: string) => {
+  try {
+    const response = await publicRequest.delete(`/job/delete-job/${jobId}`);
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error("Error deleting job:", error);
+    throw error; // Re-throw the error for handling in the component
+  }
+};
 
 
-
-
-
-
-
-
-
-// For Get All Job Application For Startup founder-----------------------------------------------
-interface AllJobApplication {
+// For Get All Job Application For Startup founder--------------------------------------------------->
+interface Job {
   id: string;
   companyId: string;
   title: string;
@@ -393,30 +454,73 @@ interface AllJobApplication {
   createdAt: string;
 }
 
-export const getAllJobApplication = async (
+interface JobSeekers {
+  portfolioLink: any;
+  email: any;
+  id: string;
+  fullName: string;
+  shortBio: string;
+  resumeUrl: string;
+  skills: string[];
+  interests: string[];
+}
+
+interface Application {
+  shortBio: any;
+  resumeSize: any;
+  resumeFileName: any;
+  resumeUrl: any;
+  id: string;
+  jobId: string;
+  jobSeekerId: string;
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  appliedAt: string;
+  job: Job;
+  jobSeeker: JobSeekers;
+}
+
+interface ApplicantCountPerJob {
+  jobId: string;
+  title: string;
+  applicantCount: number;
+}
+
+interface AllJobApplicationsResponse {
+  totalApplications: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  applications: Application[];
+  applicantCountPerJob: ApplicantCountPerJob[];
+}
+
+export const getAllJobApplications = async (
   token: string,
   page: number = 1,
-  pageSize: number = 5
-): Promise<AllJobApplication[]> => {
+  limit: number = 5
+): Promise<AllJobApplicationsResponse> => {
   try {
     const response = await publicRequest.get(
-      `/job/job-application?page=${page}&pageSize=${pageSize}`,
+      `/job/applications/all-application-startupfounders?page=${page}&limit=${limit}`,
       {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
     return response.data;
   } catch (error: any) {
     console.error(
-      "Error fetching jobs:",
+      "Error fetching job applications:",
       error.response?.data || error.message
     );
     throw error;
   }
-}
+};
     
+
+
+
 // ✅ User Start up form Role API (with Authorization Token)
 export const createStartupFounderProfile = async (
   fullName: string,
@@ -455,7 +559,7 @@ export const createStartupFounderProfile = async (
 
 
 
-// For Findjobs (Job seeker)
+// For Findjobs (Job seeker) ---------------------------------------------------------------->
 interface AllJobData {
   id: string;
   companyId: string;
@@ -482,26 +586,35 @@ interface JobsResponse {
 }
 
 export const getFindJobs = async (
-  token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU", // Default to your test token
+  token: string,
   page: number = 1,
-  pageSize: number = 12 // Changed to match your UI's jobsPerPage
+  pageSize: number = 12,
+  filters?: {
+    title?: string;
+    industry?: string;
+    jobType?: string;
+  }
 ): Promise<JobsResponse> => {
   try {
-    console.log(`Fetching jobs - Page: ${page}, PageSize: ${pageSize}`); // Debug log
+    const queryParams = new URLSearchParams({
+      page: page.toString(),
+      pageSize: pageSize.toString(),
+    });
+
+    if (filters?.title) queryParams.append("title", filters.title);
+    if (filters?.industry) queryParams.append("industry", filters.industry);
+    if (filters?.jobType) queryParams.append("jobType", filters.jobType);
 
     const response = await publicRequest.get(
-      `/job/jobs?page=${page}&pageSize=${pageSize}`,
+      `/job/jobs?${queryParams.toString()}`,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // This is the JOBSEEKER token now
         },
       }
     );
 
-    console.log("API Response:", response.data); // Debug log
-
-    // Ensure the response has at least the basic structure
-    const result: JobsResponse = {
+    return {
       jobs: response.data?.jobs || [],
       total: response.data?.total || 0,
       page: response.data?.page || page,
@@ -509,8 +622,6 @@ export const getFindJobs = async (
       totalPages: response.data?.totalPages || 0,
       message: response.data?.message,
     };
-
-    return result;
   } catch (error: any) {
     console.error("Job Fetch Error:", {
       status: error.response?.status,
@@ -519,7 +630,6 @@ export const getFindJobs = async (
       responseData: error.response?.data,
     });
 
-    // Return a consistent error structure
     return {
       jobs: [],
       total: 0,
@@ -533,7 +643,8 @@ export const getFindJobs = async (
   }
 };
 
-// For Apply Job API -----------------------------------------------------------------------
+
+// For Apply Job API ----------------------------------------------------------------------->
 export interface ApplyJobResponse {
   success: boolean;
   message: string;
@@ -547,10 +658,9 @@ export interface ApplyJobResponse {
   };
 }
 
-// action.ts
   export const applyForJob = async (
-    token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwZjUwNWIzLTI4ODMtNGJlNS04OTgyLTRhZjYzMjhmYmU1YSIsImVtYWlsIjoiY2hhbWJlcmV6aWdibzFAZ21haWwuY29tIiwiaWF0IjoxNzQ0MTU5OTQ4LCJleHAiOjE3NDQ3NjQ3NDh9.e3ZkwLYlxwTtK0e-tdcMmk9WOdCtJYVv5hHKRoc8knA",
-    jobId: string = "24710c28-72bf-4099-ad25-fc93a4851aeb", // hardcoded valid jobId
+    token: string, 
+    jobId: string,
     applicationData?: {
       coverLetter?: string;
       resumeUrl?: string;
@@ -668,9 +778,9 @@ interface UpdateStatusResponse {
 }
 
 export const updateJobStatus = async (
-  applicationId: number,
+  applicationId: string,
   status: string,
-  token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU",// Make token optional (better to pass it when calling)
+  token: string, 
 ): Promise<UpdateStatusResponse> => {
   try {
     const response = await publicRequest.put(

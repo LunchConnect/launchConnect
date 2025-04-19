@@ -1,244 +1,4 @@
-// import { Dialog, Transition } from "@headlessui/react";
-// import { X } from "lucide-react";
-// import { Fragment, useState } from "react";
-// import { VscError } from "react-icons/vsc";
-// import { IoCheckmarkCircleOutline, IoCopyOutline } from "react-icons/io5";
-// import { BsDot } from "react-icons/bs";
-// import { FiCopy } from "react-icons/fi";
-
-// interface Application {
-//   id: number;
-//   name: string;
-//   jobRole: string;
-//   applicationDate: string;
-//   status: "Pending" | "Accepted" | "Rejected";
-// }
-
-// interface PendingModalProps {
-//   isOpen: boolean;
-//   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-//   application: Application;
-// }
-
-// const ViewPendingModal: React.FC<PendingModalProps> = ({
-//   isOpen,
-//   setIsOpen,
-//   application,
-// }) => {
-//   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  // const portfolioLink = "link.example";
-  // const email = "example@gmail.com";
-//   const [showCopiedBanner, setShowCopiedBanner] = useState(false);
-
-//     const handleCopy = (text: string) => {
-//       navigator.clipboard.writeText(text);
-//       setShowCopiedBanner(true);
-//       setTimeout(() => setShowCopiedBanner(false), 2000); // hide after 2 seconds
-//     };
-
-  // if (!isOpen) return null; // Don't render if the modal is not open
-
-//   return (
-//     <Transition appear show={isOpen} as={Fragment}>
-//       <Dialog
-//         as="div"
-//         className="relative z-[90]"
-//         onClose={() => setIsOpen(false)}
-//       >
-//         <div className="fixed inset-0 bg-black/30 backdrop-blur-0 z-[50]" />
-//         <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
-//           <div className="flex min-h-full items-center justify-center p-2 md:p-4">
-//             <Dialog.Panel className="w-full max-w-lg md:max-w-xl bg-white p-6 rounded-xl shadow-lg">
-//               {showSuccessModal ? (
-//                 // Success Message
-//                 <div className="">
-//                   <div className="flex justify-between items-center cal_sans mb-4">
-//                     <h1 className="text-[#192F1E] text-lg">
-//                       Schedule Interview With Candidate
-//                     </h1>
-//                     <button
-//                       onClick={() => setIsOpen(false)}
-//                       className="ml-auto rounded-full border border-gray-100 p-1.5 flex items-center justify-center"
-//                     >
-//                       <X className="w-5 h-5 text-black" />
-//                     </button>
-//                   </div>
-
-//                   <div className="space-y-5 border border-[#DEE6ED] p-5 rounded-lg">
-//                     <div className="border-b border-[#DEE6ED] pb-2">
-//                       <h1>Full Name</h1> <p>Mr. Example</p>
-//                     </div>
-//                     <div className="border-b border-[#DEE6ED] pb-2">
-//                       <h1>Email Address</h1>{" "}
-//                       <div className="flex justify-between">
-//                         <p>{email}</p>
-//                         <FiCopy
-//                           size={20}
-//                           className="text-[#757575] cursor-pointer"
-//                           onClick={() => handleCopy(email)}
-//                         />
-//                       </div>
-                      // {/* Copied Banner */}
-                      // {showCopiedBanner && (
-                      //   <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
-                      //     Link copied to clipboard!
-                      //   </div>
-                      // )}
-//                     </div>
-//                     <div className="">
-//                       <h1 className="pb-4">Next Step:</h1>{" "}
-//                       <p className="space-y-2">
-//                         1. Use the email above to coordinate interview
-//                         scheduling <br /> 2. Continue your conversation directly
-//                         via email
-//                       </p>
-//                     </div>
-//                   </div>
-
-//                   <div className="mt-5 DM_sans">
-//                     <button
-//                       onClick={() => setIsOpen(false)}
-//                       className="px-4 py-2 border border-[#D0D5DD] text-[#192F1E] rounded-lg w-full"
-//                     >
-//                       Close
-//                     </button>
-//                   </div>
-//                 </div>
-//               ) : (
-//                 // Job Application Form
-//                 <>
-//                   <div className="flex justify-between items-center cal_sans mb-3 DM_sans">
-//                     <h1 className="text-black text-lg font-semibold cal_sans">
-//                       Candidate Overview
-//                     </h1>
-//                     <button
-//                       onClick={() => setIsOpen(false)}
-//                       className="rounded-full border border-gray-100  p-1.5"
-//                     >
-//                       <X className="w-5 h-5 text-black" />
-//                     </button>
-//                   </div>
-
-//                   <form
-//                     onSubmit={(e) => {
-//                       e.preventDefault();
-//                       setShowSuccessModal(true); // Show success modal inside same modal
-//                     }}
-//                   >
-//                     <div className="text-[#3F4654] border border-[#DEE6ED] rounded-md overflow-y-scroll p-3 space-y-3 max-h-[500px]">
-//                       <div className="flex justify-between items-center DM_sans border-b border-b-[#E7EFE8] pb-3">
-//                         <h1>Application status</h1>
-//                         <div className="flex items-center text-[#777777]">
-//                           <BsDot size={40} />
-//                           <h2>Pending</h2>
-//                         </div>
-//                       </div>
-
-//                       <div className="border-b border-[#DEE6ED] pb-2">
-//                         <h1>Full Name</h1> <p>Mr. Example</p>
-//                       </div>
-
-                      // <div className="border-b border-[#DEE6ED] pb-2">
-                      //   <h1>Email Address</h1> <p>exanple@gmail.com</p>
-                      // </div>
-
-                      // <div className="border-b border-[#DEE6ED] pb-2">
-                      //   <h1>Portfolio</h1>
-                      //   <div className="flex items-center justify-between gap-2">
-                      //     <a href="#" className="text-[#1FC16B]">
-                      //       {portfolioLink}
-                      //     </a>
-                      //     <IoCopyOutline
-                      //       size={20}
-                      //       className="cursor-pointer"
-                      //       onClick={() => handleCopy(portfolioLink)}
-                      //     />
-                      //   </div>
-                      // </div>
-
-                      // {/* Copied Banner */}
-                      // {showCopiedBanner && (
-                      //   <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
-                      //     Link copied to clipboard!
-                      //   </div>
-                      // )}
-
-//                       <div className="border-b border-[#DEE6ED] pb-2">
-//                         <h1 className="pb-4">Short Motivation Text</h1>{" "}
-//                         <p>
-//                           As a UX designer, I thrive on crafting intuitive and
-//                           engaging user experiences that solve real problems.
-//                           With a keen eye for design and a user-first approach,
-//                           I enjoy translating complex ideas into seamless
-//                           interactions. I'm excited about this opportunity
-//                           because it aligns with my passion for creating
-//                           impactful digital experiences. I look forward to
-//                           bringing my creativity, research-driven insights, and
-//                           collaborative mindset to your team.
-//                         </p>
-//                       </div>
-
-                      // <div className="rounded-md">
-                      //   <h1 className="pb-4">Resume</h1>
-                      //   <div className="flex justify-between items-center bg-[#eef9f0] p-3 rounded-lg">
-                      //     <div>
-                      //       <p className="">My Resume.pdf</p>
-                      //       <p className="text-gray-400">56Kb</p>
-                      //     </div>
-                      //     <button className="border border-[#9CB8A2] text-[#526F58] cal_sans px-4 h-8 rounded-md">
-                      //       View
-                      //     </button>
-                      //   </div>
-//                       </div>
-//                     </div>
-
-//                     <div className="flex flex-col-reverse md:flex-row justify-between mt-4 gap-2 DM_sans">
-//                       <button
-//                         type="button"
-//                         onClick={() => setIsOpen(false)}
-//                         className="px-4 py-2 md:w-1/2 border border-gray-200 text-black rounded flex items-center gap-2 justify-center"
-//                       >
-//                         Reject
-//                         <span>
-//                           <VscError size={20} />
-//                         </span>
-//                       </button>
-//                       <button
-//                         type="submit"
-//                         className="px-4 py-2 md:w-1/2 bg-[#1AC23F] text-white rounded flex items-center gap-2 justify-center"
-//                       >
-//                         Accept
-//                         <span>
-//                           <IoCheckmarkCircleOutline size={20} />
-//                         </span>
-//                       </button>
-//                     </div>
-//                   </form>
-//                 </>
-//               )}
-//             </Dialog.Panel>
-//           </div>
-//         </div>
-//       </Dialog>
-//     </Transition>
-//   );
-// };
-
-// export default ViewPendingModal;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// ✅ FIXED LOGIC VERSION — styling untouched
 
 import { Dialog, Transition } from "@headlessui/react";
 import { X } from "lucide-react";
@@ -250,18 +10,26 @@ import { FiCopy } from "react-icons/fi";
 import { updateJobStatus } from "@/actions/action";
 
 interface Application {
-  id: number;
-  name: string;
+  id: string;
   jobRole: string;
   applicationDate: string;
-  status: "Pending" | "Accepted" | "Rejected";
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  jobSeeker: {
+    fullName: string;
+    email?: string;
+    shortBio: string;
+    resumeUrl: string;
+    resumeName?: string;
+    resumeSize?: string;
+    portfolioLink?: string;
+  };
 }
 
 interface PendingModalProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   application: Application;
-  onStatusUpdate?: (id: number, newStatus: "ACCEPTED" | "REJECTED") => void; // Callback for parent
+  onStatusUpdate?: (id: string, newStatus: "ACCEPTED" | "REJECTED") => void;
 }
 
 const ViewPendingModal: React.FC<PendingModalProps> = ({
@@ -273,35 +41,24 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showCopiedBanner, setShowCopiedBanner] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const portfolioLink = "";
-  const email = "";
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
     setShowCopiedBanner(true);
     setTimeout(() => setShowCopiedBanner(false), 2000);
   };
-  if (!isOpen) return null; // Don't render if the modal is not open
 
   const handleStatusUpdate = async (newStatus: "ACCEPTED" | "REJECTED") => {
     setIsUpdating(true);
-    console.log(
-      `Updating status for application ${application.id} to ${newStatus}`
-    );
-
     try {
       const result = await updateJobStatus(application.id, newStatus);
-
       if (result.success) {
-        console.log("Status updated successfully:", result.data);
         setShowSuccessModal(true);
-        onStatusUpdate?.(application.id, newStatus); // Notify parent component
+        onStatusUpdate?.(application.id, newStatus);
       } else {
-        console.error("Failed to update status:", result.message);
         alert(result.message || "Update failed");
       }
     } catch (error) {
-      console.error("API Error:", error);
       alert("An unexpected error occurred");
     } finally {
       setIsUpdating(false);
@@ -322,8 +79,7 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
           <div className="flex min-h-full items-center justify-center p-2 md:p-4">
             <Dialog.Panel className="w-full max-w-lg md:max-w-xl bg-white p-6 rounded-xl shadow-lg">
               {showSuccessModal ? (
-                // Success Message (after Accept)
-                <div className="">
+                <div>
                   <div className="flex justify-between items-center cal_sans mb-4">
                     <h1 className="text-[#192F1E] text-lg">
                       Schedule Interview With Candidate
@@ -339,26 +95,22 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
                   <div className="space-y-5 border border-[#DEE6ED] p-5 rounded-lg">
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Full Name</h1>
-                      <p>{application.name}</p>
+                      <p>{application.jobSeeker.fullName}</p>
                     </div>
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Email Address</h1>
                       <div className="flex justify-between">
-                        <p>{application.email}</p>
+                        <p>{application.jobSeeker.email ?? "Not Provided"}</p>
                         <FiCopy
                           size={20}
                           className="text-[#757575] cursor-pointer"
-                          onClick={() => handleCopy("")}
+                          onClick={() =>
+                            handleCopy(application.jobSeeker.email ?? "")
+                          }
                         />
                       </div>
-                      {/* Copied Banner */}
-                      {showCopiedBanner && (
-                        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
-                          Link copied to clipboard!
-                        </div>
-                      )}
                     </div>
-                    <div className="">
+                    <div>
                       <h1 className="pb-4">Next Step:</h1>
                       <p className="space-y-2">
                         1. Use the email above to coordinate interview
@@ -378,7 +130,6 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
                   </div>
                 </div>
               ) : (
-                // Main Application View
                 <>
                   <div className="flex justify-between items-center cal_sans mb-3">
                     <h1 className="text-black text-lg font-semibold">
@@ -393,7 +144,6 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
                   </div>
 
                   <div className="text-[#3F4654] border border-[#DEE6ED] rounded-md overflow-y-scroll p-3 space-y-3 max-h-[500px]">
-                    {/* Status Section */}
                     <div className="flex justify-between items-center DM_sans border-b border-b-[#E7EFE8] pb-3">
                       <h1>Application status</h1>
                       <div className="flex items-center text-[#777777]">
@@ -402,56 +152,70 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
                       </div>
                     </div>
 
-                    {/* Candidate Details */}
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Full Name</h1>
-                      <p>{application.name}</p>
+                      <p>{application.jobSeeker.fullName}</p>
                     </div>
 
                     <div className="border-b border-[#DEE6ED] pb-2">
-                      <h1>Email Address</h1> <p>{application.email}</p>
+                      <h1>Email Address</h1>
+                      <p>{application.jobSeeker.email}</p>
                     </div>
 
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Portfolio</h1>
                       <div className="flex items-center justify-between gap-2">
-                        <a href="#" className="text-[#1FC16B]">
-                          {portfolioLink}
+                        <a
+                          href={application.jobSeeker.portfolioLink || "#"}
+                          className="text-[#1FC16B]"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {application.jobSeeker.portfolioLink ||
+                            "No portfolio provided"}
                         </a>
-                        <IoCopyOutline
-                          size={20}
-                          className="cursor-pointer"
-                          onClick={() => handleCopy(portfolioLink)}
-                        />
+                        {application.jobSeeker.portfolioLink && (
+                          <IoCopyOutline
+                            size={20}
+                            className="cursor-pointer"
+                            onClick={() =>
+                              handleCopy(application.jobSeeker.portfolioLink!)
+                            }
+                          />
+                        )}
                       </div>
                     </div>
 
-                    {/* Copied Banner */}
-                    {showCopiedBanner && (
-                      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
-                        Link copied to clipboard!
-                      </div>
-                    )}
-
                     <div className="border-b border-[#DEE6ED] pb-2">
-                      <h1>Job Role</h1>
-                      <p>{application.jobRole}</p>
+                      <h1 className="pb-4">Short Motivation Text</h1>
+                      <p>{application.jobSeeker.shortBio}</p>
                     </div>
 
                     <div className="rounded-md">
                       <h1 className="pb-4">Resume</h1>
                       <div className="flex justify-between items-center bg-[#eef9f0] p-3 rounded-lg">
                         <div>
-                          <p className="">My Resume.pdf</p>
-                          <p className="text-gray-400">56Kb</p>
+                          <p>
+                            {application.jobSeeker.resumeName ||
+                              "No Resume Uploaded"}
+                          </p>
+                          <p className="text-gray-400">
+                            {application.jobSeeker.resumeSize || ""}
+                          </p>
                         </div>
-                        <button className="border border-[#9CB8A2] text-[#526F58] cal_sans px-4 h-8 rounded-md">
-                          View
-                        </button>
+                        {application.jobSeeker.resumeUrl ? (
+                          <a
+                            href={application.jobSeeker.resumeUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="border border-[#9CB8A2] text-[#526F58] cal_sans px-4 h-8 rounded-md flex items-center justify-center"
+                          >
+                            View
+                          </a>
+                        ) : null}
                       </div>
                     </div>
 
-                    {/* Action Buttons */}
                     <div className="flex flex-col-reverse md:flex-row justify-between mt-4 gap-2 DM_sans">
                       <button
                         type="button"
@@ -476,7 +240,6 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
                 </>
               )}
 
-              {/* Copied Banner (shared between views) */}
               {showCopiedBanner && (
                 <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
                   Link copied to clipboard!

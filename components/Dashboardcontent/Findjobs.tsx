@@ -346,8 +346,7 @@ const FindJobs: React.FC = () => {
 
   const jobsPerPage = 12;
   const testToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU";
-
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwZjUwNWIzLTI4ODMtNGJlNS04OTgyLTRhZjYzMjhmYmU1YSIsImVtYWlsIjoiY2hhbWJlcmV6aWdibzFAZ21haWwuY29tIiwiaWF0IjoxNzQ0NzkwOTUxLCJleHAiOjE3NDUzOTU3NTF9.OBRedcbZ2lPjTsE-qg7uBqysOfUSOD7E2hFJvqAl7w8";
   useEffect(() => {
     console.log("Component mounted - Initializing job fetch");
     const fetchJobs = async () => {
@@ -491,7 +490,7 @@ const FindJobs: React.FC = () => {
       "Health",
       "Technology",
     ],
-    jobTypes: ["All", "Volunteer", "Internship", "Contract"],
+    jobTypes: ["All", "Volunteer", "Internship", "Contract", "Entry-Role",],
   };
 
   const clearFilters = () => {

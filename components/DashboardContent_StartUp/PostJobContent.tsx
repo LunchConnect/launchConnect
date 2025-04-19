@@ -19,7 +19,7 @@ interface Job {
   commitmenLevel: string;
 }
 
-const jobTypeOptions = ["ENTRY-ROLL", "VOLUNTEER", "INTERNSHIP", "CONTRACT"];
+const jobTypeOptions = ["ENTRY-ROLL", "VOLUNTEER", "INTERNSHIP"];
 const industryOptions = [
   "Technology",
   "Commerce",
@@ -126,9 +126,7 @@ const PostJobContent: React.FC = () => {
 
     setIsLoading(true);
 
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU";
-
+    const token = localStorage.getItem("token");
 
     if (!token) {
       alert("You must be logged in to post a job.");

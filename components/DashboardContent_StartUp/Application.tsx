@@ -1,4 +1,4 @@
-"use client"; // Required for Next.js App Router
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { GoDash } from "react-icons/go";
@@ -11,87 +11,112 @@ import ViewRejectedModal from "./ViewRejectedModal";
 import { LuDot } from "react-icons/lu";
 import { useRouter } from "next/navigation";
 import { scrollToTop } from "@/lib/utils";
+import { getAllJobApplications } from "@/actions/action";
 
-interface Application {
-  id: number;
-  name: string;
+
+interface ApplicationCard {
+  id: string;
+  jobSeeker: {
+    fullName: string;
+    email?: string; // not in your example, so mark optional or remove
+    shortBio: string;
+    portfolioLink?: string; // not in response either
+    resumeUrl: string;
+    skills: string[];
+    interests: string[];
+  };
   jobRole: string;
   applicationDate: string;
-  status: "Pending" | "Accepted" | "Rejected";
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
 }
 
-//hard coded Applications --------------- waiting for API 
-const Applications: Application[] = [
-  {
-    id: 1,
-    name: "Bioku David",
-    jobRole: "UI/UX Designer",
-    applicationDate: "03/31/2025 14:44",
-    status: "Pending",
-  },
-  {
-    id: 2,
-    name: "Bioku David",
-    jobRole: "Frontend Developer",
-    applicationDate: "04/02/2025 11:19",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    name: "Bioku David",
-    jobRole: "Product Designer",
-    applicationDate: "04/15/2025 00:41",
-    status: "Accepted",
-  },
-  {
-    id: 4,
-    name: "Bioku David",
-    jobRole: "UX Researcher",
-    applicationDate: "04/15/2025 00:41",
-    status: "Rejected",
-  },
-  {
-    id: 5,
-    name: "Bioku David",
-    jobRole: "Graphic Designer",
-    applicationDate: "04/26/2025 23:00",
-    status: "Accepted",
-  },
-  {
-    id: 6,
-    name: "Bioku David",
-    jobRole: "Product Designer",
-    applicationDate: "04/15/2025 00:41",
-    status: "Accepted",
-  },
-  {
-    id: 7,
-    name: "Bioku David",
-    jobRole: "UX Researcher",
-    applicationDate: "04/15/2025 00:41",
-    status: "Rejected",
-  },
-  {
-    id: 8,
-    name: "Bioku David",
-    jobRole: "Graphic Designer",
-    applicationDate: "04/26/2025 23:00",
-    status: "Accepted",
-  },
-];
+
+
 
 const Application: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedApplication, setSelectedApplication] =
-    useState<Application | null>(null);
-  const [applications, setApplications] = useState<Application[]>([]); // Change later to real job check
+  const [selectedApplication, setSelectedApplication] = useState<ApplicationCard | null>(null);
+  const [applications, setApplications] = useState<ApplicationCard[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  // Replace with API fetch later--------------------------------------------------------
-  // useEffect(() => {
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
-  //   setApplications();
-  // }, []);
+        // Keeping your test token as requested
+        const token = localStorage.getItem("token");
+        if (!token) throw new Error("No authentication token");
+        const response = await getAllJobApplications(token, 1, 10);
+
+    const transformedApplications = response.applications.map((app) => ({
+      id: app.id,
+      jobSeeker: {
+        fullName: app.jobSeeker.fullName,
+        email: app.jobSeeker.email, // optional
+        shortBio: app.jobSeeker.shortBio,
+        portfolioLink: app.jobSeeker.portfolioLink, // optional
+        resumeUrl: app.jobSeeker.resumeUrl,
+        skills: app.jobSeeker.skills,
+        interests: app.jobSeeker.interests,
+      },
+      jobRole: app.job.title,
+      applicationDate: new Date(app.appliedAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }),
+      status: app.status,
+    }));
+
+
+
+        setApplications(transformedApplications);
+      } catch (err) {
+        console.error("Error fetching applications:", err);
+        setError("Failed to load applications. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchApplications();
+  }, []);
+
+  const handleViewApplication = (app: ApplicationCard) => {
+    setSelectedApplication(app);
+    setIsModalOpen(true);
+  };
+
+  if (loading) {
+    return (
+      <div className="space-y-4 p-4 my-20">
+        {[...Array(5)].map((_, i) => (
+          <div
+            key={i}
+            className="h-20 bg-gray-100 rounded-lg animate-pulse"
+          ></div>
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center p-8">
+        <div className="text-red-500 mb-4">{error}</div>
+        <button
+          onClick={() => window.location.reload()}
+          className="bg-[#1AC23F] text-white px-6 py-2 rounded-lg"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="">
@@ -129,16 +154,17 @@ const Application: React.FC = () => {
                 alt="No Jobs"
                 width={124.46}
                 height={132.03}
+                priority
               />
               <h2 className="text-2xl font-semibold text-[#101828] mt-6 cal_sans">
                 No Recent Applications for you
               </h2>
               <p className="text-[#667085] mt-2 DM_sans">
-                You haven’t made a post yet. <br /> Click the button below to
+                You haven't made a post yet. <br /> Click the button below to
                 get started
               </p>
               <button
-                className="mt-6 bg-[#1AC23F] text-white px-8 py-2 rounded-lg  transition cal_sans"
+                className="mt-6 bg-[#1AC23F] text-white px-8 py-2 rounded-lg transition cal_sans"
                 onClick={() => {
                   router.push("/startup_founder_dashboard/PostJobContent");
                   scrollToTop();
@@ -155,7 +181,9 @@ const Application: React.FC = () => {
             <div className="w-full bg-[#ffffff] border border-[#EDEFF2] px-5 py-5 flex justify-between items-center rounded-lg">
               <div className="DM_sans space-y-3">
                 <h1 className="text-[#606060]">New Applications</h1>
-                <p className="text-2xl text-[#000000] font-bold">54</p>
+                <p className="text-2xl text-[#000000] font-bold">
+                  {applications.length}
+                </p>
               </div>
               <SlBriefcase size={25} className="text-[#1AC23F]" />
             </div>
@@ -163,7 +191,12 @@ const Application: React.FC = () => {
             <div className="w-full bg-[#ffffff] border border-[#EDEFF2] px-5 py-5 flex justify-between items-center rounded-lg">
               <div className="DM_sans space-y-3">
                 <h1 className="text-[#606060]">Pending Applicant Reviews</h1>
-                <p className="text-2xl text-[#000000] font-bold">10</p>
+                <p className="text-2xl text-[#000000] font-bold">
+                  {
+                    applications.filter((app) => app.status === "PENDING")
+                      .length
+                  }
+                </p>
               </div>
               <PiClockCountdown size={30} className="text-[#1AC23F]" />
             </div>
@@ -174,10 +207,8 @@ const Application: React.FC = () => {
               Recent Applications
             </h2>
 
-            {/* Table */}
             <div className="w-full overflow-x-auto DM_sans">
               <div className="min-w-[1000px]">
-                {/* Table Header */}
                 <div className="grid grid-cols-5 bg-gray-100 text-[#4D5461] p-4 font-semibold">
                   <div className="text-left">NAME</div>
                   <div className="text-left">ROLE</div>
@@ -186,39 +217,34 @@ const Application: React.FC = () => {
                   <div className="text-left">ACTION</div>
                 </div>
 
-                {/* Table Body */}
                 <div className="space-y-3">
-                  {Applications.map((app) => (
+                  {applications.map((app) => (
                     <div
                       key={app.id}
                       className="grid grid-cols-5 bg-white shadow-sm rounded-lg p-4 items-center"
                     >
-                      {/* Name Column */}
                       <div className="flex items-center gap-4 text-[#1F2937] whitespace-nowrap">
                         <Image
                           src="/assets/images/profile.png"
-                          alt=""
+                          alt={`${app.jobSeeker.fullName}'s profile`}
                           width={40}
                           height={40}
                           className="rounded-full"
                         />
-                        {app.name}
+                        {app.jobSeeker.fullName}
                       </div>
 
-                      {/* Role Column */}
                       <div className="text-[#1F2937]">{app.jobRole}</div>
 
-                      {/* Application Date Column */}
                       <div className="text-[#1F2937]">
                         {app.applicationDate}
                       </div>
 
-                      {/* Status Column */}
                       <div
                         className={`font-medium flex items-center ${
-                          app.status === "Accepted"
+                          app.status === "ACCEPTED"
                             ? "text-[#1AC23F]"
-                            : app.status === "Rejected"
+                            : app.status === "REJECTED"
                               ? "text-[#F9150B]"
                               : "text-[#777777]"
                         }`}
@@ -227,13 +253,9 @@ const Application: React.FC = () => {
                         {app.status}
                       </div>
 
-                      {/* Action Column */}
                       <div>
                         <button
-                          onClick={() => {
-                            setSelectedApplication(app);
-                            setIsModalOpen(true);
-                          }}
+                          onClick={() => handleViewApplication(app)}
                           className="text-[#526F58] border border-[#9CB8A2] hover:border-green-200 hover:bg-green-200 hover:text-green-600 cal_sans px-5 py-2 rounded-md text-sm cursor-pointer"
                         >
                           View Application
@@ -244,22 +266,21 @@ const Application: React.FC = () => {
                 </div>
               </div>
 
-              {/* Render the correct modal based on status */}
-              {isModalOpen && selectedApplication?.status === "Pending" && (
+              {isModalOpen && selectedApplication?.status === "PENDING" && (
                 <ViewPendingModal
                   isOpen={isModalOpen}
                   setIsOpen={setIsModalOpen}
                   application={selectedApplication}
                 />
               )}
-              {isModalOpen && selectedApplication?.status === "Accepted" && (
+              {isModalOpen && selectedApplication?.status === "ACCEPTED" && (
                 <ViewAcceptedModal
                   isOpen={isModalOpen}
                   setIsOpen={setIsModalOpen}
                   application={selectedApplication}
                 />
               )}
-              {isModalOpen && selectedApplication?.status === "Rejected" && (
+              {isModalOpen && selectedApplication?.status === "REJECTED" && (
                 <ViewRejectedModal
                   isOpen={isModalOpen}
                   setIsOpen={setIsModalOpen}

@@ -232,7 +232,7 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen, job }) => {
         throw new Error("Authentication required");
       }
       const job = {
-        id: "24710c28-72bf-4099-ad25-fc93a4851aeb",
+        id: "2c984888-c72f-4fe7-82fd-cdd274d10fed",
       }; // will remove this soon after testing
 
       const result = await applyForJob(token, job.id, {
@@ -392,11 +392,11 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen, job }) => {
                         value={formData.coverLetter}
                         onChange={handleInputChange}
                         className="w-full border p-2 rounded mt-1"
-                        maxLength={1000}
+                        maxLength={200}
                         required
                       />
-                      <p className="flex justify-end text-sm cal_sans">
-                        {formData.coverLetter.length}/1000 characters
+                      <p className="flex justify-end text-sm DM_sans">
+                        {formData.coverLetter.length}/200 characters
                       </p>
                     </div>
 
