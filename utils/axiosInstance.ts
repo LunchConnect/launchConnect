@@ -1,6 +1,9 @@
+// axiosInstance.ts
+
 import axios from "axios";
 
-const BASE_URL = "http://89.117.36.172:3000/api";
+// 👇 Use relative baseURL to let Next.js proxy handle it
+const BASE_URL = "/api";
 
 export const publicRequest = axios.create({
   baseURL: BASE_URL,
