@@ -91,10 +91,10 @@ function Signup() {
   return (
     <div className="mx-auto space-y-6 p-6 md:p-10 bg-white rounded-lg w-full">
       <div>
-        <h1 className="text-[32px] font-bold text-black text-center md:text-left">
+        <h1 className="text-[32px] font-bold text-black">
           Sign up with LaunchConnect
         </h1>
-        <h3 className="text-[#606060] text-[16px] text-center md:text-left">
+        <h3 className="text-[#606060] text-[16px] mt-4">
           Empower your experience, sign up for free today
         </h3>
       </div>
