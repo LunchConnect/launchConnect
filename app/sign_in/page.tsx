@@ -186,7 +186,7 @@ const handleLogin = async () => {
         </div>
 
         {/* Google Sign In Button */}
-        <button className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 border border-gray-300 p-2 rounded-md">
+        <button className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 border border-gray-300 p-2 rounded-md" disabled>
           <FcGoogle size={20} />
           Continue with Google
         </button>

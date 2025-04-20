@@ -22,6 +22,7 @@ const [isLoading, setIsLoading] = React.useState(false);
  const [Email, setEmail] = useState("");
 const [companyLogo, setcompanyLogo] = useState<File | null>(null);
 const [aboutCompany, setaboutCompany] = useState("");
+const [nameCompany, setnameCompany] = useState("");
   // Modal State
   const [modalOpen, setModalOpen] = React.useState(false);
   const [modalType, setModalType] = React.useState<"success" | "error">("success");
@@ -63,6 +64,9 @@ const [aboutCompany, setaboutCompany] = useState("");
       const parsedUser = storedUser ? JSON.parse(storedUser) : null;
       setFullName(parsedProfile.fullName || "User");
       setroleInCompany(parsedProfile.roleInCompany)
+      setIndustry(parsedProfile.industry)
+      setnameCompany(parsedProfile.companyName)
+      setWebsite(parsedProfile.website)
       setEmail(parsedUser.email)
     }
   }, []);
@@ -246,7 +250,7 @@ const [aboutCompany, setaboutCompany] = useState("");
                  <h3 className="text-[16px] font-semibold text-[#3B4D3F]">Company Name</h3>
               <input
                 type="text"
-                placeholder="TechForge"
+                placeholder={nameCompany}
                 className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[100px]"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
@@ -299,7 +303,7 @@ const [aboutCompany, setaboutCompany] = useState("");
                  <h3 className="text-[16px] font-semibold text-[#3B4D3F]">Industry</h3>
               <input
                 type="text"
-                placeholder="AI-Powered SaaS"
+                placeholder={industry}
                 className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[100px]"
                 value={industry}
               onChange={(e) => setIndustry(e.target.value)}
@@ -310,7 +314,7 @@ const [aboutCompany, setaboutCompany] = useState("");
                  <h3 className="text-[16px] font-semibold text-[#3B4D3F]">About your company</h3>
                  <textarea
                      
-                          placeholder='TechForge Solutions is an AI-driven platform that helps businesses automate customer interactions and optimize workflows. Our mission is to make AI accessible to all businesses, regardless of size.'
+                          placeholder='About Your Company'
                       
                     className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[100px]"
                     value={aboutCompany}
@@ -327,6 +331,7 @@ const [aboutCompany, setaboutCompany] = useState("");
       <input 
   
   value={website}
+  placeholder={website}
   onChange={(e) => setWebsite(e.target.value)}
         className="flex-1 p-2 focus:outline-none bg-white " 
       />
