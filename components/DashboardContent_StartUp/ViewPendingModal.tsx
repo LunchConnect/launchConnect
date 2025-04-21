@@ -14,7 +14,7 @@ interface Application {
   status: "PENDING" | "ACCEPTED" | "REJECTED";
   jobSeeker: {
     fullName: string;
-    email: string;
+    email?: string;
     shortBio: string;
     resumeUrl: string;
     resumeName?: string;

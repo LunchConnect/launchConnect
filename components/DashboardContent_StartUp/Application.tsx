@@ -18,7 +18,7 @@ interface ApplicationCard {
   id: string;
   jobSeeker: {
     fullName: string;
-    email: string; 
+    email?: string; 
     shortBio: string;
     portfolioLink?: string;
     resumeUrl: string;
@@ -114,11 +114,11 @@ const Application: React.FC = () => {
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center p-8">
+      <div className="flex flex-col items-center justify-center my-10 p-8">
         <div className="text-red-500 mb-4">{error}</div>
         <button
           onClick={() => window.location.reload()}
-          className="bg-[#1AC23F] text-white px-6 py-2 rounded-lg"
+          className="bg-[#1AC23F] text-white px-6 py-1 rounded-lg"
         >
           Retry
         </button>

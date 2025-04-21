@@ -229,7 +229,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
                 <h2 className="text-[17px] mb-4 text-[#01011A] cal_sans">
                   Explore company insights
                 </h2>
-                <ul className="grid grid-rows-1 md:grid-cols-3 gap-x-10 gap-y-4 text-xl">
+                <ul className="grid grid-rows-1 gap-x-10 gap-y-4 text-xl">
                   <li className="text-gray-700">
                     <div className="flex items-start gap-4">
                       <Image
