@@ -44,6 +44,7 @@ const ViewAcceptedModal: React.FC<AcceptedModalProps> = ({
     setTimeout(() => setShowCopiedBanner(false), 2000);
   };
 
+
   if (!isOpen || application.status !== "ACCEPTED") return null;
 
 
@@ -56,7 +57,7 @@ const ViewAcceptedModal: React.FC<AcceptedModalProps> = ({
       >
         <div className="fixed inset-0 bg-black/30 backdrop-blur-0 z-[50]" />
         <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
-          <div className="flex min-h-full items-center justify-center p-2 md:p-4">
+          <div className="flex min-h-full items-center justify-center p-2 md:p-4 w-full">
             <Dialog.Panel className="w-full max-w-md md:max-w-xl bg-white p-6 rounded-xl shadow-lg">
               {showSuccessModal ? (
                 // SUCCESS VIEW
@@ -79,12 +80,14 @@ const ViewAcceptedModal: React.FC<AcceptedModalProps> = ({
                     </div>
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Email Address</h1>
-                      <div className="flex justify-between">
-                        <p>{application.jobSeeker.email ?? "Not Provided"}</p>
+                      <div className="flex justify-between text-[#1Fc16B]">
+                        <p>{application.jobSeeker.email || "Not Provided"}</p>
                         <FiCopy
                           size={20}
                           className="text-[#757575] cursor-pointer"
-                          onClick={() => handleCopy(application.jobSeeker.email ?? "")}
+                          onClick={() =>
+                            handleCopy(application.jobSeeker.email || "")
+                          }
                         />
                       </div>
                       {showCopiedBanner && (
@@ -143,11 +146,24 @@ const ViewAcceptedModal: React.FC<AcceptedModalProps> = ({
                       </div>
 
                       <div className="border-b border-[#DEE6ED] pb-2">
-                        <h1>Full Name</h1> <p>{application.jobSeeker.fullName}</p>
+                        <h1>Full Name</h1>{" "}
+                        <p>{application.jobSeeker.fullName}</p>
                       </div>
 
                       <div className="border-b border-[#DEE6ED] pb-2">
-                        <h1>Email Address</h1> <p>{application.jobSeeker.email}</p>
+                        <h1>Email Address</h1>
+                        <div className="flex justify-between text-[#1Fc16B]">
+                          <p>{application.jobSeeker.email || "Not Provided"}</p>
+                          <FiCopy
+                            size={20}
+                            className="text-[#757575] cursor-pointer"
+                            onClick={() =>
+                              handleCopy(
+                                application.jobSeeker.email || "Not Provided"
+                              )
+                            }
+                          />
+                        </div>
                       </div>
 
                       <div className="border-b border-[#DEE6ED] pb-2">
@@ -190,7 +206,8 @@ const ViewAcceptedModal: React.FC<AcceptedModalProps> = ({
                         <div className="flex justify-between items-center bg-[#eef9f0] p-3 rounded-lg">
                           <div>
                             <p>
-                              {application.jobSeeker.resumeName || "No Resume Uploaded"}
+                              {application.jobSeeker.resumeName ||
+                                "No Resume Uploaded"}
                             </p>
                             <p className="text-gray-400">
                               {application.jobSeeker.resumeSize || ""}

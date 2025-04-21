@@ -19,17 +19,17 @@ interface Job {
   commitmenLevel: string;
 }
 
-const jobTypeOptions = ["ENTRY-ROLL", "VOLUNTEER", "INTERNSHIP"];
+const jobTypeOptions = ["FULL_TIME", "PART_TIME", "INTERNSHIP"];
 const industryOptions = [
   "Technology",
   "Commerce",
-  "Telecommunication",
-  "Hotel & Tourism",
+  "Telecommunications",
+  "Hotels & Tourism",
   "Education",
   "Financal Services",
   "Health",
 ];
-const roleOptions = ["NOT-PAID", "PAID"];
+const roleOptions = ["UNPAID", "PAID"];
 
 const PostJobContent: React.FC = () => {
   const router = useRouter();
@@ -62,6 +62,18 @@ const PostJobContent: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+
+    const wordLimitMap: Record<string, number> = {
+      jobDescription: 600,
+      responsibilities: 100,
+      skills: 50,
+    };
+
+    if (wordLimitMap[name]) {
+      const words = value.trim().split(/\s+/);
+      if (words.length > wordLimitMap[name]) return; // Block input
+    }
+
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -91,7 +103,15 @@ const PostJobContent: React.FC = () => {
     setDropdownOpen((prev) => ({ ...prev, [dropdown]: !prev[dropdown] }));
   };
 
-  const countWords = (text: string) => text.trim().split(/\s+/).length;
+  const countWords = (text: string) => {
+    return text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+  };
+
+  const maxWords = {
+    jobDescription: 600,
+    responsibilities: 100,
+    skills: 50,
+  };
 
   const validateForm = () => {
     const requiredFields = [
@@ -112,11 +132,20 @@ const PostJobContent: React.FC = () => {
       return false;
     }
 
+    if (countWords(formData.jobDescription) > 600) {
+      alert("Job Description must be under 600 words.");
+      return false;
+    }
+
     if (countWords(formData.responsibilities) > 100) {
       alert("Responsibilities must be under 100 words.");
       return false;
     }
 
+    if (countWords(formData.skills) > 50) {
+      alert("Required Skills must be under 50 words.");
+      return false;
+    }
     return true;
   };
 
@@ -184,13 +213,11 @@ const PostJobContent: React.FC = () => {
       console.error("Post job error:", error);
 
       if (error.response) {
-        // Server responded with error status
         alert(
           error.response.data?.message ||
             "Failed to post job. Please try again."
         );
       } else {
-        // Network or other errors
         alert("An error occurred. Please check your connection and try again.");
       }
     } finally {
@@ -288,7 +315,9 @@ const PostJobContent: React.FC = () => {
             placeholder="Provide a brief overview of the role, its purpose, and how it contributes to the company."
           />
           <p className="text-sm text-[#344054] cal_sans flex justify-end">
-            600 Words Max
+            {countWords(formData.jobDescription) === 0
+              ? "600 Words max"
+              : `${maxWords.jobDescription - countWords(formData.jobDescription)} words remaining`}
           </p>
         </div>
 
@@ -306,7 +335,9 @@ const PostJobContent: React.FC = () => {
             placeholder="List the main duties and tasks expected in this role."
           />
           <p className="text-sm text-[#344054] cal_sans flex justify-end">
-            100 Words Max
+            {countWords(formData.responsibilities) === 0
+              ? "100 Words max"
+              : `${maxWords.responsibilities - countWords(formData.responsibilities)} words remaining`}
           </p>
         </div>
 
@@ -324,7 +355,9 @@ const PostJobContent: React.FC = () => {
             placeholder="Mention any additional skills or experiences that would be beneficial."
           />
           <p className="text-sm text-[#344054] cal_sans flex justify-end">
-            50 Words Max
+            {countWords(formData.skills) === 0
+              ? "50 Words max"
+              : `${maxWords.skills - countWords(formData.skills)} words remaining`}
           </p>
         </div>
 

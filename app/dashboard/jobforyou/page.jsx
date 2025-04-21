@@ -40,7 +40,7 @@ export default function FindJobsPage() {
     };
 
     fetchJobs();
-  }, [token]);
+  }, []);
 
   const jobsPerPage = 3;
 

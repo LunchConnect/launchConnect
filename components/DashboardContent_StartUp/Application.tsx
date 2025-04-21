@@ -18,9 +18,9 @@ interface ApplicationCard {
   id: string;
   jobSeeker: {
     fullName: string;
-    email?: string; // not in your example, so mark optional or remove
+    email: string; 
     shortBio: string;
-    portfolioLink?: string; // not in response either
+    portfolioLink?: string;
     resumeUrl: string;
     skills: string[];
     interests: string[];
@@ -30,9 +30,6 @@ interface ApplicationCard {
   status: "PENDING" | "ACCEPTED" | "REJECTED";
 }
 
-
-
-
 const Application: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState<ApplicationCard | null>(null);
@@ -40,6 +37,17 @@ const Application: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+    const updateApplicationStatus = (
+      applicationId: string,
+      newStatus: "ACCEPTED" | "REJECTED"
+    ) => {
+      setApplications((prevApplications) =>
+        prevApplications.map((app) =>
+          app.id === applicationId ? { ...app, status: newStatus } : app
+        )
+      );
+    };
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -271,6 +279,9 @@ const Application: React.FC = () => {
                   isOpen={isModalOpen}
                   setIsOpen={setIsModalOpen}
                   application={selectedApplication}
+                  onStatusUpdate={(id, newStatus) => {
+                    updateApplicationStatus(id, newStatus);
+                  }}
                 />
               )}
               {isModalOpen && selectedApplication?.status === "ACCEPTED" && (

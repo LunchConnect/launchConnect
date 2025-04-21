@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation"; // ✅ To redirect after login
 import { Eye, EyeOff } from "lucide-react";
@@ -23,11 +23,28 @@ function SignIn() {
   const [modalType, setModalType] = useState<"success" | "error">("success");
   const [modalMessage, setModalMessage] = useState("");
 
+
+
+
+//  useEffect(() => {
+
+//   const token = localStorage.getItem("token");
+
+//   if (token) {
+//     router.back()
+//   }
+
+
+//   }, [router]);
+
+
+
+
 // ✅ Handle Login
 const handleLogin = async () => {
   setLoading(true);
 
-  const response = await login(email, password); // ✅ Call login API
+  const response = await login(email, password);
   setLoading(false);
 
   if (response.success) {
@@ -35,19 +52,32 @@ const handleLogin = async () => {
     const { token, user, profile } = userData;
     const role = user?.role;
 
-    // ✅ Store all relevant data in localStorage
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("profile", JSON.stringify(profile));
-    localStorage.setItem("fullData", JSON.stringify(userData)); // All in one, just in case
-    localStorage.setItem("fullName", profile.fullName); // for easy access later
+    localStorage.setItem("fullData", JSON.stringify(userData));
+    localStorage.setItem("fullName", profile?.fullName || "");
 
-    // ✅ Modal feedback
+    if (!profile) {
+      setModalType("error");
+      setModalMessage("Your profile setup is not completed yet.");
+      setModalOpen(true);
+
+      setTimeout(() => {
+        if (role === "job_seeker") {
+          router.push("/sign_up/job_seeker");
+        } else {
+          router.push("/sign_up/startup_form");
+        }
+      }, 5500);
+      return;
+    }
+
+    // ✅ Profile exists
     setModalType("success");
     setModalMessage("Welcome back! You’ve logged in successfully.");
     setModalOpen(true);
 
-    // ✅ Conditional redirect
     setTimeout(() => {
       if (role === "job_seeker") {
         router.push("/dashboard");
@@ -55,10 +85,36 @@ const handleLogin = async () => {
         router.push("/startup_founder_dashboard");
       }
     }, 2000);
+
   } else {
-    setModalType("error");
-    setModalMessage(response.message || "Login failed. Check your credentials and try again.");
-    setModalOpen(true);
+    const msg = response.message || "Login failed. Check your credentials and try again.";
+
+    if (msg === "Email not verified. A new verification code has been sent.") {
+      setModalType("error");
+      setModalMessage(msg);
+      setModalOpen(true);
+
+      setTimeout(() => {
+        router.push(`/sign_up/confirm_email?email=${encodeURIComponent(email)}`);
+      }, 2500);
+    } else if (msg === "Role not set. Please select a role to continue.") {
+      // ✅ Store token if present
+      if (response.token) {
+        localStorage.setItem("token", response.token);
+      }
+
+      setModalType("error");
+      setModalMessage(msg);
+      setModalOpen(true);
+
+      setTimeout(() => {
+        router.push("/sign_up/welcome");
+      }, 2500);
+    } else {
+      setModalType("error");
+      setModalMessage(msg);
+      setModalOpen(true);
+    }
   }
 };
 
@@ -148,9 +204,9 @@ const handleLogin = async () => {
         onClose={() => setModalOpen(false)}
         onAction={() => setModalOpen(false)}
         type={modalType}
-        title={modalType === "success" ? "Login Successful" : "Incorrect Login Details"}
+        title={modalType === "success" ? "Login Successful" : "Login Failed"}
         description={modalMessage}
-        buttonText={modalType === "success" ? "Proceed to Dashboard" : "Retry"}
+        buttonText={modalType === "success" ? "Proceed to Dashboard" : "OK"}
       />
     </div>
   );

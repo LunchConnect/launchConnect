@@ -39,7 +39,7 @@ useEffect(() => {
      {/* Top Navbar */}
      <StartDashboardNav onMenuClick={() => setSidebarOpen(true)} />
 
-     <main className="flex flex-1 flex-col gap-4 p-2 pt-0 w-full h-full lg:ml-64 md:ml-0 bg-[#FAFAFA]">
+     <main className="flex flex-1 flex-col gap-4 p-2 pt-0 w-full lg:ml-64 md:ml-0 bg-[#FAFAFA]">
            
             
     

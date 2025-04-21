@@ -2,6 +2,10 @@ import {publicRequest} from "@/utils/axiosInstance";
 
 
 
+type LoginResponse = 
+  | { success: true; data: any }
+  | { success: false; message: string; token?: string; redirectTo?: string };
+
 // ✅ Register (Sign Up)
 
 export const register = async (email: string, password: string) => {
@@ -39,7 +43,7 @@ export const register = async (email: string, password: string) => {
 
 
 
-export const login = async (email: string, password: string) => {
+export const login = async (email: string, password: string): Promise<LoginResponse> => {
   try {
     console.log("🔄 Attempting to log in with email:", email);
 
@@ -55,18 +59,17 @@ export const login = async (email: string, password: string) => {
   } catch (error: any) {
     console.error("❌ Login error:", error.response?.data || error.message);
 
-    // Extract error message from API response
-    const errorMessage = error.response?.data?.error || 
-                         error.response?.data?.message || 
-                         "Login failed. Please check your credentials.";
+    const fallbackMessage = "Login failed. Please check your credentials.";
+    const res = error.response?.data || {};
 
     return { 
       success: false, 
-      message: errorMessage
+      message: res.error || res.message || fallbackMessage,
+      token: res.token,
+      redirectTo: res.redirectTo,
     };
   }
 };
-
 
 
 
@@ -196,7 +199,7 @@ export const resendOtpforpassword = async (email: string) => {
 
 
 // ✅ Update User Role API (with Authorization Token)
-export const updateUserRole = async (role: "founder" | "job_seeker", token: string) => {
+export const updateUserRole = async (role: "startupFounder" | "job_seeker", token: string) => {
   try {
     const { data } = await publicRequest.put(
       "/users/update-role",
@@ -374,9 +377,12 @@ export interface JobSeeker {
   interests: string[];
   fullName: string;
   shortBio: string;
+  email: string;
 }
 
 export interface JobApplication {
+  jobRole: string;
+  applicationDate: string;
   id: string;
   jobId: string;
   jobSeekerId: string;
@@ -426,9 +432,13 @@ export const getSingleJob = async (
 
 //For Job Delete ------------------------------------------------------------->
 
-export const deleteJob = async (jobId: string) => {
+export const deleteJob = async (token: string, jobId: string) => {
   try {
-    const response = await publicRequest.delete(`/job/delete-job/${jobId}`);
+    const response = await publicRequest.delete(`/job/delete-job/${jobId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data; // Return the response data
   } catch (error) {
     console.error("Error deleting job:", error);
@@ -437,7 +447,7 @@ export const deleteJob = async (jobId: string) => {
 };
 
 
-// For Get All Job Application For Startup founder--------------------------------------------------->
+// For Get All Job Application For (Startup founder)--------------------------------------------------->
 interface Job {
   id: string;
   companyId: string;
@@ -456,7 +466,7 @@ interface Job {
 
 interface JobSeekers {
   portfolioLink: any;
-  email: any;
+  email: string;
   id: string;
   fullName: string;
   shortBio: string;
@@ -559,7 +569,7 @@ export const createStartupFounderProfile = async (
 
 
 
-// For Findjobs (Job seeker) ---------------------------------------------------------------->
+// For Findjobs (JobSeeker) ---------------------------------------------------------------->
 interface AllJobData {
   id: string;
   companyId: string;
@@ -586,9 +596,9 @@ interface JobsResponse {
 }
 
 export const getFindJobs = async (
-  token: string,
-  page: number = 1,
-  pageSize: number = 12,
+  // token: string,
+  page: number,
+  pageSize: number,
   filters?: {
     title?: string;
     industry?: string;
@@ -605,14 +615,10 @@ export const getFindJobs = async (
     if (filters?.industry) queryParams.append("industry", filters.industry);
     if (filters?.jobType) queryParams.append("jobType", filters.jobType);
 
-    const response = await publicRequest.get(
-      `/job/jobs?${queryParams.toString()}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, // This is the JOBSEEKER token now
-        },
-      }
-    );
+   const response = await publicRequest.get(
+     `/job/get-random-jobs?${queryParams.toString()}`,
+   );
+
 
     return {
       jobs: response.data?.jobs || [],
@@ -643,13 +649,137 @@ export const getFindJobs = async (
   }
 };
 
+//For Findjobs By ID (JobSeeker) ---------------------------------------------------------------->
+export interface FindJobsData {
+  id: string;
+  companyId: string;
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  deadline: string;
+  commitmenLevel: string;
+  location: string;
+  jobType: string;
+  createdAt: string;
+  applicationStatus: "PENDING" | "ACCEPTED" | "REJECTED";
+  company: {
+    companyName: string;
+    industry: string;
+    website: string;
+    companyLogo: string | null;
+  };
+}
 
-// For Apply Job API ----------------------------------------------------------------------->
+export interface FindJobsResponse {
+  success: boolean;
+  message?: string;
+  job?: FindJobsData; 
+  error?: string;
+}
+
+export const getFindJob = async (
+  token: string,
+  jobId: string
+): Promise<FindJobsResponse> => {
+  try {
+    const res = await publicRequest.get<{ job: FindJobsData }>( 
+      `/job/singlejob/${jobId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("API Response:", res.data);
+    if (!res.data?.job) {
+      return {
+        success: false,
+        message: "Job data not found in response",
+        error: "invalid_response_structure",
+      };
+    }
+
+    return {
+      success: true,
+      job: res.data.job,
+    };
+  } catch (err: any) {
+    console.error("API Error:", err);
+
+    const errorResponse = {
+      success: false,
+      message: err.response?.data?.message || "Failed to fetch job details",
+      error: err.response?.data?.error || "network_error",
+    };
+    return errorResponse;
+  }
+};
+
+
+//For getting jobid in Landing Page --------------------------------------------------------------------------------->
+export interface JobCompany {
+  companyName: string;
+  industry: string;
+  website: string;
+  companyLogo: string | null;
+}
+
+export interface FindJobsData {
+  id: string;
+  companyId: string;
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  deadline: string;
+  commitmenLevel: string;
+  location: string;
+  jobType: string;
+  createdAt: string;
+  company: JobCompany;
+}
+
+export interface FindJobsResponse {
+  success: boolean;
+  message?: string;
+  job?: FindJobsData;
+  error?: string;
+}
+
+export const getJobById = async (jobId: string): Promise<FindJobsResponse> => {
+  try {
+    const { data } = await publicRequest.get<{ job?: FindJobsData }>( // Made optional here too
+      `/job/single-job-for-landing/${jobId}`
+    );
+
+    return {
+      success: true,
+      job: data.job, // Will be undefined if not present
+    };
+  } catch (err: unknown) {
+    return {
+      success: false,
+      // job will be undefined by default (matching the interface)
+      message: err instanceof Error ? err.message : "Unknown error",
+      error: "api_error",
+    };
+  }
+};
+
+
+
+
+// For Apply Job API (JobSeeker) ----------------------------------------------------------------------->
 export interface ApplyJobResponse {
   success: boolean;
   message: string;
-  applicationId?: string; // Optional, as your API returns `id` in `application`
-  application?: {        // Add this to match your actual API response
+  applicationId?: string; 
+  application?: {        
     id: string;
     status: string;
     jobId: string;
@@ -662,7 +792,9 @@ export interface ApplyJobResponse {
     token: string, 
     jobId: string,
     applicationData?: {
-      coverLetter?: string;
+      name: string;
+      email: string;
+      coverLetter: string;
       resumeUrl?: string;
     }
   ): Promise<ApplyJobResponse> => {
@@ -706,6 +838,79 @@ export interface ApplyJobResponse {
   };
 
 
+// For Job Tracking in (JobSeeker) -------------------------------------------------------------------->
+interface Company {
+  companyName: string;
+  industry: string;
+  website: string;
+}
+
+interface Job {
+  id: string;
+  companyId: string;
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  deadline: string;
+  commitmenLevel: string;
+  location: string;
+  jobType: string;
+  createdAt: string;
+  company: Company;
+}
+
+interface ApplicationJobseeker {
+  id: string;
+  jobId: string;
+  jobSeekerId: string;
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  appliedAt: string;
+  job: Job;
+}
+
+interface TrackJobResponse {
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  applications: ApplicationJobseeker[];
+}
+
+interface TrackJobParams {
+  token: string;
+  status?: string;
+  page?: number;
+  limit?: number;
+  industry?: string;
+  jobType?: string;
+  title?: string;
+}
+
+export const trackJob = async (
+  params: TrackJobParams
+): Promise<TrackJobResponse> => {
+  const { token, ...queryParams } = params;
+
+  try {
+    const res = await publicRequest.get("/job/applications/my-applications", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: queryParams,
+    });
+
+    return res.data;
+  } catch (error: any) {
+    console.error("Error fetching tracked jobs:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+
+
 // ✅ User getJobSeekerSummary API (with Authorization Token)
 export const getJobSeekerSummary = async (token: string) => {
   try {
@@ -716,7 +921,7 @@ export const getJobSeekerSummary = async (token: string) => {
     });
     return { success: true, data };
   } catch (error: any) {
-    console.error("❌ Failed to fetch job seeker summary:", error.response?.data || error.message);
+    console.error("Failed to fetch job seeker summary:", error.response?.data || error.message);
     return {
       success: false,
       message: error.response?.data?.message || "Failed to fetch summary.",
@@ -724,7 +929,7 @@ export const getJobSeekerSummary = async (token: string) => {
   }
 };
 
-
+// View TrackJob (JobSeeker) ---------------------------------------------------------------->
 
 
 // ✅ User startupSummary API (with Authorization Token)

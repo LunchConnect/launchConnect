@@ -32,6 +32,10 @@ function ForgotPassword() {
     setLoading(false);
   
     if (response.success) {
+      setModalType("success");
+      setModalMessage(response.message);
+      setModalOpen(true);
+
       router.push(`/sign_in/confirm_otp?email=${encodeURIComponent(email)}`); // ✅ Redirect with email
     } else {
       setModalType("error");

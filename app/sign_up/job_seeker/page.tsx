@@ -66,12 +66,15 @@ const [isLoading, setIsLoading] = React.useState(false);
   };
 
   const handleAddSkill = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && skillInputValue.trim() && skills.length < maxSkills) {
-      e.preventDefault();
-      setSkills([...skills, skillInputValue.trim()]);
-      setSkillInputValue("");
+    if (e.key === "Enter" || e.key === "Go") {
+      e.preventDefault(); // Prevent form submission or field jump
+      if (skillInputValue.trim() && skills.length < maxSkills) {
+        setSkills([...skills, skillInputValue.trim()]);
+        setSkillInputValue("");
+      }
     }
   };
+  
 
   const handleRemoveSkill = (skillToRemove: string) => {
     setSkills(skills.filter((skill) => skill !== skillToRemove));
@@ -79,13 +82,14 @@ const [isLoading, setIsLoading] = React.useState(false);
 
 
   const handleAddInterest = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && inputValue.trim() && interests.length < maxInterests) {
-      e.preventDefault();
-      setInterests([...interests, inputValue.trim()]);
-      setInputValue("");
+    if (e.key === "Enter" || e.key === "Go") {
+      e.preventDefault(); // Prevent form submission or field jump
+      if (inputValue.trim() && interests.length < maxInterests) {
+        setInterests([...interests, inputValue.trim()]);
+        setInputValue("");
+      }
     }
   };
-
   const handleRemoveInterest = (interestToRemove: string) => {
     setInterests(interests.filter((interest) => interest !== interestToRemove));
   };
@@ -96,7 +100,11 @@ const [isLoading, setIsLoading] = React.useState(false);
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Authentication token not found. Please log in again.");
+      setModalType("error");
+      setModalMessage("Authentication token not found. Please log in again." );
+      setModalOpen(true);
+
+      // alert("Authentication token not found. Please log in again.");
       setIsLoading(false);
       return;
     }
@@ -109,9 +117,15 @@ const [isLoading, setIsLoading] = React.useState(false);
 
   // Validate fields
   if (!fullName || !bio || skills.length === 0 || interests.length === 0 || !resume)   {
-    console.error("All fields must be filled out. Please check your input.");
+
+
+    setModalType("error");
+    setModalMessage("Please fill out all required fields (Full Name, Bio, Skills, Interests, and Resume)." );
+    setModalOpen(true);
+
+    // console.error("Please fill out all required fields (Full Name, Bio, Skills, Interests, and Resume).");
     // Optionally, show a message to the user about the missing fields
-    alert("Please fill out all required fields (Full Name, Bio, Skills, Interests, and Resume).");
+    // alert("Please fill out all required fields (Full Name, Bio, Skills, Interests, and Resume).");
     setIsLoading(false);
     return; // Prevent form submission if any field is empty
   }
@@ -163,6 +177,7 @@ const [isLoading, setIsLoading] = React.useState(false);
             <label className="text-[16px] font-medium text-[#4A4A4A] mb-2 block">Full Name</label>
             <input
               type="text"
+              required
               placeholder="eg. Ikenna Okafor"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
@@ -175,6 +190,7 @@ const [isLoading, setIsLoading] = React.useState(false);
             <label className="text-[16px] font-medium text-[#4A4A4A] mb-2 block">Short Bio</label>
             <textarea
               value={bio}
+              required
               onChange={handleBioChange}
               placeholder='e.g. "Passionate UI/UX Designer looking for an internship at a startup."'
               className="w-full p-2 border rounded-md bg-white text-[14px]"
@@ -191,7 +207,7 @@ const [isLoading, setIsLoading] = React.useState(false);
               {...getRootProps()}
               className="bg-[#F7F7F8] border border-[#E9EAEB] border-solid p-8 text-center rounded-md cursor-pointer relative flex flex-col items-center justify-center gap-4"
             >
-              <input {...getInputProps()} />
+              <input {...getInputProps()}    required />
               
               {resume ? (
                 <p className="text-green-600 text-lg">
@@ -212,6 +228,7 @@ const [isLoading, setIsLoading] = React.useState(false);
             </label>
             <input
               type="text"
+          
               value={skillInputValue}
               onChange={(e) => setSkillInputValue(e.target.value)}
               onKeyDown={handleAddSkill}
@@ -247,6 +264,7 @@ const [isLoading, setIsLoading] = React.useState(false);
             </label>
             <input
               type="text"
+             enterKeyHint="done"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleAddInterest}
@@ -308,7 +326,7 @@ const [isLoading, setIsLoading] = React.useState(false);
         type={modalType}
         title={modalType === "success" ? "Account Creation Successful" : "Submission Failed"}
         description={modalMessage}
-        buttonText={modalType === "success" ? "Proceed to Sign In" : "Retry"}
+        buttonText={modalType === "success" ? "Proceed to Sign In" : "OK"}
       />
     </div>
   );

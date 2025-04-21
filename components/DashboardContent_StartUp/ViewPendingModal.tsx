@@ -1,5 +1,3 @@
-// ✅ FIXED LOGIC VERSION — styling untouched
-
 import { Dialog, Transition } from "@headlessui/react";
 import { X } from "lucide-react";
 import { Fragment, useState } from "react";
@@ -16,7 +14,7 @@ interface Application {
   status: "PENDING" | "ACCEPTED" | "REJECTED";
   jobSeeker: {
     fullName: string;
-    email?: string;
+    email: string;
     shortBio: string;
     resumeUrl: string;
     resumeName?: string;
@@ -50,10 +48,17 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
 
   const handleStatusUpdate = async (newStatus: "ACCEPTED" | "REJECTED") => {
     setIsUpdating(true);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You must be logged in to update your status");
+      return;
+    }
+
     try {
-      const result = await updateJobStatus(application.id, newStatus);
+      const result = await updateJobStatus(application.id, newStatus, token);
       if (result.success) {
         setShowSuccessModal(true);
+        // This is now type-safe - we're passing the exact literal types
         onStatusUpdate?.(application.id, newStatus);
       } else {
         alert(result.message || "Update failed");
@@ -76,7 +81,7 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
       >
         <div className="fixed inset-0 bg-black/30 backdrop-blur-0 z-[50]" />
         <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
-          <div className="flex min-h-full items-center justify-center p-2 md:p-4">
+          <div className="flex min-h-full items-center justify-center p-2 md:p-4 w-full">
             <Dialog.Panel className="w-full max-w-lg md:max-w-xl bg-white p-6 rounded-xl shadow-lg">
               {showSuccessModal ? (
                 <div>
@@ -99,13 +104,15 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
                     </div>
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Email Address</h1>
-                      <div className="flex justify-between">
-                        <p>{application.jobSeeker.email ?? "Not Provided"}</p>
+                      <div className="flex justify-between text-[#1Fc16B]">
+                        <p>{application.jobSeeker.email || "Not Provided"}</p>
                         <FiCopy
                           size={20}
                           className="text-[#757575] cursor-pointer"
                           onClick={() =>
-                            handleCopy(application.jobSeeker.email ?? "")
+                            handleCopy(
+                              application.jobSeeker.email || "Not Provided"
+                            )
                           }
                         />
                       </div>
@@ -159,7 +166,18 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
 
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Email Address</h1>
-                      <p>{application.jobSeeker.email}</p>
+                      <div className="flex justify-between text-[#1Fc16B]">
+                        <p>{application.jobSeeker.email || "Not Provided"}</p>
+                        <FiCopy
+                          size={20}
+                          className="text-[#757575] cursor-pointer"
+                          onClick={() =>
+                            handleCopy(
+                              application.jobSeeker.email || "Not Provided"
+                            )
+                          }
+                        />
+                      </div>
                     </div>
 
                     <div className="border-b border-[#DEE6ED] pb-2">

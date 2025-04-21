@@ -1,8 +1,11 @@
+"use client";
 import ActiveJobPosting from "@/components/ActiveJobPosting";
 import RecentApplication from "@/components/RecentApplication";
 import JobDashboard from "@/components/JobDashboard";
+import useProtectRoute from "@/hooks/useProtectedRoute";
 
 export default function Page() {
+  useProtectRoute();
   return (
     <div className="flex flex-1 flex-col gap-6 mt-20 p-2 md:p-6 rounded-xl bg-white">
       {/* Top Section: Job Applications & Status */}

@@ -4,6 +4,7 @@ import { Fragment, useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
 import { BsDot } from "react-icons/bs";
 import { updateJobStatus } from "@/actions/action";
+import { FiCopy } from "react-icons/fi";
 
 interface Application {
   id: string;
@@ -44,8 +45,7 @@ const ViewRejectedModal: React.FC<RejectedModalProps> = ({
     setTimeout(() => setShowCopiedBanner(false), 2000); // hide after 2 seconds
   };
 
- if (!isOpen || application.status !== "REJECTED") return null;
-
+  if (!isOpen || application.status !== "REJECTED") return null;
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -56,7 +56,7 @@ const ViewRejectedModal: React.FC<RejectedModalProps> = ({
       >
         <div className="fixed inset-0 bg-black/30 backdrop-blur-0 z-[50]" />
         <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
-          <div className="flex min-h-full items-center justify-center p-2 md:p-4">
+          <div className="flex min-h-full items-center justify-center p-2 md:p-5 w-full">
             <Dialog.Panel className="w-full max-w-md md:max-w-xl bg-white p-6 rounded-xl shadow-lg">
               {/*  Job Application Form */}
               <>
@@ -92,7 +92,19 @@ const ViewRejectedModal: React.FC<RejectedModalProps> = ({
                     </div>
 
                     <div className="border-b border-[#DEE6ED] pb-2">
-                      <h1>Email Address</h1> <p>{application.jobSeeker.email}</p>
+                      <h1>Email Address</h1>
+                      <div className="flex justify-between text-[#1Fc16B]">
+                        <p>{application.jobSeeker.email || "Not Provided"}</p>
+                        <FiCopy
+                          size={20}
+                          className="text-[#757575] cursor-pointer"
+                          onClick={() =>
+                            handleCopy(
+                              application.jobSeeker.email || "Not Provided"
+                            )
+                          }
+                        />
+                      </div>
                     </div>
 
                     <div className="border-b border-[#DEE6ED] pb-2">
@@ -104,7 +116,8 @@ const ViewRejectedModal: React.FC<RejectedModalProps> = ({
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {application.jobSeeker.portfolioLink || "No portfolio provided"}
+                          {application.jobSeeker.portfolioLink ||
+                            "No portfolio provided"}
                         </a>
                         {application.jobSeeker.portfolioLink && (
                           <IoCopyOutline
@@ -135,7 +148,8 @@ const ViewRejectedModal: React.FC<RejectedModalProps> = ({
                       <div className="flex justify-between items-center bg-[#eef9f0] p-3 rounded-lg">
                         <div>
                           <p>
-                            {application.jobSeeker.resumeName || "No Resume Uploaded"}
+                            {application.jobSeeker.resumeName ||
+                              "No Resume Uploaded"}
                           </p>
                           <p className="text-gray-400">
                             {application.jobSeeker.resumeSize || ""}
