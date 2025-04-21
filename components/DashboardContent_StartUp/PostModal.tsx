@@ -8,8 +8,20 @@ import { scrollToTop } from "@/lib/utils";
 interface JobModalProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  job: { id: string };
+  job: {
+    title: string;
+    description: string;
+    responsibilities: string;
+    skillsRequired: string;
+    jobType: string;
+    industry: string;
+    paidRole: string;
+    deadline: string;
+    location: string;
+    commitmenLevel: string;
+  };
 }
+
 
 const PostModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen, job }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(true);
@@ -32,7 +44,7 @@ const PostModal: React.FC<JobModalProps> = ({ isOpen, setIsOpen, job }) => {
                 <div className="text-center">
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="ml-auto rounded-full shadow-md p-1.5 flex items-center justify-center"
+                    className="ml-auto rounded-full border border-gray-100 p-1.5 flex items-center justify-center"
                   >
                     <X className="w-5 h-5 text-black" />
                   </button>

@@ -3,49 +3,37 @@ import { X } from "lucide-react";
 import { Fragment, useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
 import { BsDot } from "react-icons/bs";
-import { updateJobStatus } from "@/actions/action";
-import { FiCopy } from "react-icons/fi";
 
 interface Application {
   id: string;
+  name: string;
   jobRole: string;
   applicationDate: string;
-  status: "PENDING" | "ACCEPTED" | "REJECTED";
-  jobSeeker: {
-    fullName: string;
-    email?: string;
-    shortBio: string;
-    resumeUrl: string;
-    resumeName?: string;
-    resumeSize?: string;
-    portfolioLink?: string;
-  };
+  status: "Pending" | "Accepted" | "Rejected";
 }
 
-interface RejectedModalProps {
+interface PendingModalProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   application: Application;
-  onStatusUpdate?: (id: string, newStatus: "REJECTED") => void;
 }
 
-const ViewRejectedModal: React.FC<RejectedModalProps> = ({
+const RejectedModal: React.FC<PendingModalProps> = ({
   isOpen,
   setIsOpen,
   application,
-  onStatusUpdate,
 }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const portfolioLink = "link.example";
-  const [showCopiedBanner, setShowCopiedBanner] = useState(false);
+   const portfolioLink = "link.example";
+    const [showCopiedBanner, setShowCopiedBanner] = useState(false);
+  
+      const handleCopy = (text: string) => {
+        navigator.clipboard.writeText(text);
+        setShowCopiedBanner(true);
+        setTimeout(() => setShowCopiedBanner(false), 2000); // hide after 2 seconds
+      };
 
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setShowCopiedBanner(true);
-    setTimeout(() => setShowCopiedBanner(false), 2000); // hide after 2 seconds
-  };
-
-  if (!isOpen || application.status !== "REJECTED") return null;
+  if (!isOpen) return null; // Don't render if the modal is not open
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -56,7 +44,7 @@ const ViewRejectedModal: React.FC<RejectedModalProps> = ({
       >
         <div className="fixed inset-0 bg-black/30 backdrop-blur-0 z-[50]" />
         <div className="fixed inset-0 flex items-center justify-center p-4 z-[60]">
-          <div className="flex min-h-full items-center justify-center p-2 md:p-5 w-full">
+          <div className="flex min-h-full items-center justify-center p-2 md:p-4">
             <Dialog.Panel className="w-full max-w-md md:max-w-xl bg-white p-6 rounded-xl shadow-lg">
               {/*  Job Application Form */}
               <>
@@ -83,51 +71,29 @@ const ViewRejectedModal: React.FC<RejectedModalProps> = ({
                       <h1>Application status</h1>
                       <div className="flex items-center text-[#F9150B]">
                         <BsDot size={40} />
-                        <h2>{application.status}</h2>
+                        <h2>Rejected</h2>
                       </div>
                     </div>
 
                     <div className="border-b border-[#DEE6ED] pb-2">
-                      <h1>Full Name</h1> <p>{application.jobSeeker.fullName}</p>
+                      <h1>Full Name</h1> <p>Mr. Example</p>
                     </div>
 
                     <div className="border-b border-[#DEE6ED] pb-2">
-                      <h1>Email Address</h1>
-                      <div className="flex justify-between text-[#1Fc16B]">
-                        <p>{application.jobSeeker.email || "Not Provided"}</p>
-                        <FiCopy
-                          size={20}
-                          className="text-[#757575] cursor-pointer"
-                          onClick={() =>
-                            handleCopy(
-                              application.jobSeeker.email || "Not Provided"
-                            )
-                          }
-                        />
-                      </div>
+                      <h1>Email Address</h1> <p>exanple@gmail.com</p>
                     </div>
 
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Portfolio</h1>
                       <div className="flex items-center justify-between gap-2">
-                        <a
-                          href={application.jobSeeker.portfolioLink || "#"}
-                          className="text-[#1FC16B]"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {application.jobSeeker.portfolioLink ||
-                            "No portfolio provided"}
+                        <a href="#" className="text-[#1FC16B]">
+                          {portfolioLink}
                         </a>
-                        {application.jobSeeker.portfolioLink && (
-                          <IoCopyOutline
-                            size={20}
-                            className="cursor-pointer"
-                            onClick={() =>
-                              handleCopy(application.jobSeeker.portfolioLink!)
-                            }
-                          />
-                        )}
+                        <IoCopyOutline
+                          size={20}
+                          className="cursor-pointer"
+                          onClick={() => handleCopy(portfolioLink)}
+                        />
                       </div>
                     </div>
 
@@ -139,32 +105,31 @@ const ViewRejectedModal: React.FC<RejectedModalProps> = ({
                     )}
 
                     <div className="border-b border-[#DEE6ED] pb-2">
-                      <h1 className="pb-4">Short Motivation Text</h1>
-                      <p>{application.jobSeeker.shortBio}</p>
+                      <h1 className="pb-4">Short Motivation Text</h1>{" "}
+                      <p>
+                        As a UX designer, I thrive on crafting intuitive and
+                        engaging user experiences that solve real problems. With
+                        a keen eye for design and a user-first approach, I enjoy
+                        translating complex ideas into seamless interactions.
+                        I'm excited about this opportunity because it aligns
+                        with my passion for creating impactful digital
+                        experiences. I look forward to bringing my creativity,
+                        research-driven insights, and collaborative mindset to
+                        your team.
+                      </p>
                     </div>
 
                     <div className="rounded-md">
                       <h1 className="pb-4">Resume</h1>
                       <div className="flex justify-between items-center bg-[#eef9f0] p-3 rounded-lg">
                         <div>
-                          <p>
-                            {application.jobSeeker.resumeName ||
-                              "No Resume Uploaded"}
-                          </p>
-                          <p className="text-gray-400">
-                            {application.jobSeeker.resumeSize || ""}
-                          </p>
+                          <p className="">My Resume.pdf</p>
+                          <p className="text-gray-400">56Kb</p>
                         </div>
-                        {application.jobSeeker.resumeUrl ? (
-                          <a
-                            href={application.jobSeeker.resumeUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="border border-[#9CB8A2] text-[#526F58] cal_sans px-4 h-8 rounded-md flex items-center justify-center"
-                          >
-                            View
-                          </a>
-                        ) : null}
+                        <button className="border border-[#9CB8A2] text-[#526F58] cal_sans px-4 h-8 rounded-md">
+                          {" "}
+                          View
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -189,4 +154,4 @@ const ViewRejectedModal: React.FC<RejectedModalProps> = ({
   );
 };
 
-export default ViewRejectedModal;
+export default RejectedModal;

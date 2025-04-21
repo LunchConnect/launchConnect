@@ -479,7 +479,77 @@ export const updateStartupFounderProfile = async (
 
 
 
-//For Job Posting For Startup Founder ------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// --------------------------------------------Jude's Code------------------------------------------------->
+
+// For Job Posting For Startup Founder ---------------------------------------------------->
+
+
 interface JobData {
   title: string;
   description: string;
@@ -498,7 +568,7 @@ export const postJob = async (jobData: JobData, token: string) => {
   try {
     const response = await publicRequest.post("/job/post-job", jobData, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU`,
+        Authorization: `Bearer ${token}`,
       },
     });
     // return response.data;
@@ -514,67 +584,8 @@ export const postJob = async (jobData: JobData, token: string) => {
 };
 
 
-//For Job Post Management Startup-founder----------------------------
-// interface AllJobData {
-//   id: string;
-//   companyId: string;
-//   title: string;
-//   description: string;
-//   responsibilities: string;
-//   skillsRequired: string;
-//   industry: string;
-//   paidRole: string;
-//   deadline: string;
-//   commitmenLevel: string;
-//   location: string;
-//   jobType: string;
-//   createdAt: string;
-// }
-
-// interface JobsResponse {
-//   total: number;
-//   page: number;
-//   pageSize: number;
-//   totalPages: number;
-//   jobs: AllJobData[];
-// }
-
-export const getJobs = async (
-  token: string,
-  page: number = 1,
-  pageSize: number = 5
-): Promise<JobsResponse> => {
-  try {
-    const response = await publicRequest.get(
-      `/job/jobs?page=${page}&pageSize=${pageSize}`,
-      {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error: any) {
-    console.error(
-      "Error fetching jobs:",
-      error.response?.data || error.message
-    );
-    throw error;
-  }
-};
-
-//For Manage Jobs by ID Startup Founder------------------------------------------------------
-
-
-
-
-
-
-
-
-
-// For Get All Job Application For Startup founder-----------------------------------------------
-interface AllJobApplication {
+// For Job Post Management Startup-founder---------------------------------------------------->
+interface AllJobData {
   id: string;
   companyId: string;
   title: string;
@@ -590,17 +601,25 @@ interface AllJobApplication {
   createdAt: string;
 }
 
-export const getAllJobApplication = async (
+interface JobsResponse {
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  jobs: AllJobData[];
+}
+
+export const getJobs = async (
   token: string,
   page: number = 1,
   pageSize: number = 5
-): Promise<AllJobApplication[]> => {
+): Promise<JobsResponse> => {
   try {
     const response = await publicRequest.get(
-      `/job/job-application?page=${page}&pageSize=${pageSize}`,
+      `/job/jobs?page=${page}&pageSize=${pageSize}`,
       {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -612,10 +631,170 @@ export const getAllJobApplication = async (
     );
     throw error;
   }
+};
+
+
+// For Manage Jobs by ID Startup Founder--------------------------------------------------------->
+export interface JobSeeker {
+  id: string;
+  resumeUrl: string;
+  skills: string[];
+  interests: string[];
+  fullName: string;
+  shortBio: string;
+  email: string;
 }
 
+export interface JobApplication {
+  jobRole: string;
+  applicationDate: string;
+  id: string;
+  jobId: string;
+  jobSeekerId: string;
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  appliedAt: string;
+  jobSeeker: JobSeeker;
+}
 
-// For Findjobs (Job seeker)
+export interface SingleJobData {
+  id: string;
+  companyId: string;
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  deadline: string;
+  commitmenLevel: string;
+  location: string;
+  jobType: string;
+  createdAt: string;
+  applications: JobApplication[];
+}
+
+export interface SingleJobResponse {
+  success: boolean;
+  job: SingleJobData;
+}
+
+export const getSingleJob = async (
+  token: string,
+  jobId: string
+): Promise<SingleJobResponse> => {
+  try {
+    const response = await publicRequest.get(`/job/single-job/${jobId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Use dynamic token
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    console.error("Error fetching job:", error.response?.data || error.message);
+    throw error; // Re-throw for component-level handling
+  }
+};
+
+
+// For Job Delete ------------------------------------------------------------------------------------->
+export const deleteJob = async (token: string, jobId: string) => {
+  try {
+    const response = await publicRequest.delete(`/job/delete-job/${jobId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error("Error deleting job:", error);
+    throw error; // Re-throw the error for handling in the component
+  }
+};
+
+
+// For Get All Job Application For (Startup founder)--------------------------------------------------->
+interface Job {
+  id: string;
+  companyId: string;
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  deadline: string;
+  commitmenLevel: string;
+  location: string;
+  jobType: string;
+  createdAt: string;
+}
+
+interface JobSeekers {
+  portfolioLink: any;
+  email?: string;
+  id: string;
+  fullName: string;
+  shortBio: string;
+  resumeUrl: string;
+  skills: string[];
+  interests: string[];
+}
+
+interface Application {
+  shortBio: any;
+  resumeSize: any;
+  resumeFileName: any;
+  resumeUrl: any;
+  id: string;
+  jobId: string;
+  jobSeekerId: string;
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  appliedAt: string;
+  job: Job;
+  jobSeeker: JobSeekers;
+}
+
+interface ApplicantCountPerJob {
+  jobId: string;
+  title: string;
+  applicantCount: number;
+}
+
+interface AllJobApplicationsResponse {
+  totalApplications: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  applications: Application[];
+  applicantCountPerJob: ApplicantCountPerJob[];
+}
+
+export const getAllJobApplications = async (
+  token: string,
+  page: number = 1,
+  limit: number = 5
+): Promise<AllJobApplicationsResponse> => {
+  try {
+    const response = await publicRequest.get(
+      `/job/applications/all-application-startupfounders?page=${page}&limit=${limit}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error(
+      "Error fetching job applications:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+
+// For Findjobs (JobSeeker) ---------------------------------------------------------------->
 interface AllJobData {
   id: string;
   companyId: string;
@@ -642,26 +821,31 @@ interface JobsResponse {
 }
 
 export const getFindJobs = async (
-  token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU", // Default to your test token
-  page: number = 1,
-  pageSize: number = 12 // Changed to match your UI's jobsPerPage
+  // token: string,
+  page: number,
+  pageSize: number,
+  filters?: {
+    title?: string;
+    industry?: string;
+    jobType?: string;
+  }
 ): Promise<JobsResponse> => {
   try {
-    console.log(`Fetching jobs - Page: ${page}, PageSize: ${pageSize}`); // Debug log
+    const queryParams = new URLSearchParams({
+      page: page.toString(),
+      pageSize: pageSize.toString(),
+    });
 
-    const response = await publicRequest.get(
-      `/job/jobs?page=${page}&pageSize=${pageSize}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    if (filters?.title) queryParams.append("title", filters.title);
+    if (filters?.industry) queryParams.append("industry", filters.industry);
+    if (filters?.jobType) queryParams.append("jobType", filters.jobType);
 
-    console.log("API Response:", response.data); // Debug log
+   const response = await publicRequest.get(
+     `/job/get-random-jobs?${queryParams.toString()}`,
+   );
 
-    // Ensure the response has at least the basic structure
-    const result: JobsResponse = {
+
+    return {
       jobs: response.data?.jobs || [],
       total: response.data?.total || 0,
       page: response.data?.page || page,
@@ -669,8 +853,6 @@ export const getFindJobs = async (
       totalPages: response.data?.totalPages || 0,
       message: response.data?.message,
     };
-
-    return result;
   } catch (error: any) {
     console.error("Job Fetch Error:", {
       status: error.response?.status,
@@ -679,7 +861,6 @@ export const getFindJobs = async (
       responseData: error.response?.data,
     });
 
-    // Return a consistent error structure
     return {
       jobs: [],
       total: 0,
@@ -693,12 +874,135 @@ export const getFindJobs = async (
   }
 };
 
-// For Apply Job API -----------------------------------------------------------------------
+// For Findjobs By ID (JobSeeker) ---------------------------------------------------------------->
+export interface FindJobsData {
+  id: string;
+  companyId: string;
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  deadline: string;
+  commitmenLevel: string;
+  location: string;
+  jobType: string;
+  createdAt: string;
+  applicationStatus: "PENDING" | "ACCEPTED" | "REJECTED";
+  company: {
+    companyName: string;
+    industry: string;
+    website: string;
+    companyLogo: string | null;
+  };
+}
+
+export interface FindJobsResponse {
+  success: boolean;
+  message?: string;
+  job?: FindJobsData; 
+  error?: string;
+}
+
+export const getFindJob = async (
+  token: string,
+  jobId: string
+): Promise<FindJobsResponse> => {
+  try {
+    const res = await publicRequest.get<{ job: FindJobsData }>( 
+      `/job/singlejob/${jobId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("API Response:", res.data);
+    if (!res.data?.job) {
+      return {
+        success: false,
+        message: "Job data not found in response",
+        error: "invalid_response_structure",
+      };
+    }
+
+    return {
+      success: true,
+      job: res.data.job,
+    };
+  } catch (err: any) {
+    console.error("API Error:", err);
+
+    const errorResponse = {
+      success: false,
+      message: err.response?.data?.message || "Failed to fetch job details",
+      error: err.response?.data?.error || "network_error",
+    };
+    return errorResponse;
+  }
+};
+
+
+// For getting jobid in Landing Page --------------------------------------------------------------------------->
+export interface JobCompany {
+  companyName: string;
+  industry: string;
+  website: string;
+  companyLogo: string | null;
+}
+
+export interface FindJobsData {
+  id: string;
+  companyId: string;
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  deadline: string;
+  commitmenLevel: string;
+  location: string;
+  jobType: string;
+  createdAt: string;
+  company: JobCompany;
+}
+
+export interface FindJobsResponse {
+  success: boolean;
+  message?: string;
+  job?: FindJobsData;
+  error?: string;
+}
+
+export const getJobById = async (jobId: string): Promise<FindJobsResponse> => {
+  try {
+    const { data } = await publicRequest.get<{ job?: FindJobsData }>( // Made optional here too
+      `/job/single-job-for-landing/${jobId}`
+    );
+
+    return {
+      success: true,
+      job: data.job, // Will be undefined if not present
+    };
+  } catch (err: unknown) {
+    return {
+      success: false,
+      // job will be undefined by default (matching the interface)
+      message: err instanceof Error ? err.message : "Unknown error",
+      error: "api_error",
+    };
+  }
+};
+
+
+// For Apply Job API (JobSeeker) ----------------------------------------------------------------------->
 export interface ApplyJobResponse {
   success: boolean;
   message: string;
-  applicationId?: string; // Optional, as your API returns `id` in `application`
-  application?: {        // Add this to match your actual API response
+  applicationId?: string; 
+  application?: {        
     id: string;
     status: string;
     jobId: string;
@@ -707,36 +1011,34 @@ export interface ApplyJobResponse {
   };
 }
 
-// action.ts
   export const applyForJob = async (
-    token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwZjUwNWIzLTI4ODMtNGJlNS04OTgyLTRhZjYzMjhmYmU1YSIsImVtYWlsIjoiY2hhbWJlcmV6aWdibzFAZ21haWwuY29tIiwiaWF0IjoxNzQ0MTU5OTQ4LCJleHAiOjE3NDQ3NjQ3NDh9.e3ZkwLYlxwTtK0e-tdcMmk9WOdCtJYVv5hHKRoc8knA",
-    jobId: string = "24710c28-72bf-4099-ad25-fc93a4851aeb", // hardcoded valid jobId
+    token: string, 
+    jobId: string,
     applicationData?: {
-      coverLetter?: string;
+      name: string;
+      email: string;
+      coverLetter: string;
       resumeUrl?: string;
     }
   ): Promise<ApplyJobResponse> => {
     try {
       const response = await publicRequest.post(
         `/job/apply/${jobId}`,
-        applicationData || {}, // Send optional fields (e.g., coverLetter, resumeUrl)
+        applicationData || {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-
-      // Match the actual API response structure (from your earlier example)
       const { application } = response.data;
       return {
         success: true,
         message: response.data.message || "Application submitted successfully",
-        applicationId: application.id, // Explicitly map to avoid confusion
-        application, // Optional: Forward full details
+        applicationId: application.id,
+        application,
       };
     } catch (error: any) {
-      // Handle Axios errors (4xx/5xx) or network errors
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
@@ -755,9 +1057,80 @@ export interface ApplyJobResponse {
     };
   };
 
-  
 
-  //For Updatiing status of the job ------------------------------------------------------
+// For Job Tracking in (JobSeeker) -------------------------------------------------------------------->
+interface Company {
+  companyName: string;
+  industry: string;
+  website: string;
+}
+
+interface Job {
+  id: string;
+  companyId: string;
+  title: string;
+  description: string;
+  responsibilities: string;
+  skillsRequired: string;
+  industry: string;
+  paidRole: string;
+  deadline: string;
+  commitmenLevel: string;
+  location: string;
+  jobType: string;
+  createdAt: string;
+  company: Company;
+}
+
+interface ApplicationJobseeker {
+  id: string;
+  jobId: string;
+  jobSeekerId: string;
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  appliedAt: string;
+  job: Job;
+}
+
+interface TrackJobResponse {
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  applications: ApplicationJobseeker[];
+}
+
+interface TrackJobParams {
+  token: string;
+  status?: string;
+  page?: number;
+  limit?: number;
+  industry?: string;
+  jobType?: string;
+  title?: string;
+}
+
+export const trackJob = async (
+  params: TrackJobParams
+): Promise<TrackJobResponse> => {
+  const { token, ...queryParams } = params;
+
+  try {
+    const res = await publicRequest.get("/job/applications/my-applications", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: queryParams,
+    });
+
+    return res.data;
+  } catch (error: any) {
+    console.error("Error fetching tracked jobs:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+
+// For Updatiing status of the job ------------------------------------------------------
 interface UpdateStatusResponse {
   success: boolean;
   message?: string;
@@ -765,9 +1138,9 @@ interface UpdateStatusResponse {
 }
 
 export const updateJobStatus = async (
-  applicationId: number,
+  applicationId: string,
   status: string,
-  token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmYjI0NTAzLTJlYTItNDlhNi1hMDI2LWFlYjQ3YmRkOGNmOCIsImVtYWlsIjoiY2hhbWJlcmV6aWdib0BnbWFpbC5jb20iLCJpYXQiOjE3NDQwNDA3MTAsImV4cCI6MTc0NDY0NTUxMH0.AiDggagVUdFojZRnjvhDDg0r8epBIihSwnikJwqukwU",// Make token optional (better to pass it when calling)
+  token: string, 
 ): Promise<UpdateStatusResponse> => {
   try {
     const response = await publicRequest.put(
