@@ -101,7 +101,9 @@ function Signup() {
 
       <form onSubmit={handleSignUp} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-[#4A4A4A] text-[16px]">Email Address</Label>
+          <Label htmlFor="email" className="text-[#4A4A4A] text-[16px]">
+            Email Address
+          </Label>
           <Input
             type="email"
             id="email"
@@ -113,7 +115,9 @@ function Signup() {
         </div>
 
         <div className="space-y-2 relative">
-          <Label htmlFor="password" className="text-[#4A4A4A] text-[16px]">Password</Label>
+          <Label htmlFor="password" className="text-[#4A4A4A] text-[16px]">
+            Password
+          </Label>
           <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
@@ -123,7 +127,7 @@ function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button 
+            <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 right-2 flex items-center text-gray-500"
@@ -135,8 +139,15 @@ function Signup() {
 
         <div className="grid grid-cols-2 gap-x-2 gap-y-1">
           {Object.entries(validations).map(([key, isValid]) => (
-            <div key={key} className="flex items-center gap-1 text-[15px] text-gray-500">
-              {isValid ? <CheckCircle className="text-green-500" size={12} /> : <Circle className="text-gray-400" size={12} />}
+            <div
+              key={key}
+              className="flex items-center gap-1 text-[15px] text-gray-500"
+            >
+              {isValid ? (
+                <CheckCircle className="text-green-500" size={12} />
+              ) : (
+                <Circle className="text-gray-400" size={12} />
+              )}
               <span>
                 {key === "lowercase" && "Lowercase"}
                 {key === "uppercase" && "Uppercase"}
@@ -148,21 +159,20 @@ function Signup() {
           ))}
         </div>
 
-
         <p className="text-gray-600 text-sm">
-      By registering for an account, you are consenting to our{" "}
-      <Link href="/terms" className="text-green-500 hover:underline">
-        Terms of Service
-      </Link>{" "}
-      and confirming that you have reviewed and accepted the{" "}
-      <Link href="/privacy" className="text-green-500 hover:underline">
-        Global Privacy Statement
-      </Link>.
-    </p>
+          By registering for an account, you are consenting to our{" "}
+          <Link href="/terms" className="text-green-500 hover:underline">
+            Terms of Service
+          </Link>{" "}
+          and confirming that you have reviewed and accepted the{" "}
+          <Link href="/privacy" className="text-green-500 hover:underline">
+            Global Privacy Statement
+          </Link>
+          .
+        </p>
 
-    
         <div className="flex flex-col items-center justify-center space-y-3">
-          <button 
+          <button
             type="submit"
             className="w-full bg-green-500 text-white p-2 rounded-md"
             disabled={loading}
@@ -170,39 +180,46 @@ function Signup() {
             {loading ? "Signing up..." : "Next"}
           </button>
 
+          {/* OR Divider */}
+          <div className="flex items-center w-full">
+            <div className="flex-1 border-t border-gray-300"></div>
+            <span className="px-3 text-gray-500 text-sm">or</span>
+            <div className="flex-1 border-t border-gray-300"></div>
+          </div>
 
-   {/* OR Divider */}
-   <div className="flex items-center w-full">
-          <div className="flex-1 border-t border-gray-300"></div>
-          <span className="px-3 text-gray-500 text-sm">or</span>
-          <div className="flex-1 border-t border-gray-300"></div>
-        </div>
-
- {/* Google Signup Button */}
- <button className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 border border-gray-300 p-2 rounded-md">
-            <FcGoogle size={20} /> {/* Google Icon */}
+          {/* Google Signup Button */}
+          {/* <button className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 border border-gray-300 p-2 rounded-md">
+            <FcGoogle size={20} /> 
             Continue with Google
-          </button>
-
+          </button> */}
         </div>
-         {/* Sign Up Link */}
-      <p className="text-center text-[16px] text-gray-600">
-      Already have an account?
-         <Link href="/sign_in" className="text-green-500 text-[16px] font-medium"> Login</Link>
-      </p>
-
+        {/* Sign Up Link */}
+        <p className="text-center text-[16px] text-gray-600">
+          Already have an account?
+          <Link
+            href="/sign_in"
+            className="text-green-500 text-[16px] font-medium"
+          >
+            {" "}
+            Login
+          </Link>
+        </p>
       </form>
 
-        {/* ✅ Success & Error Modal */}
-            <AlertModal 
-              open={modalOpen}
-              onClose={() => setModalOpen(false)}
-              onAction={() => setModalOpen(false)}
-              type={modalType}
-              title={modalType === "success" ? "Sign Up Successful" : "Sign Up Failed"}
-              description={modalMessage}
-              buttonText={modalType === "success" ? "Proceed to Verify Your Account" : "OK"}
-            />
+      {/* ✅ Success & Error Modal */}
+      <AlertModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onAction={() => setModalOpen(false)}
+        type={modalType}
+        title={
+          modalType === "success" ? "Sign Up Successful" : "Sign Up Failed"
+        }
+        description={modalMessage}
+        buttonText={
+          modalType === "success" ? "Proceed to Verify Your Account" : "OK"
+        }
+      />
     </div>
   );
 }

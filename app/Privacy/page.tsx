@@ -1,11 +1,11 @@
 import React from 'react'
-import FindJobs from '@/components/Home/FindJobs'
+import Privacy from '@/components/Home/Privacy'
 
 
 export default function page() {
   return (
     <div>
-    <FindJobs />
+    <Privacy />
     </div>
   )
 }

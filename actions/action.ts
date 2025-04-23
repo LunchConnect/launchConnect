@@ -661,7 +661,9 @@ interface Job {
 
 interface JobSeekers {
   portfolioLink: any;
-  email?: string;
+  user: {
+    email: string;
+  };
   id: string;
   fullName: string;
   shortBio: string;

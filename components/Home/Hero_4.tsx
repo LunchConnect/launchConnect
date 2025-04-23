@@ -29,7 +29,7 @@ const Hero4: React.FC = () => {
       setIsLoading(true);
       try {
         // Remove pagination parameters if not needed
-        const data = await getFindJobs(1, 4);
+        const data = await getFindJobs(1, 8);
 
         // Transform the data to match your component's expectations
         const formattedJobs =
@@ -121,7 +121,10 @@ const Hero4: React.FC = () => {
                   </span>
                 ) : (
                   <span className="text-[#56CDAD] text-sm DM_sans font-medium rounded-2xl p-1.5 bg-[#A1E2AF1A]">
-                    {job.jobType}
+                    {job.jobType
+                      .toLowerCase()
+                      .replace(/_/g, " ")
+                      .replace(/\b\w/g, (char) => char.toUpperCase())}
                   </span>
                 )}
               </span>

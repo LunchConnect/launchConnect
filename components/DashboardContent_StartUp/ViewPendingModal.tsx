@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { X } from "lucide-react";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { VscError } from "react-icons/vsc";
 import { IoCheckmarkCircleOutline, IoCopyOutline } from "react-icons/io5";
 import { BsDot } from "react-icons/bs";
@@ -14,12 +14,14 @@ interface Application {
   status: "PENDING" | "ACCEPTED" | "REJECTED";
   jobSeeker: {
     fullName: string;
-    email?: string;
     shortBio: string;
     resumeUrl: string;
     resumeName?: string;
     resumeSize?: string;
     portfolioLink?: string;
+    user: {
+      email: string;
+    }
   };
 }
 
@@ -39,6 +41,7 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showCopiedBanner, setShowCopiedBanner] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [jobSeekerEmail, setJobSeekerEmail] = useState<string>("");
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -104,14 +107,16 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
                     </div>
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Email Address</h1>
-                      <div className="flex justify-between text-[#1Fc16B]">
-                        <p>{application.jobSeeker.email || "Not Provided"}</p>
+                      <div className="flex justify-between text-[#3f4654]">
+                        <p>
+                          {application.jobSeeker.user.email || "Not Provided"}
+                        </p>
                         <FiCopy
                           size={20}
                           className="text-[#757575] cursor-pointer"
                           onClick={() =>
                             handleCopy(
-                              application.jobSeeker.email || "Not Provided"
+                              application.jobSeeker.user.email || "Not Provided"
                             )
                           }
                         />
@@ -166,14 +171,16 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
 
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Email Address</h1>
-                      <div className="flex justify-between text-[#1Fc16B]">
-                        <p>{application.jobSeeker.email || "Not Provided"}</p>
+                      <div className="flex justify-between text-[#3f4654]">
+                        <p>
+                          {application.jobSeeker.user.email || "Not Provided"}
+                        </p>
                         <FiCopy
                           size={20}
                           className="text-[#757575] cursor-pointer"
                           onClick={() =>
                             handleCopy(
-                              application.jobSeeker.email || "Not Provided"
+                              application.jobSeeker.user.email || "Not Provided"
                             )
                           }
                         />

@@ -1,10 +1,11 @@
-
 import { useRouter } from 'next/navigation'
 import React from "react";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { RiTwitterXFill } from "react-icons/ri";
 import { scrollToTop } from "@/lib/utils";
 import Image from "next/image";
+
+
 export const Footer: React.FC = () => {
  const router = useRouter()
   return (
@@ -37,11 +38,19 @@ export const Footer: React.FC = () => {
           <p>about startups. Find your dream job easily.</p>
         </div>
 
-        <div className="flex flex-col pt-up md:mt-0 gap-8 customGreen_3 md:max-w-4xl">
+        <div className="pt-up md:mt-0 gap-8 customGreen_3 md:max-w-4xl">
           {/* Middle Section - Links */}
-          <div className="space-y-4">
-            <div className="cursor-pointer hover:underline DM_sans">Terms</div>
-            <div className="cursor-pointer hover:underline DM_sans">
+          <div className="space-y-4 flex flex-col">
+            <div
+              onClick={() => router.push("/Terms")}
+              className="cursor-pointer hover:underline DM_sans"
+            >
+              Terms
+            </div>
+            <div
+              onClick={() => router.push("/Privacy")}
+              className="cursor-pointer hover:underline DM_sans"
+            >
               Privacy Policy
             </div>
           </div>
