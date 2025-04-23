@@ -97,6 +97,10 @@ export default function FindJobsPage() {
               </div>
             </div>
             <Button variant="outline"
+              onClick={() => {
+                router.push(`/dashboard/Jobdetails/${job.id}`);
+                scrollToTop();
+              }}
               className="border-gray-300 text-gray-700">
               Apply Now
             </Button>

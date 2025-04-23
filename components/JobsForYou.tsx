@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState, useEffect } from "react";
 import { getJobsForYou } from "@/actions/action";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ interface Company {
 }
 
 interface Job {
-  id: string; 
+  id: string;
   logo: string;
   company: Company;
   title: string;
@@ -141,7 +141,15 @@ export default function JobsForYou() {
               </div>
 
               {/* Apply Button */}
-              <Button variant="outline">Apply Now</Button>
+              <Button
+                onClick={() => {
+                  router.push(`/dashboard/Jobdetails/${job.id}`);
+                  scrollToTop();
+                }}
+                variant="outline"
+              >
+                Apply Now
+              </Button>
             </div>
           ))
         )}
