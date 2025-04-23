@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getJobById } from "@/actions/action";
 import type { FindJobsData } from "@/actions/action"; // Explicit type import
+import { FaLink } from "react-icons/fa";
 
 interface JobDetailsProps {
   jobId: string;
@@ -51,6 +52,9 @@ const JobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
   const handleCopyJobDetails = () => {
     if (!job) return;
 
+    const jobUrl = `${window.location.origin}/job_details/${jobId}`;
+    const clickableUrl = `[View Job] (${jobUrl})`; 
+    
     const jobText = `
       Job Title: ${job.title}
       Company: ${job.company.companyName}
@@ -68,8 +72,10 @@ const JobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
       ${job.skillsRequired}
 
       Application Deadline: ${new Date(job.deadline).toLocaleDateString()}
-    `.trim();
+    .trim();
 
+    ${clickableUrl} 
+    `;
     navigator.clipboard
       .writeText(jobText)
       .then(() => {
@@ -166,8 +172,16 @@ const JobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
             <div className="flex items-center gap-2 DM_sans">
               <div className="flex items-center gap-2 mt-2">
                 <LuWallet color="#777777" />
-                <p className="text-green-600 bg-[#1FC16B1A] px-2 py-1 flex items-center gap-1 text-[14px]">
-                  {job.paidRole}
+                <p className="flex items-center gap-1 text-[14px]">
+                  {job.paidRole === "UNPAID" ? (
+                    <span className="text-red-500 bg-[#FFEEEE] px-2 py-1 text-sm font-medium DM_sans">
+                      Not Paid
+                    </span>
+                  ) : (
+                    <span className="text-green-600 bg-[#1FC16B1A] px-2 py-1 text-sm font-medium DM_sans">
+                      Paid
+                    </span>
+                  )}
                 </p>
               </div>
               <p className="text-gray-500 text-sm flex items-center gap-2 mt-2">
@@ -225,7 +239,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
               </div>
 
               {/* Company Insights */}
-              <div className="md:w-1/4 bg-[#F5FFF7] p-4 rounded-2xl shadow self-start">
+              <div className="md:w-1/4 bg-[#F5FFF7] p-4 rounded-2xl shadow md:self-start">
                 <h2 className="text-[17px] mb-4 text-[#01011A] cal_sans">
                   Explore company insights
                 </h2>
@@ -285,7 +299,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
                             href={job.company.website}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-500 hover:underline"
+                            className="text-blue-500 hover:underline break-words max-w-[200px] block"
                           >
                             {job.company.website}
                           </a>
@@ -349,8 +363,8 @@ const JobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
 
             {/* Copied Banner */}
             {showCopiedBanner && (
-              <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
-                Link copied to clipboard!
+              <div className="fixed bottom-4 flex items-center gap-3 left-1/2 -translate-x-1/2 bg-gray-600 text-white text-sm px-4 whitespace-nowrap py-2 rounded shadow-md transition-all duration-300 z-50">
+                <FaLink size={20} className="text-green-300"/> <span>Link copied to clipboard!</span>
               </div>
             )}
           </div>

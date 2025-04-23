@@ -133,6 +133,26 @@ export const verifyForgotPasswordOtp = async (otp: string) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ✅ Reset Password API
 export const resetPassword = async (tempToken: string, newPassword: string) => {
   try {
@@ -151,6 +171,17 @@ export const resetPassword = async (tempToken: string, newPassword: string) => {
     };
   }
 };
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -222,6 +253,51 @@ export const updateUserRole = async (role: "startupFounder" | "job_seeker", toke
     };
   }
 };
+
+
+
+
+
+
+
+
+
+
+// updatePassword
+export const updatePassword = async (
+  oldPassword: string,
+  newPassword: string,
+  token: string
+): Promise<{ success: boolean; message: string }> => {
+  try {
+    const { data } = await publicRequest.post(
+      "/password/dash-reset-password",
+      { oldPassword, newPassword },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return { success: true, message: data?.message || "Password updated successfully" };
+  } catch (error: any) {
+    console.error("❌ Password update error:", error.response?.data || error.message);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Password update failed",
+    };
+  }
+};
+
+
+
+
+
+
+
+
+
 
 
 
@@ -545,11 +621,10 @@ export const updateStartupFounderProfile = async (
 
 
 
+
 // --------------------------------------------Jude's Code------------------------------------------------->
 
 // For Job Posting For Startup Founder ---------------------------------------------------->
-
-
 interface JobData {
   title: string;
   description: string;
@@ -642,7 +717,7 @@ export interface JobSeeker {
   interests: string[];
   fullName: string;
   shortBio: string;
-  email: string;
+  user: { email: string };
 }
 
 export interface JobApplication {
@@ -731,7 +806,9 @@ interface Job {
 
 interface JobSeekers {
   portfolioLink: any;
-  email?: string;
+  user: {
+    email: string;
+  };
   id: string;
   fullName: string;
   shortBio: string;
@@ -874,7 +951,7 @@ export const getFindJobs = async (
   }
 };
 
-// For Findjobs By ID (JobSeeker) ---------------------------------------------------------------->
+//For Findjobs By ID (JobSeeker) ---------------------------------------------------------------->
 export interface FindJobsData {
   id: string;
   companyId: string;
@@ -944,7 +1021,7 @@ export const getFindJob = async (
 };
 
 
-// For getting jobid in Landing Page --------------------------------------------------------------------------->
+//For getting jobid in Landing Page --------------------------------------------------------------------------->
 export interface JobCompany {
   companyName: string;
   industry: string;
@@ -1171,3 +1248,4 @@ export const updateJobStatus = async (
     };
   }
 };
+

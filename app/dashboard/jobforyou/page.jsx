@@ -55,10 +55,12 @@ export default function FindJobsPage() {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen mt-20">
-      <h2 className="text-xl font-semibold mb-4">Jobs For You ({filteredJobs.length})</h2>
+      <h2 className="text-xl font-semibold mb-4">
+        Jobs For You ({filteredJobs.length})
+      </h2>
 
-     {/* Search Bar with Right-Aligned Icon */}
-     <div className="relative mb-4">
+      {/* Search Bar with Right-Aligned Icon */}
+      <div className="relative mb-4">
         <Input
           placeholder="Search Applications"
           className="pr-10 w-full" // Add padding-right to prevent text overlap with the icon
@@ -68,20 +70,38 @@ export default function FindJobsPage() {
         <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
       </div>
 
-
       {/* Job Listings */}
       <div className="space-y-4">
         {displayedJobs.map((job) => (
-          <div key={job.id} className="border rounded-lg p-4 flex items-center justify-between shadow-sm bg-white">
+          <div
+            key={job.id}
+            className="border rounded-lg p-4 flex items-center justify-between shadow-sm bg-white"
+          >
             <div className="flex items-center lg:gap-4">
-              <img src={job.logo} alt={job.company} className="w-10 h-10 rounded-md" />
+              <img
+                src={job.company.companyLogo || "fallback.png"}
+                alt={job.company.companyName}
+                className="w-10 h-10 rounded-md"
+              />
               <div>
                 <h3 className="font-semibold text-sm">{job.title}</h3>
-                <p className="text-sm text-gray-500">{job.company} • {job.location}</p>
-                <Badge className="mt-2 bg-green-100 text-green-700">{job.type}</Badge>
+                <p className="text-sm text-gray-500">
+                  {job.company.companyName} • {job.location}
+                </p>
+                <Badge className="mt-2 bg-green-100 bg-[#56CDAD1A] text-[#56CDAD]">
+                  {job.jobType
+                    .toLowerCase()
+                    .replace(/_/g, " ")
+                    .replace(/\b\w/g, (char) => char.toUpperCase())}
+                </Badge>
               </div>
             </div>
-            <Button variant="outline" className="border-gray-300 text-gray-700">
+            <Button variant="outline"
+              onClick={() => {
+                router.push(`/dashboard/Jobdetails/${job.id}`);
+                scrollToTop();
+              }}
+              className="border-gray-300 text-gray-700">
               Apply Now
             </Button>
           </div>

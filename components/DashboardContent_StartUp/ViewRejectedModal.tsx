@@ -1,9 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { X } from "lucide-react";
-import { Fragment, useState } from "react";
+import { Fragment, useState} from "react";
 import { IoCopyOutline } from "react-icons/io5";
 import { BsDot } from "react-icons/bs";
-import { updateJobStatus } from "@/actions/action";
 import { FiCopy } from "react-icons/fi";
 
 interface Application {
@@ -13,7 +12,9 @@ interface Application {
   status: "PENDING" | "ACCEPTED" | "REJECTED";
   jobSeeker: {
     fullName: string;
-    email?: string;
+    user: {
+      email: string;
+    };
     shortBio: string;
     resumeUrl: string;
     resumeName?: string;
@@ -35,9 +36,9 @@ const ViewRejectedModal: React.FC<RejectedModalProps> = ({
   application,
   onStatusUpdate,
 }) => {
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const portfolioLink = "link.example";
-  const [showCopiedBanner, setShowCopiedBanner] = useState(false);
+const [showSuccessModal, setShowSuccessModal] = useState(false);
+const [showCopiedBanner, setShowCopiedBanner] = useState(false);
+const [jobSeekerEmail, setJobSeekerEmail] = useState<string>("");
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -45,6 +46,7 @@ const ViewRejectedModal: React.FC<RejectedModalProps> = ({
     setTimeout(() => setShowCopiedBanner(false), 2000); // hide after 2 seconds
   };
 
+  
   if (!isOpen || application.status !== "REJECTED") return null;
 
   return (
@@ -93,14 +95,16 @@ const ViewRejectedModal: React.FC<RejectedModalProps> = ({
 
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Email Address</h1>
-                      <div className="flex justify-between text-[#1Fc16B]">
-                        <p>{application.jobSeeker.email || "Not Provided"}</p>
+                      <div className="flex justify-between text-[#3f4654]">
+                        <p>
+                          {application.jobSeeker.user.email || "Not Provided"}
+                        </p>
                         <FiCopy
                           size={20}
                           className="text-[#757575] cursor-pointer"
                           onClick={() =>
                             handleCopy(
-                              application.jobSeeker.email || "Not Provided"
+                              application.jobSeeker.user.email || "Not Provided"
                             )
                           }
                         />

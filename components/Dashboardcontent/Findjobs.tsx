@@ -308,7 +308,6 @@ const handleIndustrySelect = (industry: string) => {
                       </div>
                       <button
                         onClick={() => {
-                          console.log("Navigating to job details:", job.id);
                           router.push(`/dashboard/Jobdetails/${job.id}`);
                           scrollToTop();
                         }}

@@ -1,10 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { X } from "lucide-react";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect} from "react";
 import { IoCopyOutline } from "react-icons/io5";
 import { BsDot } from "react-icons/bs";
 import { FiCopy } from "react-icons/fi";
-import { updateJobStatus } from "@/actions/action";
+
 
 interface Application {
   id: string;
@@ -13,7 +13,9 @@ interface Application {
   status: "PENDING" | "ACCEPTED" | "REJECTED";
   jobSeeker: {
     fullName: string;
-    email?: string;
+    user: {
+      email: string;
+    };
     shortBio: string;
     resumeUrl: string;
     resumeName?: string;
@@ -44,6 +46,7 @@ const ViewAcceptedModal: React.FC<AcceptedModalProps> = ({
     setTimeout(() => setShowCopiedBanner(false), 2000);
   };
 
+  ///
 
   if (!isOpen || application.status !== "ACCEPTED") return null;
 
@@ -80,13 +83,15 @@ const ViewAcceptedModal: React.FC<AcceptedModalProps> = ({
                     </div>
                     <div className="border-b border-[#DEE6ED] pb-2">
                       <h1>Email Address</h1>
-                      <div className="flex justify-between text-[#1Fc16B]">
-                        <p>{application.jobSeeker.email || "Not Provided"}</p>
+                      <div className="flex justify-between text-[#3f4654]">
+                        <p>
+                          {application.jobSeeker.user.email || "Not Provided"}
+                        </p>
                         <FiCopy
                           size={20}
                           className="text-[#757575] cursor-pointer"
                           onClick={() =>
-                            handleCopy(application.jobSeeker.email || "")
+                            handleCopy(application.jobSeeker.user.email || "")
                           }
                         />
                       </div>
@@ -152,14 +157,17 @@ const ViewAcceptedModal: React.FC<AcceptedModalProps> = ({
 
                       <div className="border-b border-[#DEE6ED] pb-2">
                         <h1>Email Address</h1>
-                        <div className="flex justify-between text-[#1Fc16B]">
-                          <p>{application.jobSeeker.email || "Not Provided"}</p>
+                        <div className="flex justify-between text-[#3f4654]">
+                          <p>
+                            {application.jobSeeker.user.email || "Not Provided"}
+                          </p>
                           <FiCopy
                             size={20}
                             className="text-[#757575] cursor-pointer"
                             onClick={() =>
                               handleCopy(
-                                application.jobSeeker.email || "Not Provided"
+                                application.jobSeeker.user.email ||
+                                  "Not Provided"
                               )
                             }
                           />

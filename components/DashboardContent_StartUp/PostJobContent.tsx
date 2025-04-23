@@ -44,7 +44,7 @@ const PostJobContent: React.FC = () => {
     responsibilities: "",
     skills: "",
     jobType: "",
-    industry: [] as string[],
+    industry: "",
     paidRole:"",
     deadline: "",
     location: "",
@@ -77,17 +77,10 @@ const PostJobContent: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleMultiSelectChange =
-    (field: "industry") =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      setFormData((prev) => ({
-        ...prev,
-        [field]: prev[field].includes(value)
-          ? prev[field].filter((i) => i !== value)
-          : [...prev[field], value],
-      }));
-    };
+  const handleIndustryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({ ...prev, industry: e.target.value }));
+    setDropdownOpen((prev) => ({ ...prev, industry: false }));
+  };
 
   const handleJobTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, jobType: e.target.value }));
@@ -169,7 +162,7 @@ const PostJobContent: React.FC = () => {
       responsibilities: formData.responsibilities,
       skillsRequired: formData.skills,
       jobType: formData.jobType,
-      industry: formData.industry.join(", "),
+      industry: formData.industry,
       paidRole: formData.paidRole,
       deadline: new Date(formData.deadline).toISOString(),
       location: formData.location,
@@ -187,7 +180,7 @@ const PostJobContent: React.FC = () => {
           responsibilities: "",
           skills: "",
           jobType: "",
-          industry: [],
+          industry: "",
           paidRole: "",
           deadline: "",
           location: "",
@@ -375,8 +368,8 @@ const PostJobContent: React.FC = () => {
           "industry",
           "Industry",
           industryOptions,
-          formData.industry,
-          handleMultiSelectChange("industry")
+          formData.industry ? [formData.industry] : [],
+          handleIndustryChange
         )}
 
         {/* Paid Role Dropdown */}

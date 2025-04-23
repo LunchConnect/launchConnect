@@ -8,6 +8,7 @@ import { TbCopy } from "react-icons/tb";
 import { IoIosArrowBack } from "react-icons/io";
 import ApplyJobModal from "./ApplyJobModal";
 import { getFindJob, FindJobsData } from "@/actions/action";
+import { FaLink } from "react-icons/fa";
 
 interface JobDetailsProps {
   jobId: string;
@@ -48,32 +49,38 @@ useEffect(() => {
   fetchJob();
 }, [jobId]);
 
-  const handleCopyJobDetails = () => {
-    if (!job) return;
+const handleCopyJobDetails = () => {
+  if (!job) return;
 
-    const jobText = `
-      Job Title: ${job.title}
-      Company: ${job.company.companyName}
-      Salary: ${job.paidRole}
-      Location: ${job.location}
-      Job Type: ${job.jobType}
+  // Create a clickable URL with blue color (using markdown-style formatting)
+  const jobUrl = `${window.location.origin}/job_details/${jobId}`;
+  const clickableUrl = `[View Job] (${jobUrl})`; 
 
-      Job Description:
-      ${job.description}
+  const jobText = `
+    Job Title: ${job.title}
+    Company: ${job.company.companyName}
+    Salary: ${job.paidRole}
+    Location: ${job.location}
+    Job Type: ${job.jobType}
+    
+    Job Description:
+    ${job.description}
 
-      Responsibilities:
-      ${job.responsibilities}
+    Responsibilities:
+    ${job.responsibilities}
 
-      Required Skills:
-      ${job.skillsRequired}
+    Required Skills:
+    ${job.skillsRequired}
 
-      Application Deadline: ${new Date(job.deadline).toLocaleDateString()}
-    `;
+    Application Deadline: ${new Date(job.deadline).toLocaleDateString()}
 
-    navigator.clipboard.writeText(jobText);
-    setShowCopiedBanner(true);
-    setTimeout(() => setShowCopiedBanner(false), 2000);
-  };
+    ${clickableUrl} 
+  `;
+
+  navigator.clipboard.writeText(jobText);
+  setShowCopiedBanner(true);
+  setTimeout(() => setShowCopiedBanner(false), 2000);
+};
 
   if (loading) {
     return (
@@ -233,8 +240,8 @@ useEffect(() => {
 
             {/* Copied Banner */}
             {showCopiedBanner && (
-              <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
-                Link copied to clipboard!
+              <div className="fixed flex items-center gap-3 bottom-4 left-1/2 -translate-x-1/2 bg-gray-600 text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
+                <FaLink size={20} className="text-green-300"/> <span>Link copied to clipboard!</span>
               </div>
             )}
 
@@ -299,7 +306,7 @@ useEffect(() => {
                           href={job.company.website}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-500 hover:underline"
+                          className="text-blue-500 hover:underline break-words max-w-[300px] block"
                         >
                           {job.company.website}
                         </a>

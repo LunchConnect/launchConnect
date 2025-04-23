@@ -7,7 +7,7 @@ import { TiPlus } from "react-icons/ti";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useDropzone } from "react-dropzone";
-import { updateStartupFounderProfile } from "@/actions/action";
+import { updateStartupFounderProfile,updatePassword } from "@/actions/action";
 import AlertModal from "@/components/AlertModal";
 
 const ProfileManagement = () => {
@@ -21,8 +21,13 @@ const [roleInCompany, setroleInCompany] = React.useState("");
 const [isLoading, setIsLoading] = React.useState(false);
  const [Email, setEmail] = useState("");
 const [companyLogo, setcompanyLogo] = useState<File | null>(null);
-const [aboutCompany, setaboutCompany] = useState("");
-const [nameCompany, setnameCompany] = useState("");
+
+
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+
   // Modal State
   const [modalOpen, setModalOpen] = React.useState(false);
   const [modalType, setModalType] = React.useState<"success" | "error">("success");
@@ -65,7 +70,7 @@ const [nameCompany, setnameCompany] = useState("");
       setFullName(parsedProfile.fullName || "User");
       setroleInCompany(parsedProfile.roleInCompany)
       setIndustry(parsedProfile.industry)
-      setnameCompany(parsedProfile.companyName)
+      setCompanyName(parsedProfile.companyName)
       setWebsite(parsedProfile.website)
       setEmail(parsedUser.email)
     }
@@ -116,13 +121,20 @@ const [nameCompany, setnameCompany] = useState("");
     const token = localStorage.getItem("token");
   
     if (!token) {
-      alert("Authentication token not found. Please log in again.");
+      setModalType("error");
+      setModalMessage("Authentication token not found. Please log in again.");
+     
       setIsLoading(false);
       return;
     }
   
-    if (!fullName || !companyName || !industry || !website || !roleInCompany || !companyLogo) {
-      alert("Please fill in all the required fields.");
+    if ( !companyLogo) {
+      setModalType("error");
+      setModalMessage("Please Select a companyLogo");
+      setModalOpen(true);
+
+
+      // alert("Please fill in all the required fields.");
       setIsLoading(false);
       return;
     }
@@ -144,6 +156,23 @@ const [nameCompany, setnameCompany] = useState("");
       setModalMessage("You have successfully created a startup.");
       setModalOpen(true);
       console.log("Profile created successfully:", result);
+
+
+        // ✅ Persist profile to localStorage
+  const newProfile = {
+    fullName,
+    companyName,
+    industry,
+    roleInCompany,
+    website
+  };
+  localStorage.setItem("profile", JSON.stringify(newProfile));
+
+
+
+ // ✅ Refresh the page
+ window.location.reload();
+
     } else {
       setModalType("error");
       setModalMessage(result.message || "Error creating profile.");
@@ -153,6 +182,61 @@ const [nameCompany, setnameCompany] = useState("");
   
     setIsLoading(false); // ✅ Stop loading
   };
+
+
+
+
+
+
+
+
+
+const handlePasswordUpdate = async () => {
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      setModalType("error");
+      setModalMessage("Please fill in all fields.");
+      setModalOpen(true);
+      return;
+    }
+  
+    if (newPassword !== confirmPassword) {
+      setModalType("error");
+      setModalMessage("New passwords do not match.");
+      setModalOpen(true);
+    
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setModalType("error");
+      setModalMessage("Authentication token not found. Please log in again.");
+      setModalOpen(true);
+      setIsLoading(false);
+      return;
+    }
+  
+    setIsLoading(true);
+    const { success, message } = await updatePassword(oldPassword, newPassword,   token);
+    setIsLoading(false);
+  
+    if (success) {
+      setModalType("success");
+      setModalMessage(message);
+      setModalOpen(true);
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } else {
+      setModalType("error");
+      setModalMessage(message);
+      setModalOpen(true);
+    }
+  };
+
+
+
 
   return (
     <div className="p-6 bg-white border-2  rounded-xl mt-20 mb-6">
@@ -250,9 +334,9 @@ const [nameCompany, setnameCompany] = useState("");
                  <h3 className="text-[16px] font-semibold text-[#3B4D3F]">Company Name</h3>
               <input
                 type="text"
-                placeholder={nameCompany}
+                placeholder={companyName}
                 className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[100px]"
-                value={companyName}
+
                 onChange={(e) => setCompanyName(e.target.value)}
               />
                </div>
@@ -305,12 +389,11 @@ const [nameCompany, setnameCompany] = useState("");
                 type="text"
                 placeholder={industry}
                 className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[100px]"
-                value={industry}
               onChange={(e) => setIndustry(e.target.value)}
               />
               </div>
              
-              <div className="grid lg:grid-cols-3 lg:gap-4 items-center border-b-2 pb-3 border-[#ECF1ED mb-5"> 
+              {/* <div className="grid lg:grid-cols-3 lg:gap-4 items-center border-b-2 pb-3 border-[#ECF1ED mb-5"> 
                  <h3 className="text-[16px] font-semibold text-[#3B4D3F]">About your company</h3>
                  <textarea
                      
@@ -320,7 +403,7 @@ const [nameCompany, setnameCompany] = useState("");
                     value={aboutCompany}
                     onChange={(e) => setaboutCompany(e.target.value)}
                   />
-              </div>
+              </div> */}
 
 
 
@@ -329,8 +412,7 @@ const [nameCompany, setnameCompany] = useState("");
                  <div className="flex-1 flex items-center border rounded-md overflow-hidden col-span-2 mt-2 min-w-[100px]">
       <span className="px-3 border-r-2 bg-white text-gray-600">https://</span>
       <input 
-  
-  value={website}
+
   placeholder={website}
   onChange={(e) => setWebsite(e.target.value)}
         className="flex-1 p-2 focus:outline-none bg-white " 
@@ -416,6 +498,8 @@ const [nameCompany, setnameCompany] = useState("");
             <Input
               type={showPassword.old ? "text" : "password"}
               placeholder="Enter old password"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
               className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 pr-10 focus:!border-green-500 focus:!ring-2 focus:!ring-green-500"
             />
             <button
@@ -435,6 +519,8 @@ const [nameCompany, setnameCompany] = useState("");
             <Input
               type={showPassword.new ? "text" : "password"}
               placeholder="Enter new password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 pr-10 focus:!border-green-500 focus:!ring-2 focus:!ring-green-500"
             />
             <button
@@ -454,6 +540,8 @@ const [nameCompany, setnameCompany] = useState("");
             <Input
               type={showPassword.confirm ? "text" : "password"}
               placeholder="Confirm new password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 pr-10 focus:!border-green-500 focus:!ring-2 focus:!ring-green-500"
             />
             <button
@@ -474,10 +562,27 @@ const [nameCompany, setnameCompany] = useState("");
   </div>
     {/* Update Button */}
     <div className="flex justify-end mt-6">
-      <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
-        Update
-      </button>
+    <button
+  onClick={handlePasswordUpdate}
+  disabled={isLoading}
+  className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+>
+  {isLoading ? "Updating..." : "Update"}
+</button>
     </div>
+
+    {/* ✅ Success & Error Modal */}
+<AlertModal 
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onAction={() => {
+          setModalOpen(false);
+        }}
+        type={modalType}
+        title={modalType === "success" ? "Password Updated Successful" : "Password Update  Failed"}
+        description={modalMessage}
+        buttonText={modalType === "success" ? "OK" : "Retry"}
+      />
   </>
 )}
 

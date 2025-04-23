@@ -80,9 +80,9 @@ const handleLogin = async () => {
 
     setTimeout(() => {
       if (role === "job_seeker") {
-        router.push("/dashboard");
+        router.replace("/dashboard");
       } else {
-        router.push("/startup_founder_dashboard");
+        router.replace("/startup_founder_dashboard");
       }
     }, 2000);
 

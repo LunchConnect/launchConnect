@@ -13,12 +13,13 @@ import { useRouter } from "next/navigation";
 import { scrollToTop } from "@/lib/utils";
 import { getAllJobApplications } from "@/actions/action";
 
-
 interface ApplicationCard {
   id: string;
   jobSeeker: {
     fullName: string;
-    email?: string; 
+    user: {
+      email: string;
+    };
     shortBio: string;
     portfolioLink?: string;
     resumeUrl: string;
@@ -32,22 +33,23 @@ interface ApplicationCard {
 
 const Application: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedApplication, setSelectedApplication] = useState<ApplicationCard | null>(null);
+  const [selectedApplication, setSelectedApplication] =
+    useState<ApplicationCard | null>(null);
   const [applications, setApplications] = useState<ApplicationCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-    const updateApplicationStatus = (
-      applicationId: string,
-      newStatus: "ACCEPTED" | "REJECTED"
-    ) => {
-      setApplications((prevApplications) =>
-        prevApplications.map((app) =>
-          app.id === applicationId ? { ...app, status: newStatus } : app
-        )
-      );
-    };
+  const updateApplicationStatus = (
+    applicationId: string,
+    newStatus: "ACCEPTED" | "REJECTED"
+  ) => {
+    setApplications((prevApplications) =>
+      prevApplications.map((app) =>
+        app.id === applicationId ? { ...app, status: newStatus } : app
+      )
+    );
+  };
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -60,27 +62,27 @@ const Application: React.FC = () => {
         if (!token) throw new Error("No authentication token");
         const response = await getAllJobApplications(token, 1, 10);
 
-    const transformedApplications = response.applications.map((app) => ({
-      id: app.id,
-      jobSeeker: {
-        fullName: app.jobSeeker.fullName,
-        email: app.jobSeeker.email, // optional
-        shortBio: app.jobSeeker.shortBio,
-        portfolioLink: app.jobSeeker.portfolioLink, // optional
-        resumeUrl: app.jobSeeker.resumeUrl,
-        skills: app.jobSeeker.skills,
-        interests: app.jobSeeker.interests,
-      },
-      jobRole: app.job.title,
-      applicationDate: new Date(app.appliedAt).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      }),
-      status: app.status,
-    }));
-
-
+        const transformedApplications = response.applications.map((app) => ({
+          id: app.id,
+          jobSeeker: {
+            fullName: app.jobSeeker.fullName,
+            user: {
+              email: app.jobSeeker.user.email,
+            },
+            shortBio: app.jobSeeker.shortBio,
+            portfolioLink: app.jobSeeker.portfolioLink, // optional
+            resumeUrl: app.jobSeeker.resumeUrl,
+            skills: app.jobSeeker.skills,
+            interests: app.jobSeeker.interests,
+          },
+          jobRole: app.job.title,
+          applicationDate: new Date(app.appliedAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }),
+          status: app.status,
+        }));
 
         setApplications(transformedApplications);
       } catch (err) {
