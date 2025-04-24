@@ -406,6 +406,7 @@ export const getJobSeekerSummary = async (token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("✅ job seeker summary:", data);
     return { success: true, data };
   } catch (error: any) {
     console.error("❌ Failed to fetch job seeker summary:", error.response?.data || error.message);
@@ -450,10 +451,10 @@ export const getJobsForYou = async (token: string) => {
       },
     });
 
-    console.log("✅ Jobs fetched successfully:", data);
+   
     return { success: true, data: data.jobs }; // Assuming the API returns a 'jobs' array
   } catch (error: any) {
-    console.error("❌ Failed to fetch jobs:", error.response?.data || error.message);
+    
 
     return {
       success: false,

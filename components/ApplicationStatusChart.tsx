@@ -31,16 +31,16 @@ const ApplicationStatusChart = () => {
 
       const res = await getJobSeekerSummary(token);
       if (res.success) {
-        const { accepted, rejected, pending, underReview } = res.data;
+        const { acceptedApplications,pendingReviews,pendingApplications, } = res.data;
 
         const formatted = [
-          { name: "Accepted", value: accepted || 0, color: "#22c55e" },
-          { name: "Under Review", value: underReview || 0, color: "#d1d5db" },
-          { name: "Rejected", value: rejected || 0, color: "#ef4444" },
-          { name: "Pending", value: pending || 0, color: "#fcd34d" },
+          { name: "Accepted", value: acceptedApplications || 0, color: "#22c55e" },
+          { name: "Under Review", value: pendingReviews || 0, color: "#d1d5db" },
+          { name: "Pending", value: pendingApplications || 0, color: "#fcd34d" },
         ];
-
+       console.log(formatted)
         setChartData(formatted);
+
       }
       setLoading(false);
     };
