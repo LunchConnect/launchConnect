@@ -572,7 +572,7 @@ export interface JobSeeker {
   interests: string[];
   fullName: string;
   shortBio: string;
-  email: string;
+  user: { email: string };
 }
 
 export interface JobApplication {
