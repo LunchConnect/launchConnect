@@ -133,6 +133,26 @@ export const verifyForgotPasswordOtp = async (otp: string) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ✅ Reset Password API
 export const resetPassword = async (tempToken: string, newPassword: string) => {
   try {
@@ -151,6 +171,17 @@ export const resetPassword = async (tempToken: string, newPassword: string) => {
     };
   }
 };
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -222,6 +253,51 @@ export const updateUserRole = async (role: "startupFounder" | "job_seeker", toke
     };
   }
 };
+
+
+
+
+
+
+
+
+
+
+// updatePassword
+export const updatePassword = async (
+  oldPassword: string,
+  newPassword: string,
+  token: string
+): Promise<{ success: boolean; message: string }> => {
+  try {
+    const { data } = await publicRequest.post(
+      "/password/dash-reset-password",
+      { oldPassword, newPassword },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return { success: true, message: data?.message || "Password updated successfully" };
+  } catch (error: any) {
+    console.error("❌ Password update error:", error.response?.data || error.message);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Password update failed",
+    };
+  }
+};
+
+
+
+
+
+
+
+
+
 
 
 
@@ -726,7 +802,7 @@ export const getAllJobApplications = async (
 };
 
 
-// For Findjobs (JobSeeker) ---------------------------------------------------------------->
+// For Findjobs (JobSeeker & Random Jobs) ---------------------------------------------------------------->
 interface AllJobData {
   id: string;
   companyId: string;
@@ -741,6 +817,10 @@ interface AllJobData {
   location: string;
   jobType: string;
   createdAt: string;
+  company: {
+    companyName: string;
+    companyLogo: string | null;
+  };
 }
 
 interface JobsResponse {
@@ -995,6 +1075,7 @@ interface Company {
   companyName: string;
   industry: string;
   website: string;
+  companyLogo: string | null;
 }
 
 interface Job {

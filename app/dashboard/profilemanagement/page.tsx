@@ -1,22 +1,46 @@
 "use client";
 
 import React,{ useState,useEffect } from "react";
+
 import { useForm } from "react-hook-form";
+
 import { UploadCloud, Trash2 } from "lucide-react";
+
 import { TiPlus } from "react-icons/ti";
+
+import { Input } from "@/components/ui/input"
+ 
+
 import { Eye, EyeOff } from "lucide-react";
-import { Input } from "@/components/ui/input";
+
 import Select, { MultiValue } from "react-select";
+
 import { useDropzone } from "react-dropzone";
+
 import { El_Messiri } from "next/font/google";
+
 import AlertModal from "@/components/AlertModal";
-import { createJobSeekerProfileManagement } from "@/actions/action";
+
+import { createJobSeekerProfileManagement,updatePassword } from "@/actions/action";
 const ProfileManagement = () => {
   const [activeTab, setActiveTab] = useState<"profile" | "security">("profile");
  const [fullName, setFullName] = useState<string>("");
  const [Email, setEmail] = useState("");
-const [Shortbio,setShortbio] = useState<string>("")
+const [bio,setBio] = useState<string>("")
  const [resume, setResume] = useState<File | null>(null);
+
+ const [skills, setSkills] = useState<string[]>([]);
+ const [interests, setInterests] = useState<string[]>([]);
+// const [bio, setBio] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [skillInputValue, setSkillInputValue] = useState("");
+
+
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+
 
   // Modal State
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -36,16 +60,26 @@ const [Shortbio,setShortbio] = useState<string>("")
   };
 
 
+
+
+
+
+
+
+
    // Get user name from localStorage on mount
    useEffect(() => {
     const storedProfile = localStorage.getItem("profile");
     const storedUser = localStorage.getItem("user");
+    
     if (storedProfile || storedUser) {
       const parsedProfile = storedProfile ? JSON.parse(storedProfile) : null;
       const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-      setFullName(parsedProfile.fullName || "User");
-      setShortbio(parsedProfile.shortBio)
+      setFullName(parsedProfile.fullName);
+      setBio(parsedProfile.shortBio)
       setEmail(parsedUser.email)
+      setSkills(parsedProfile.skills.slice(0, maxSkills)); // Ensure max 5
+      setInterests(parsedProfile.interests.slice(0, maxInterests));
     }
   }, []);
 
@@ -67,37 +101,7 @@ const [Shortbio,setShortbio] = useState<string>("")
 
 
 
-  // type FormData = {
-  //   firstName: string;
-  //   lastName: string;
-  //   email: string;
-  //   bio: string;
-  //   skills: string[];
-  //   interests:string[];
-  //   portfolio: string;
-  //   links: string;
-  // };
 
-  // const { register, handleSubmit, setValue, watch } = useForm<FormData>({
-  //   defaultValues: {
-  //     firstName: fullName,
-  //     email: Email,
-  //     bio: Shortbio,
-  //     skills: [],
-  //     interests:[],
-  //     portfolio: "",
-  //     links: "",
-  //   },
-  // });
-
-  // const [uploadProgress, setUploadProgress] = useState(0);
-  // const [file, setFile] = useState<File | null>(null);
-  const [skills, setSkills] = useState<string[]>([]);
-  const [interests, setInterests] = useState<string[]>([]);
- const [bio, setBio] = useState("");
-   const [inputValue, setInputValue] = useState("");
-   const [skillInputValue, setSkillInputValue] = useState("");
- 
    const maxSkills = 5;
    const maxInterests = 3;
     const maxWords = 200;
@@ -109,15 +113,6 @@ const [Shortbio,setShortbio] = useState<string>("")
           }
         };
     
-  
-  // const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files[0]) {
-  //     setFile(e.target.files[0]);
-  //     setUploadProgress(40);
-  //     setTimeout(() => setUploadProgress(100), 1500);
-  //   }
-  // };
-
 
 
   const [showPassword, setShowPassword] = useState<{
@@ -138,18 +133,20 @@ const [Shortbio,setShortbio] = useState<string>("")
     }));
   };
 
-   const handleAddSkill = (e: React.KeyboardEvent<HTMLInputElement>) => {
-     if (e.key === "Enter" && skillInputValue.trim() && skills.length < maxSkills) {
-       e.preventDefault();
-       setSkills([...skills, skillInputValue.trim()]);
-       setSkillInputValue("");
-     }
-   };
+  const handleAddSkill = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && skillInputValue.trim()) {
+      e.preventDefault();
+      if (skills.length < maxSkills && !skills.includes(skillInputValue.trim())) {
+        setSkills([...skills, skillInputValue.trim()]);
+        setSkillInputValue("");
+      }
+    }
+  };
+  
+  const handleRemoveSkill = (skillToRemove: string) => {
+    setSkills(skills.filter(skill => skill !== skillToRemove));
+  };
  
-   const handleRemoveSkill = (skillToRemove: string) => {
-     setSkills(skills.filter((skill) => skill !== skillToRemove));
-   };
- 
 
 
 
@@ -158,18 +155,19 @@ const [Shortbio,setShortbio] = useState<string>("")
 
 
 
-   const handleAddInterest = (e: React.KeyboardEvent<HTMLInputElement>) => {
-     if (e.key === "Enter" && inputValue.trim() && interests.length < maxInterests) {
-       e.preventDefault();
-       setInterests([...interests, inputValue.trim()]);
-       setInputValue("");
-     }
-   };
- 
-   const handleRemoveInterest = (interestToRemove: string) => {
-     setInterests(interests.filter((interest) => interest !== interestToRemove));
-   };
- 
+  const handleAddInterest = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && inputValue.trim()) {
+      e.preventDefault();
+      if (interests.length < maxInterests && !interests.includes(inputValue.trim())) {
+        setInterests([...interests, inputValue.trim()]);
+        setInputValue("");
+      }
+    }
+  };
+  
+  const handleRemoveInterest = (interestToRemove: string) => {
+    setInterests(interests.filter(interest => interest !== interestToRemove));
+  };
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -178,7 +176,9 @@ const [Shortbio,setShortbio] = useState<string>("")
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Authentication token not found. Please log in again.");
+      setModalType("error");
+      setModalMessage("Authentication token not found. Please log in again.");
+      setModalOpen(true);
       setIsLoading(false);
       return;
     }
@@ -186,10 +186,12 @@ const [Shortbio,setShortbio] = useState<string>("")
 
 
   // Validate fields
-  if (!fullName || !bio || skills.length === 0 || interests.length === 0 || !resume)   {
-    console.error("All fields must be filled out. Please check your input.");
+  if (!resume)   {
     // Optionally, show a message to the user about the missing fields
-    alert("Please fill out all required fields (Full Name, Bio, Skills, Interests, and Resume).");
+
+    setModalType("error");
+      setModalMessage("Please Select a Resume");
+      setModalOpen(true);
     setIsLoading(false);
     return; // Prevent form submission if any field is empty
   }
@@ -209,11 +211,23 @@ const [Shortbio,setShortbio] = useState<string>("")
       setModalMessage("You have successfully created a startup.");
       setModalOpen(true);
       console.log("Profile created successfully:", data);
-      setFullName("");
-      setBio("");
-      setResume(null);
-      setSkills([]);
-      setInterests([]);
+
+
+  // ✅ Persist profile to localStorage
+  const newProfile = {
+    id: data?.id,
+    fullName,
+    shortBio: bio,
+    skills,
+    interests,
+    resumeUrl: data?.resumeUrl || null,
+  };
+  localStorage.setItem("profile", JSON.stringify(newProfile));
+
+
+
+ // ✅ Refresh the page
+ window.location.reload();
       // setTimeout(() => router.push("/sign_in"), 2000);
       // // Redirect or show success message
     } else {
@@ -225,6 +239,66 @@ const [Shortbio,setShortbio] = useState<string>("")
     }
     setIsLoading(false); // ✅ Stop loading
   };
+
+
+
+
+
+  const handlePasswordUpdate = async () => {
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      setModalType("error");
+      setModalMessage("Please fill in all fields.");
+      setModalOpen(true);
+      return;
+    }
+  
+    if (newPassword !== confirmPassword) {
+      setModalType("error");
+      setModalMessage("New passwords do not match.");
+      setModalOpen(true);
+    
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setModalType("error");
+      setModalMessage("Authentication token not found. Please log in again.");
+      setModalOpen(true);
+      setIsLoading(false);
+      return;
+    }
+  
+    setIsLoading(true);
+    const { success, message } = await updatePassword(oldPassword, newPassword,   token);
+    setIsLoading(false);
+  
+    if (success) {
+      setModalType("success");
+      setModalMessage(message);
+      setModalOpen(true);
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } else {
+      setModalType("error");
+      setModalMessage(message);
+      setModalOpen(true);
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -279,7 +353,9 @@ const [Shortbio,setShortbio] = useState<string>("")
                   <label className="text-gray-700 font-medium">Full Name</label>
                   <input
               placeholder={fullName}
-                    className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
+              // value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+                    className="col-span-2 border p-3 rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400 "
             
                   />
                 </div>
@@ -300,10 +376,10 @@ const [Shortbio,setShortbio] = useState<string>("")
                   <label className="text-gray-700 font-medium">Short bio</label>
                   <div className="w-full col-span-2 ">
                   <textarea
-                       value={bio}
-                          placeholder={Shortbio}
+                      //  value={bio}
+                          placeholder={bio}
                        onChange={handleBioChange}
-                    className="border p-3 text-[20px] rounded-lg w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400"
+                   className="border p-3 text-[20px] rounded-lg w-full bg-green-100 text-[#FFFF] focus:outline-none focus:ring-2 focus:ring-green-400"
                  
                   />
                    {/* Word Count - Positioned Outside Bottom Right */}
@@ -328,44 +404,37 @@ const [Shortbio,setShortbio] = useState<string>("")
               
               {/* Resume Upload */}
            
-                <div className="grid lg:grid-cols-3 gap-4 border-b-2 pb-3 border-[#ECF1ED]">
-                  <label htmlFor="resumeUpload" className="text-gray-700 font-medium">
-                    Upload Resume
-                  </label>
+              <div className="grid lg:grid-cols-3 gap-4 border-b-2 pb-3 border-[#ECF1ED]">
+  <label htmlFor="resumeUpload" className="text-gray-700 font-medium">
+    Upload Resume
+  </label>
 
-                  <div className="col-span-2" {...getRootProps()}>
-                    <label
-                      htmlFor="resumeUpload"
-                      className="flex flex-col items-center justify-center gap-5 h-[200px] p-4 border border-dashed rounded cursor-pointer bg-[#E6FFEB]"
-                    >
-                      <UploadCloud className="w-6 h-6 text-gray-500" />
+  <div className="col-span-2">
+    <div
+      {...getRootProps({
+        className:
+          "flex flex-col items-center justify-center gap-5 h-[200px] p-4 border border-dashed rounded cursor-pointer bg-[#E6FFEB]",
+      })}
+    >
+      <input {...getInputProps()} />
 
+      <UploadCloud className="w-6 h-6 text-gray-500" />
 
+      {resume ? (
+        <p className="text-green-600 text-lg">
+          {resume.name} ({(resume.size / 1024 / 1024).toFixed(2)} MB)
+        </p>
+      ) : (
+        <span className="text-sm text-center text-gray-500">
+          Browse and choose the file you want to upload <br /> (PDF, Max 5MB)
+        </span>
+      )}
 
-                      {resume ? (
-                <p className="text-green-600 text-lg">
-                {resume.name} ({(resume.size / 1024 / 1024).toFixed(2)} MB)
-              </p>
-              ) : (
-                <span className="text-sm text-center text-gray-500">
-                        Browse and choose the file you want to upload <br/> (PDF, Max 5MB)
-                      </span>
-              )}
+      <TiPlus size={40} className="text-white bg-green-500 p-2 rounded-lg" />
+    </div>
+  </div>
+</div>
 
-
-
-
-                     
-
-
-
-                      <input type="file" id="resumeUpload" className="hidden" {...getInputProps()}/>
-                      <TiPlus size={40} className="text-white bg-green-500 p-2 rounded-lg" />
-                    </label>
-
-                  
-                  </div>
-                </div>
           
 
               {/* Skills Input */}
@@ -373,10 +442,9 @@ const [Shortbio,setShortbio] = useState<string>("")
               <div className="grid lg:grid-cols-3 lg:gap-4 items-center"> 
                  <h3 className="text-[16px] font-semibold text-[#3B4D3F]">Skills</h3>
               <input
-                type="text"
                 value={skillInputValue}
-              onChange={(e) => setSkillInputValue(e.target.value)}
-              onKeyDown={handleAddSkill}
+                onChange={(e) => setSkillInputValue(e.target.value)}
+                onKeyDown={handleAddSkill}
                 placeholder="Add up to 5 skills"
                 className="border p-2 rounded-md w-full col-span-2 mt-2 min-w-[100px]"
                 disabled={skills.length >= maxSkills}
@@ -534,6 +602,8 @@ const [Shortbio,setShortbio] = useState<string>("")
             <Input
               type={showPassword.old ? "text" : "password"}
               placeholder="Enter old password"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
               className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 pr-10 focus:!border-green-500 focus:!ring-2 focus:!ring-green-500"
             />
             <button
@@ -553,6 +623,8 @@ const [Shortbio,setShortbio] = useState<string>("")
             <Input
               type={showPassword.new ? "text" : "password"}
               placeholder="Enter new password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 pr-10 focus:!border-green-500 focus:!ring-2 focus:!ring-green-500"
             />
             <button
@@ -572,6 +644,8 @@ const [Shortbio,setShortbio] = useState<string>("")
             <Input
               type={showPassword.confirm ? "text" : "password"}
               placeholder="Confirm new password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 pr-10 focus:!border-green-500 focus:!ring-2 focus:!ring-green-500"
             />
             <button
@@ -592,10 +666,27 @@ const [Shortbio,setShortbio] = useState<string>("")
   </div>
     {/* Update Button */}
     <div className="flex justify-end mt-6">
-      <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
-        Update
-      </button>
+    <button
+  onClick={handlePasswordUpdate}
+  disabled={isLoading}
+  className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+>
+  {isLoading ? "Updating..." : "Update"}
+</button>
     </div>
+
+    {/* ✅ Success & Error Modal */}
+<AlertModal 
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onAction={() => {
+          setModalOpen(false);
+        }}
+        type={modalType}
+        title={modalType === "success" ? "Password Updated Successful" : "Password Update  Failed"}
+        description={modalMessage}
+        buttonText={modalType === "success" ? "OK" : "Retry"}
+      />
   </>
 )}
 
@@ -609,6 +700,9 @@ const [Shortbio,setShortbio] = useState<string>("")
 
     
     </div>
+
+
+
     </div>
   );
 };

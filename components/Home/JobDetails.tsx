@@ -53,7 +53,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
     if (!job) return;
 
     const jobUrl = `${window.location.origin}/job_details/${jobId}`;
-    const clickableUrl = `[View Job] (${jobUrl})`; 
+    const clickableUrl = `${job?.title}\nLink: ${jobUrl}`; 
     
     const jobText = `
       Job Title: ${job.title}
@@ -77,7 +77,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
     ${clickableUrl} 
     `;
     navigator.clipboard
-      .writeText(jobText)
+      .writeText(clickableUrl)
       .then(() => {
         setShowCopiedBanner(true);
         setTimeout(() => setShowCopiedBanner(false), 2000);
@@ -147,6 +147,19 @@ const JobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
             {/* Job Header */}
             <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-4">
               <div className="flex items-center gap-2">
+                {job.company.companyLogo ? (
+                  <Image
+                    src={job.company.companyLogo}
+                    alt={`${job.company.companyName} logo`}
+                    width={40}
+                    height={40}
+                    className="object-contain"
+                  />
+                ) : (
+                  <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xs text-gray-500">
+                    {job.title.charAt(0).toUpperCase()}
+                  </div>
+                )}
                 <h1 className="text-2xl text-[#243428] cal_sans">
                   {job.title}
                 </h1>
@@ -364,7 +377,8 @@ const JobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
             {/* Copied Banner */}
             {showCopiedBanner && (
               <div className="fixed bottom-4 flex items-center gap-3 left-1/2 -translate-x-1/2 bg-gray-600 text-white text-sm px-4 whitespace-nowrap py-2 rounded shadow-md transition-all duration-300 z-50">
-                <FaLink size={20} className="text-green-300"/> <span>Link copied to clipboard!</span>
+                <FaLink size={20} className="text-green-300" />{" "}
+                <span>Link copied to clipboard!</span>
               </div>
             )}
           </div>

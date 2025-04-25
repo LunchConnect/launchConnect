@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { X } from "lucide-react";
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState } from "react";
 import { VscError } from "react-icons/vsc";
 import { IoCheckmarkCircleOutline, IoCopyOutline } from "react-icons/io5";
 import { BsDot } from "react-icons/bs";
@@ -60,8 +60,13 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
     try {
       const result = await updateJobStatus(application.id, newStatus, token);
       if (result.success) {
-        setShowSuccessModal(true);
-        // This is now type-safe - we're passing the exact literal types
+        // Only show success modal for ACCEPTED status
+        if (newStatus === "ACCEPTED") {
+          setShowSuccessModal(true);
+        } else {
+          // For REJECTED, just close the modal
+          setIsOpen(false);
+        }
         onStatusUpdate?.(application.id, newStatus);
       } else {
         alert(result.message || "Update failed");
@@ -173,7 +178,7 @@ const ViewPendingModal: React.FC<PendingModalProps> = ({
                       <h1>Email Address</h1>
                       <div className="flex justify-between text-[#3f4654]">
                         <p>
-                          {application.jobSeeker.user.email || "Not Provided"}
+                          {application.jobSeeker.user?.email || "Not Provided"}
                         </p>
                         <FiCopy
                           size={20}

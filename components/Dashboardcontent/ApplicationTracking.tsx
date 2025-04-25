@@ -614,6 +614,7 @@ interface Application {
     company: {
       companyName: string;
       website: string;
+      companyLogo: string | null;
     };
   };
 }
@@ -747,12 +748,20 @@ const ApplicationTracking: React.FC = () => {
                 <tbody>
                   {displayedApplications.map((app) => (
                     <tr key={app.id} className="border-b">
-                      <td className="p-3 flex items-center text-[#1F2937]">
-                        <img
-                          src="/logos/default.png"
-                          alt={app.job.company.companyName}
-                          className="w-6 h-6 mr-2"
-                        />
+                      <td className="p-3 flex items-center gap-2 text-[#1F2937]">
+                        {app.job.company.companyLogo ? (
+                          <Image
+                            src={app.job.company.companyLogo}
+                            alt={`${app.job.company.companyName} logo`}
+                            width={40}
+                            height={40}
+                            className="object-contain"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xs text-gray-500">
+                            {app.job.company.companyName.charAt(0).toUpperCase()}
+                          </div>
+                        )}
                         {app.job.company.companyName}
                       </td>
                       <td className="p-3 text-[#1F2937]">{app.job.title}</td>

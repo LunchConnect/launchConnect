@@ -4,7 +4,7 @@ import { LuWallet } from "react-icons/lu";
 import { CiLocationOn } from "react-icons/ci";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { TbCopy } from "react-icons/tb";
+import { MdShare } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
 import ApplyJobModal from "./ApplyJobModal";
 import { getFindJob, FindJobsData } from "@/actions/action";
@@ -54,30 +54,30 @@ const handleCopyJobDetails = () => {
 
   // Create a clickable URL with blue color (using markdown-style formatting)
   const jobUrl = `${window.location.origin}/job_details/${jobId}`;
-  const clickableUrl = `[View Job] (${jobUrl})`; 
+  const clickableUrl = `${job?.title}\nLink: ${jobUrl}`;  
 
   const jobText = `
-    Job Title: ${job.title}
-    Company: ${job.company.companyName}
-    Salary: ${job.paidRole}
-    Location: ${job.location}
-    Job Type: ${job.jobType}
+    // Job Title: ${job.title}
+    // Company: ${job.company.companyName}
+    // Salary: ${job.paidRole}
+    // Location: ${job.location}
+    // Job Type: ${job.jobType}
     
-    Job Description:
-    ${job.description}
+    // Job Description:
+    // ${job.description}
 
-    Responsibilities:
-    ${job.responsibilities}
+    // Responsibilities:
+    // ${job.responsibilities}
 
-    Required Skills:
-    ${job.skillsRequired}
+    // Required Skills:
+    // ${job.skillsRequired}
 
-    Application Deadline: ${new Date(job.deadline).toLocaleDateString()}
+    // Application Deadline: ${new Date(job.deadline).toLocaleDateString()}
 
     ${clickableUrl} 
   `;
 
-  navigator.clipboard.writeText(jobText);
+  navigator.clipboard.writeText(clickableUrl);
   setShowCopiedBanner(true);
   setTimeout(() => setShowCopiedBanner(false), 2000);
 };
@@ -133,10 +133,19 @@ const handleCopyJobDetails = () => {
           {/* Job Header */}
           <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-4">
             <div className="flex items-center gap-2">
-              {/* Replace with actual company logo if available */}
-              <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                {job.title.charAt(0)}
-              </div>
+             {job.company.companyLogo ? (
+                <Image
+                  src={job.company.companyLogo}
+                  alt={`${job.company.companyName} logo`}
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
+              ) : (
+                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xs text-gray-500">
+                  {job.title.charAt(0).toUpperCase()}
+                </div>
+              )}
               <h1 className="text-2xl text-[#243428] cal_sans">{job.title}</h1>
             </div>
             <button
@@ -231,7 +240,7 @@ const handleCopyJobDetails = () => {
               <span className="text-[#606060] font-semibold text-[20px] md:text-[19px] cal_sans">
                 Share Job:
               </span>
-              <TbCopy
+              <MdShare
                 size={25}
                 className="text-black cursor-pointer"
                 onClick={handleCopyJobDetails}

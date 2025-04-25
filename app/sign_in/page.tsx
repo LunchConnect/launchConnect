@@ -80,9 +80,9 @@ const handleLogin = async () => {
 
     setTimeout(() => {
       if (role === "job_seeker") {
-        router.push("/dashboard");
+        router.replace("/dashboard");
       } else {
-        router.push("/startup_founder_dashboard");
+        router.replace("/startup_founder_dashboard");
       }
     }, 2000);
 
@@ -187,6 +187,7 @@ const handleLogin = async () => {
 
         {/* Google Sign In Button */}
         {/* <button className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 border border-gray-300 p-2 rounded-md">
+        <button className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 border border-gray-300 p-2 rounded-md" disabled>
           <FcGoogle size={20} />
           Continue with Google
         </button> */}

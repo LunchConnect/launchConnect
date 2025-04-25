@@ -111,7 +111,7 @@ const PostJob: React.FC = () => {
             <button
               className="mt-6 bg-[#1AC23F] text-white px-6 py-2 rounded-lg transition"
               onClick={() => {
-                router.push("/dashboard/PostJobContent");
+                router.push("/startup_founder_dashboard/PostJobContent");
                 scrollToTop();
               }}
             >

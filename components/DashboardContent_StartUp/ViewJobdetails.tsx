@@ -4,12 +4,13 @@ import { LuWallet } from "react-icons/lu";
 import { CiLocationOn } from "react-icons/ci";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { TbCopy } from "react-icons/tb";
 import { IoIosArrowBack } from "react-icons/io";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FiTrash2 } from "react-icons/fi";
 import { getSingleJob, SingleJobData, deleteJob } from "@/actions/action";
 import RecentApplication from "./RecentApplication";
+import { MdShare } from "react-icons/md";
+import { FaLink } from "react-icons/fa";
 
 interface JobDetailsProps {
   jobId: string;
@@ -42,6 +43,9 @@ const ViewJobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
   }, [jobId]);
 
   const handleCopyJobDetails = () => {
+     const jobUrl = `${window.location.origin}/job_details/${jobId}`;
+    const clickableUrl = `${job?.title}\nLink: ${jobUrl}`; 
+    
     if (!job) return;
     const text = `
       Job Title: ${job.title}
@@ -54,9 +58,11 @@ const ViewJobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
       Description: ${job.description}
       Responsibilities: ${job.responsibilities}
       Required Skills: ${job.skillsRequired}
+
+      ${clickableUrl}
     `;
 
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(clickableUrl);
     setShowCopiedBanner(true);
     setTimeout(() => setShowCopiedBanner(false), 2000);
   };
@@ -98,6 +104,19 @@ const ViewJobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
           {/* Job Header */}
           <div className="flex flex-row justify-between items-center space-y-4">
             <div className="flex items-center gap-2">
+              {/* {job.company.companyLogo ? (
+                <Image
+                  src={job.company.companyLogo}
+                  alt={`${job.company.companyName} logo`}
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
+              ) : (
+                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xs text-gray-500">
+                  {job.title.charAt(0).toUpperCase()}
+                </div>
+              )} */}
               <h1 className="text-2xl text-[#243428] cal_sans">{job.title}</h1>
             </div>
             <div className="relative flex items-center">
@@ -199,7 +218,7 @@ const ViewJobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
               <span className="text-[#606060] font-semibold text-[20px] md:text-[19px] cal_sans">
                 Share Job:
               </span>
-              <TbCopy
+              <MdShare
                 size={25}
                 className="text-black cursor-pointer"
                 onClick={handleCopyJobDetails}
@@ -207,9 +226,9 @@ const ViewJobDetails: React.FC<JobDetailsProps> = ({ jobId }) => {
             </div>
 
             {/* Copied Banner */}
-            {showCopiedBanner && (
-              <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
-                Link copied to clipboard!
+         {showCopiedBanner && (
+              <div className="fixed flex items-center gap-3 bottom-4 left-1/2 -translate-x-1/2 bg-gray-600 text-white text-sm px-4 py-2 rounded shadow-md transition-all duration-300 z-50">
+                <FaLink size={20} className="text-green-300"/> <span>Link copied to clipboard!</span>
               </div>
             )}
           </div>

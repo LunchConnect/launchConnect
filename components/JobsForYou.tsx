@@ -119,13 +119,19 @@ export default function JobsForYou() {
               {/* Job Details */}
               <div className="flex items-center gap-4">
                 {/* Company Logo */}
-                <Image
-                  src={job.company.companyLogo || "fallback.png"}
-                  alt={job.company.companyName}
-                  width={40}
-                  height={40}
-                  className="rounded"
-                />
+                {job.company.companyLogo ? (
+                    <Image
+                      src={job.company.companyLogo}
+                      alt={`${job.company.companyName} logo`}
+                      width={40}
+                      height={40}
+                      className="object-contain"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xs text-gray-500">
+                      {job.title.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                 <div>
                   <h3 className="text-[15.89] font-semibold">{job.title}</h3>
                   <p className="text-sm text-gray-500">

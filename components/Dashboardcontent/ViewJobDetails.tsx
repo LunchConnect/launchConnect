@@ -19,6 +19,7 @@ interface Company {
   companyName: string;
   industry: string;
   website: string;
+  // companyLogo: string | null;
 }
 
 interface Job {
@@ -93,6 +94,8 @@ const Jobdetails: React.FC<JobDetailsProps> = ({ jobId }) => {
   }, [jobId]);
 
   const handleCopyJobDetails = () => {
+    const jobUrl = `${window.location.origin}/job_details/${jobId}`;
+    const clickableUrl = `${job?.title}\nLink: ${jobUrl}`; 
     if (!job) return;
 
     const jobText = `
@@ -114,7 +117,7 @@ const Jobdetails: React.FC<JobDetailsProps> = ({ jobId }) => {
       Application Deadline: ${new Date(job.deadline).toLocaleDateString()}
     `;
 
-    navigator.clipboard.writeText(jobText);
+    navigator.clipboard.writeText(clickableUrl);
     setShowCopiedBanner(true);
     setTimeout(() => setShowCopiedBanner(false), 2000);
   };
@@ -170,10 +173,19 @@ const Jobdetails: React.FC<JobDetailsProps> = ({ jobId }) => {
           {/* Job Header */}
           <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-4">
             <div className="flex items-center gap-2">
-              {/* Replace with actual company logo if available */}
-              <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                {job.title.charAt(0)}
+            {job.company.companyLogo ? (
+              <Image
+                src={job.company.companyLogo}
+                alt={`${job.company.companyName} logo`}
+                width={40}
+                height={40}
+                className="object-contain"
+              />
+            ) : (
+              <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xs text-gray-500">
+                {job.title.charAt(0).toUpperCase()}
               </div>
+            )}
               <h1 className="text-2xl text-[#243428] cal_sans">{job.title}</h1>
             </div>
             {applicationStatus?.status && (

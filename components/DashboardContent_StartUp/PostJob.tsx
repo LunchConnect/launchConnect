@@ -153,6 +153,19 @@ const PostJob: React.FC = () => {
                 >
                   <div className="flex items-start gap-3 flex-1">
                     <div>
+                      {/* {job.company.companyLogo ? (
+                        <Image
+                          src={job.company.companyLogo}
+                          alt={`${job.company.companyName} logo`}
+                          width={40}
+                          height={40}
+                          className="object-contain"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xs text-gray-500">
+                          {job.title.charAt(0).toUpperCase()}
+                        </div>
+                      )} */}
                       <h3 className="cal_sans text-[#333333]">{job.title}</h3>
                       <p className="text-sm DM_sans text-[#515B6F] flex items-center gap-1">
                         Application Count <BsDot /> {applicantCount} applicants

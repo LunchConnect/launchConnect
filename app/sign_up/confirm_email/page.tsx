@@ -118,20 +118,18 @@ function ConfirmEmailPage() {
   };
 
   return (
-    <div className="mx-auto md:p-10 bg-white rounded-lg w-full">
-      {/* Header */}
+    <div className="max-w-md w-full mx-auto p-4 sm:p-6 md:p-10 bg-white rounded-lg shadow-md">
       <div className="w-full">
-        <h1 className="text-[32px] font-bold text-black">Confirm Email Address</h1>
-        <p className="text-[16px] mt-3 text-[#606060]">Empower your experience, sign up for free today</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-black">Confirm Email Address</h1>
+        <p className="text-sm sm:text-base mt-2 text-[#606060]">Empower your experience, sign up for free today</p>
 
-        <h3 className="text-[#606060] text-[16px] bg-[#1FC16B1A] p-2 rounded-md my-6">
-          We&apos;ve just sent a code to <span className="font-semibold">{email}</span>.
+        <h3 className="text-sm sm:text-base text-[#606060] bg-[#1FC16B1A] p-3 rounded-md my-4 sm:my-6">
+          We&apos;ve just sent a code to <span className="font-semibold break-all">{email}</span>.
           <br /> Enter the 4-digit code below.
         </h3>
       </div>
 
-      {/* OTP Input Fields */}
-      <div className="mt-4 flex gap-3">
+      <div className="mt-4 flex flex-wrap gap-3 justify-between sm:justify-start">
         {otp.map((value, index) => (
           <input
             key={index}
@@ -141,16 +139,18 @@ function ConfirmEmailPage() {
             onChange={(e) => handleChange(index, e)}
             onKeyDown={(e) => handleKeyDown(index, e)}
             ref={inputRefs[index]}
-            className="w-[121px] h-[65px] text-center text-xl font-semibold border-2 border-gray-300 rounded-md 
-                       focus:outline-none focus:border-green-500 bg-white text-black"
+            className="w-16 sm:w-[80px] h-[60px] text-center text-xl font-semibold border-2 border-gray-300 rounded-md focus:outline-none focus:border-green-500 bg-white text-black"
           />
         ))}
       </div>
-    {/* Error/Success Message */}
-    {message && <p className={`mt-2 text-sm ${message.includes("successful") ? "text-green-500" : "text-red-500"}`}>{message}</p>}
 
-      {/* Resend Code */}
-      <p className="text-sm text-gray-600 mt-3">
+      {message && (
+        <p className={`mt-3 text-sm ${message.includes("successful") ? "text-green-500" : "text-red-500"}`}>
+          {message}
+        </p>
+      )}
+
+      <p className="text-sm text-gray-600 mt-4">
         Didn&apos;t get a code?{" "}
         <button
           onClick={handleResendOtp}
@@ -161,26 +161,24 @@ function ConfirmEmailPage() {
         </button>
       </p>
 
+      <div className="w-full mt-5">
+        <button
+          onClick={handleVerifyOtp}
+          className="w-full bg-green-500 text-white py-3 rounded-md font-medium hover:bg-green-600"
+        >
+          Create Account
+        </button>
+      </div>
 
-     {/* Create Account Button */}
-<div className="w-full mt-5">  
-  <button 
-    onClick={handleVerifyOtp} 
-    className="w-full bg-green-500 text-white py-2 rounded-md font-medium hover:bg-green-600"
-  >
-    Create Account
-  </button>
-</div>
-    {/* ✅ Success & Error Modal */}
-    <AlertModal 
-              open={modalOpen}
-              onClose={() => setModalOpen(false)}
-              onAction={() => setModalOpen(false)}
-              type={modalType}
-              title={modalType === "success" ? "Email Confirmation Successful" : "Email Confirmation Failed"}
-              description={modalMessage}
-              buttonText={modalType === "success" ? "Proceed" : "OK"}
-            />
+      <AlertModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onAction={() => setModalOpen(false)}
+        type={modalType}
+        title={modalType === "success" ? "Email Confirmation Successful" : "Email Confirmation Failed"}
+        description={modalMessage}
+        buttonText={modalType === "success" ? "Proceed" : "OK"}
+      />
     </div>
   );
 }
