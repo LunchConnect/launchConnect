@@ -172,7 +172,8 @@ const [bio,setBio] = useState<string>("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); // ✅ Start loading
+    setIsLoading(true); // Start loading
+
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -183,26 +184,30 @@ const [bio,setBio] = useState<string>("")
       return;
     }
 
-
-
-  // Validate fields
-  if (!resume)   {
-    // Optionally, show a message to the user about the missing fields
-
-    setModalType("error");
+    // Validate fields
+    if (!resume) {
+      setModalType("error");
       setModalMessage("Please Select a Resume");
       setModalOpen(true);
-    setIsLoading(false);
-    return; // Prevent form submission if any field is empty
-  }
+      setIsLoading(false);
+      return;
+    }
 
+    // Log the form data to debug
+    console.log("Form data:", {
+      fullName,
+      bio,
+      skills,
+      interests,
+      resume,
+    });
 
     const { success, message, data } = await createJobSeekerProfileManagement(
       fullName,
       bio,
       skills,
       interests,
-      resume,  
+      resume,
       token
     );
 
@@ -210,36 +215,28 @@ const [bio,setBio] = useState<string>("")
       setModalType("success");
       setModalMessage("You have successfully created a startup.");
       setModalOpen(true);
-      console.log("Profile created successfully:", data);
 
+      // Persist profile to localStorage
+      const newProfile = {
+        id: data?.id,
+        fullName,
+        shortBio: bio,
+        skills,
+        interests,
+        resumeUrl: data?.resumeUrl || null,
+      };
+      localStorage.setItem("profile", JSON.stringify(newProfile));
 
-  // ✅ Persist profile to localStorage
-  const newProfile = {
-    id: data?.id,
-    fullName,
-    shortBio: bio,
-    skills,
-    interests,
-    resumeUrl: data?.resumeUrl || null,
-  };
-  localStorage.setItem("profile", JSON.stringify(newProfile));
-
-
-
- // ✅ Refresh the page
- window.location.reload();
+      // Optionally reload the page or redirect
+      // window.location.reload();
       // setTimeout(() => router.push("/sign_in"), 2000);
-      // // Redirect or show success message
     } else {
       setModalType("error");
       setModalMessage(message || "Error creating profile.");
       setModalOpen(true);
-      console.error("Error creating profile:", message);
-      // Show error message
     }
-    setIsLoading(false); // ✅ Stop loading
+    setIsLoading(false); // Stop loading
   };
-
 
 
 

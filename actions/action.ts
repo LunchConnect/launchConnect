@@ -485,14 +485,16 @@ export const createJobSeekerProfileManagement = async (
     formData.append("shortBio", bio);
     formData.append("resume", resume);
 
-     // Important: use the same key `skills[]` for each item
-     skills.forEach((skill) => formData.append("skills[]", skill));
+    skills.forEach((skill) => formData.append("skills[]", skill));
+    interests.forEach((interest) => formData.append("interests[]", interest));
 
-     interests.forEach((interest) => formData.append("interests[]", interest));
- 
-    // Log formData entries to the console
+    // Log FormData content before sending
     formData.forEach((value, key) => {
-      console.log(`${key}:`, value); // Logs each field and its value
+      if (value instanceof File) {
+        console.log(key, value.name);  // For file fields, log the file name
+      } else {
+        console.log(key, value);  // For other fields, log the value
+      }
     });
 
     const { data } = await publicRequest.patch("/profile/update-profile-jobseeker", formData, {
@@ -505,10 +507,9 @@ export const createJobSeekerProfileManagement = async (
     return { success: true, data };
   } catch (error: any) {
     console.error("❌ Profile updated error:", error.response?.data || error.message);
-
     return {
       success: false,
-      message: error.response?.data?.message || "Failed to updated profile. Try again.",
+      message: error.response?.data?.message || "Failed to update profile. Try again.",
     };
   }
 };
@@ -517,32 +518,38 @@ export const createJobSeekerProfileManagement = async (
 
 
 
-// ✅ User Start up update  API (with Authorization Token)
 export const updateStartupFounderProfile = async (
   fullName: string,
   companyName: string,
   industry: string,
   website: string,
-  roleInCompany:string,
+  roleInCompany: string,
   companyLogo: File,
   token: string
 ) => {
   try {
-    console.log("🔄 Submitting start up profile...");
-    const { data } = await publicRequest.patch("/profile//update-profile-startupfounders", {
-      fullName,
-      companyName,
-      industry,
-      website,
-      companyLogo,
-      roleInCompany,
-      token
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    console.log("🔄 Submitting startup profile...");
 
+    const formData = new FormData();
+    formData.append("fullName", fullName);
+    formData.append("companyName", companyName);
+    formData.append("industry", industry);
+    formData.append("website", website);
+    formData.append("roleInCompany", roleInCompany);
+    formData.append("companyLogo", companyLogo); // ✅ send the actual file
+
+    const { data } = await publicRequest.patch(
+      "/profile/update-profile-startupfounders",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    console.log(data);
     return { success: true, data };
   } catch (error: any) {
     console.error("Error updating founder profile:", error.response?.data || error.message);
@@ -552,8 +559,6 @@ export const updateStartupFounderProfile = async (
     };
   }
 };
-
-
 
 
 
@@ -887,7 +892,12 @@ interface AllJobData {
   location: string;
   jobType: string;
   createdAt: string;
+  company: {
+    companyName: string;
+    companyLogo: string | null;
+  };
 }
+
 
 interface JobsResponse {
   total: number;

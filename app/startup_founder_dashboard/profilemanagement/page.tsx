@@ -21,7 +21,7 @@ const [roleInCompany, setroleInCompany] = React.useState("");
 const [isLoading, setIsLoading] = React.useState(false);
  const [Email, setEmail] = useState("");
 const [companyLogo, setcompanyLogo] = useState<File | null>(null);
-
+const [companyLogoUrl, setcompanyLogoUrl] =React.useState("");
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -73,25 +73,12 @@ const [companyLogo, setcompanyLogo] = useState<File | null>(null);
       setCompanyName(parsedProfile.companyName)
       setWebsite(parsedProfile.website)
       setEmail(parsedUser.email)
+      setcompanyLogoUrl(parsedProfile.companyLogo)
+
     }
   }, []);
 
 
-      // const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      //     const words = e.target.value.split(/\s+/).filter((word) => word.length > 0);
-      //     if (words.length <= maxWords) {
-      //       setBio(e.target.value);
-      //     }
-      //   };
-    
-  
-  // const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files[0]) {
-  //     setFile(e.target.files[0]);
-  //     setUploadProgress(40);
-  //     setTimeout(() => setUploadProgress(100), 1500);
-  //   }
-  // };
 
 
 
@@ -128,19 +115,6 @@ const [companyLogo, setcompanyLogo] = useState<File | null>(null);
       return;
     }
   
-    if ( !companyLogo) {
-      setModalType("error");
-      setModalMessage("Please Select a companyLogo");
-      setModalOpen(true);
-
-
-      // alert("Please fill in all the required fields.");
-      setIsLoading(false);
-      return;
-    }
-  
- 
-  
     const result = await updateStartupFounderProfile(
       fullName,
       companyName,
@@ -152,6 +126,7 @@ const [companyLogo, setcompanyLogo] = useState<File | null>(null);
     );
   
     if (result.success) {
+      
       setModalType("success");
       setModalMessage("You have successfully created a startup.");
       setModalOpen(true);
@@ -164,7 +139,8 @@ const [companyLogo, setcompanyLogo] = useState<File | null>(null);
     companyName,
     industry,
     roleInCompany,
-    website
+    website,
+    companyLogo: result.data.company.companyLogo // use the new logo URL
   };
   localStorage.setItem("profile", JSON.stringify(newProfile));
 
@@ -340,17 +316,34 @@ const handlePasswordUpdate = async () => {
                 onChange={(e) => setCompanyName(e.target.value)}
               />
                </div>
+               
                 <div className="grid lg:grid-cols-3 gap-4 border-b-2 pb-3 border-[#ECF1ED]">
-                  <label htmlFor="resumeUpload" className="text-gray-700 font-medium">
+
+                  <div className="flex flex-col justify-between">
+                  <label htmlFor="resumeUpload" className="text-[16px] font-semibold text-[#3B4D3F]">
                   Company logo
                   </label>
 
+                    {/* Preview Image */}
+    {companyLogoUrl && (
+      <img
+        src={companyLogoUrl}
+        alt="Company Logo Preview"
+        className="size-[100px] lg:size-[150px] object-contain border rounded-lg"
+      />
+    )}
+                  </div>
                   <div  {...getRootProps()} className="col-span-2">
                     <label
                       htmlFor="resumeUpload"
                       className="flex flex-col items-center justify-center gap-5 h-[200px] p-4 border border-dashed rounded cursor-pointer bg-[#E6FFEB]"
                     >
                       <UploadCloud className="w-6 h-6 text-gray-500" />
+                      
+
+
+
+
 
 
                       {companyLogo ? (
