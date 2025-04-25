@@ -194,13 +194,13 @@ const [bio,setBio] = useState<string>("")
     }
 
     // Log the form data to debug
-    console.log("Form data:", {
-      fullName,
-      bio,
-      skills,
-      interests,
-      resume,
-    });
+    // console.log("Form data:", {
+    //   fullName,
+    //   bio,
+    //   skills,
+    //   interests,
+    //   resume,
+    // });
 
     const { success, message, data } = await createJobSeekerProfileManagement(
       fullName,

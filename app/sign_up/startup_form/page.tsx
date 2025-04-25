@@ -65,13 +65,13 @@ const [isLoading, setIsLoading] = React.useState(false);
       setModalType("success");
       setModalMessage("You have successfully created a startup.");
       setModalOpen(true);
-      console.log("Profile created successfully:", result);
+      // console.log("Profile created successfully:", result);
       setTimeout(() => router.push("/sign_in"), 2000);
     } else {
       setModalType("error");
       setModalMessage(result.message || "Error creating profile.");
       setModalOpen(true);
-      console.error("Error creating profile:", result);
+      // console.error("Error creating profile:", result);
     }
   
     setIsLoading(false); // ✅ Stop loading

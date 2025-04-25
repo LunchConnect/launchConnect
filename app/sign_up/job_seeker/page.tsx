@@ -145,7 +145,7 @@ const [isLoading, setIsLoading] = React.useState(false);
       setModalType("success");
       setModalMessage("You have successfully created a startup.");
       setModalOpen(true);
-      console.log("Profile created successfully:", data);
+      // console.log("Profile created successfully:", data);
       setFullName("");
       setBio("");
       setResume(null);
@@ -157,7 +157,7 @@ const [isLoading, setIsLoading] = React.useState(false);
       setModalType("error");
       setModalMessage(message || "Error creating profile.");
       setModalOpen(true);
-      console.error("Error creating profile:", message);
+      // console.error("Error creating profile:", message);
       // Show error message
     }
     setIsLoading(false); // ✅ Stop loading
