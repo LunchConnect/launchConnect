@@ -135,7 +135,7 @@ const [companyLogoUrl, setcompanyLogoUrl] =React.useState("");
 
         // ✅ Persist profile to localStorage
   const newProfile = {
-    fullName,
+    fullName:result.data.company.fullName,
     companyName,
     industry,
     roleInCompany,

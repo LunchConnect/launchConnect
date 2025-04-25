@@ -228,7 +228,7 @@ const [bio,setBio] = useState<string>("")
       localStorage.setItem("profile", JSON.stringify(newProfile));
 
       // Optionally reload the page or redirect
-      // window.location.reload();
+      window.location.reload();
       // setTimeout(() => router.push("/sign_in"), 2000);
     } else {
       setModalType("error");
