@@ -524,7 +524,7 @@ export const updateStartupFounderProfile = async (
   industry: string,
   website: string,
   roleInCompany: string,
-  companyLogo: File,
+  companyLogo: File | null,
   token: string
 ) => {
   try {
@@ -536,8 +536,10 @@ export const updateStartupFounderProfile = async (
     formData.append("industry", industry);
     formData.append("website", website);
     formData.append("roleInCompany", roleInCompany);
-    formData.append("companyLogo", companyLogo); // ✅ send the actual file
-
+  
+    if (companyLogo) {
+      formData.append("companyLogo", companyLogo);
+    }
     const { data } = await publicRequest.patch(
       "/profile/update-profile-startupfounders",
       formData,
