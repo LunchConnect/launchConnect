@@ -194,13 +194,13 @@ const [bio,setBio] = useState<string>("")
     }
 
     // Log the form data to debug
-    console.log("Form data:", {
-      fullName,
-      bio,
-      skills,
-      interests,
-      resume,
-    });
+    // console.log("Form data:", {
+    //   fullName,
+    //   bio,
+    //   skills,
+    //   interests,
+    //   resume,
+    // });
 
     const { success, message, data } = await createJobSeekerProfileManagement(
       fullName,
@@ -228,7 +228,7 @@ const [bio,setBio] = useState<string>("")
       localStorage.setItem("profile", JSON.stringify(newProfile));
 
       // Optionally reload the page or redirect
-      // window.location.reload();
+      window.location.reload();
       // setTimeout(() => router.push("/sign_in"), 2000);
     } else {
       setModalType("error");

@@ -10,7 +10,7 @@ type LoginResponse =
 
 export const register = async (email: string, password: string) => {
   try {
-    console.log("🔄 Attempting to register user with email:", email);
+    // console.log("🔄 Attempting to register user with email:", email);
     
     if (!publicRequest) {
       throw new Error("❌ publicRequest is undefined!");
@@ -18,7 +18,7 @@ export const register = async (email: string, password: string) => {
 
     const { data } = await publicRequest.post("/auth/signup", { email, password });
 
-    console.log("✅ Registration successful:", data);
+    // console.log("✅ Registration successful:", data);
 
     // ✅ Save response data to localStorage
     localStorage.setItem("token", data.token); // Save token
@@ -26,7 +26,7 @@ export const register = async (email: string, password: string) => {
 
     return { success: true, data };
   } catch (error: any) {
-    console.error("❌ Registration error:", error.response?.data || error.message);
+    // console.error("❌ Registration error:", error.response?.data || error.message);
 
     // Extract error message from API response
     const errorMessage = error.response?.data?.error || 
@@ -45,7 +45,7 @@ export const register = async (email: string, password: string) => {
 
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
   try {
-    console.log("🔄 Attempting to log in with email:", email);
+    // console.log("🔄 Attempting to log in with email:", email);
 
     if (!publicRequest) {
       throw new Error("❌ publicRequest is undefined!");
@@ -53,11 +53,11 @@ export const login = async (email: string, password: string): Promise<LoginRespo
 
     const { data } = await publicRequest.post("/auth/login", { email, password });
 
-    console.log("✅ Login successful:", data);
+    // console.log("✅ Login successful:", data);
 
     return { success: true, data };
   } catch (error: any) {
-    console.error("❌ Login error:", error.response?.data || error.message);
+    // console.error("❌ Login error:", error.response?.data || error.message);
 
     const fallbackMessage = "Login failed. Please check your credentials.";
     const res = error.response?.data || {};
@@ -79,10 +79,10 @@ export const forgotPassword = async (email: string) => {
   try {
     const { data } = await publicRequest.post("/password/forget-password", { email });
 
-    console.log("✅ Password Reset Email Sent:", data);
+    // console.log("✅ Password Reset Email Sent:", data);
     return { success: true, message: "A password reset link has been sent to your email." };
   } catch (error: any) {
-    console.error("❌ Forgot Password Error:", error.response?.data || error.message);
+    // console.error("❌ Forgot Password Error:", error.response?.data || error.message);
     return { 
       success: false, 
       message: error.response?.data?.message || "Failed to send reset email. Try again."
@@ -102,10 +102,10 @@ export const verifyEmail = async (email: string, otp: string) => {
       otp,
     });
 
-    console.log("✅ OTP Verification Success:", response.data);
+    // console.log("✅ OTP Verification Success:", response.data);
     return { success: true, data: response.data };
   } catch (error: any) {
-    console.error("❌ OTP Verification Error:", error.response?.data || error.message);
+    // console.error("❌ OTP Verification Error:", error.response?.data || error.message);
     return { 
       success: false, 
       message: error.response?.data?.error || "OTP verification failed. Please try again." 
@@ -119,10 +119,10 @@ export const verifyForgotPasswordOtp = async (otp: string) => {
   try {
     const response = await publicRequest.post("/password/verify-otp", {otp });
 
-    console.log("✅ Forgot Password OTP Verification Success:", response.data);
+    // console.log("✅ Forgot Password OTP Verification Success:", response.data);
     return { success: true, data: response.data };
   } catch (error: any) {
-    console.error("❌ Forgot Password OTP Verification Error:", error.response?.data || error.message);
+    // console.error("❌ Forgot Password OTP Verification Error:", error.response?.data || error.message);
     
     return { 
       success: false, 
@@ -161,10 +161,10 @@ export const resetPassword = async (tempToken: string, newPassword: string) => {
       tempToken,
     });
 
-    console.log("✅ Password Reset Success:", data);
+    // console.log("✅ Password Reset Success:", data);
     return { success: true, message: "Password reset successful!" };
   } catch (error: any) {
-    console.error("❌ Password Reset Error:", error.response?.data || error.message);
+    // console.error("❌ Password Reset Error:", error.response?.data || error.message);
     return { 
       success: false, 
       message: error.response?.data?.message || "Password reset failed. Try again."
@@ -188,14 +188,14 @@ export const resetPassword = async (tempToken: string, newPassword: string) => {
 // ✅ Resend OTP For Email API
 export const resendOtp = async (email: string) => {
   try {
-    console.log("🔄 Resending OTP for:", email);
+    // console.log("🔄 Resending OTP for:", email);
 
     const response = await publicRequest.post("/auth/resend-otp", { email });
 
-    console.log("✅ OTP Resent Successfully:", response.data);
+    // console.log("✅ OTP Resent Successfully:", response.data);
     return { success: true, message: "A new OTP has been sent to your email." };
   } catch (error: any) {
-    console.error("❌ Resend OTP Error:", error.response?.data || error.message);
+    // console.error("❌ Resend OTP Error:", error.response?.data || error.message);
 
     return { 
       success: false, 
@@ -210,14 +210,14 @@ export const resendOtp = async (email: string) => {
 // ✅ Resend OTP For Password API
 export const resendOtpforpassword = async (email: string) => {
   try {
-    console.log("🔄 Resending OTP for:", email);
+    // console.log("🔄 Resending OTP for:", email);
 
     const response = await publicRequest.post("/password/resend-otp", { email });
 
-    console.log("✅ OTP Resent Successfully:", response.data);
+    // console.log("✅ OTP Resent Successfully:", response.data);
     return { success: true, message: "A new OTP has been sent to your email." };
   } catch (error: any) {
-    console.error("❌ Resend OTP Error:", error.response?.data || error.message);
+    // console.error("❌ Resend OTP Error:", error.response?.data || error.message);
 
     return { 
       success: false, 
@@ -242,10 +242,10 @@ export const updateUserRole = async (role: "startupFounder" | "job_seeker", toke
       }
     );
 
-    console.log("✅ Role Updated Successfully:", data);
+    // console.log("✅ Role Updated Successfully:", data);
     return { success: true, data };
   } catch (error: any) {
-    console.error("❌ Role Update Error:", error.response?.data || error.message);
+    // console.error("❌ Role Update Error:", error.response?.data || error.message);
 
     return {
       success: false,
@@ -282,7 +282,7 @@ export const updatePassword = async (
 
     return { success: true, message: data?.message || "Password updated successfully" };
   } catch (error: any) {
-    console.error("❌ Password update error:", error.response?.data || error.message);
+    // console.error("❌ Password update error:", error.response?.data || error.message);
     return {
       success: false,
       message: error.response?.data?.message || "Password update failed",
@@ -315,7 +315,7 @@ export const createJobSeekerProfile = async (
   token: string
 ) => {
   try {
-    console.log("🔄 Submitting job seeker profile...");
+    // console.log("🔄 Submitting job seeker profile...");
 
     const formData = new FormData();
     formData.append("fullName", fullName);
@@ -338,10 +338,10 @@ export const createJobSeekerProfile = async (
       },
     });
 
-    console.log("✅ Profile submitted successfully:", data);
+    // console.log("✅ Profile submitted successfully:", data);
     return { success: true, data };
   } catch (error: any) {
-    console.error("❌ Profile submission error:", error.response?.data || error.message);
+    // console.error("❌ Profile submission error:", error.response?.data || error.message);
 
     return {
       success: false,
@@ -371,7 +371,7 @@ export const createStartupFounderProfile = async (
   token: string
 ) => {
   try {
-    console.log("🔄 Submitting start up profile...");
+    // console.log("🔄 Submitting start up profile...");
     const { data } = await publicRequest.post("/profile/setup-profile", {
       fullName,
       companyName,
@@ -387,7 +387,7 @@ export const createStartupFounderProfile = async (
 
     return { success: true, data };
   } catch (error: any) {
-    console.error("Error submitting founder profile:", error.response?.data || error.message);
+    // console.error("Error submitting founder profile:", error.response?.data || error.message);
     return {
       success: false,
       message: error.response?.data?.message || "Failed to submit founder profile.",
@@ -406,10 +406,10 @@ export const getJobSeekerSummary = async (token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("✅ job seeker summary:", data);
+    // console.log("✅ job seeker summary:", data);
     return { success: true, data };
   } catch (error: any) {
-    console.error("❌ Failed to fetch job seeker summary:", error.response?.data || error.message);
+    // console.error("❌ Failed to fetch job seeker summary:", error.response?.data || error.message);
     return {
       success: false,
       message: error.response?.data?.message || "Failed to fetch summary.",
@@ -430,7 +430,7 @@ export const getStartupSummary = async (token: string) => {
     });
     return { success: true, data };
   } catch (error: any) {
-    console.error("❌ Failed to fetch job seeker summary:", error.response?.data || error.message);
+    // console.error("❌ Failed to fetch job seeker summary:", error.response?.data || error.message);
     return {
       success: false,
       message: error.response?.data?.message || "Failed to fetch summary.",
@@ -478,7 +478,7 @@ export const createJobSeekerProfileManagement = async (
   token: string
 ) => {
   try {
-    console.log("🔄 Submitting job seeker profile...");
+    // console.log("🔄 Submitting job seeker profile...");
 
     const formData = new FormData();
     formData.append("fullName", fullName);
@@ -489,13 +489,13 @@ export const createJobSeekerProfileManagement = async (
     interests.forEach((interest) => formData.append("interests[]", interest));
 
     // Log FormData content before sending
-    formData.forEach((value, key) => {
-      if (value instanceof File) {
-        console.log(key, value.name);  // For file fields, log the file name
-      } else {
-        console.log(key, value);  // For other fields, log the value
-      }
-    });
+    // formData.forEach((value, key) => {
+    //   if (value instanceof File) {
+    //     console.log(key, value.name);  // For file fields, log the file name
+    //   } else {
+    //     console.log(key, value);  // For other fields, log the value
+    //   }
+    // });
 
     const { data } = await publicRequest.patch("/profile/update-profile-jobseeker", formData, {
       headers: {
@@ -503,10 +503,10 @@ export const createJobSeekerProfileManagement = async (
       },
     });
 
-    console.log("✅ Profile updated successfully:", data);
+    // console.log("✅ Profile updated successfully:", data);
     return { success: true, data };
   } catch (error: any) {
-    console.error("❌ Profile updated error:", error.response?.data || error.message);
+    // console.error("❌ Profile updated error:", error.response?.data || error.message);
     return {
       success: false,
       message: error.response?.data?.message || "Failed to update profile. Try again.",
@@ -528,7 +528,7 @@ export const updateStartupFounderProfile = async (
   token: string
 ) => {
   try {
-    console.log("🔄 Submitting startup profile...");
+    // console.log("🔄 Submitting startup profile...");
 
     const formData = new FormData();
     formData.append("fullName", fullName);
@@ -549,16 +549,67 @@ export const updateStartupFounderProfile = async (
       }
     );
 
-    console.log(data);
+    // console.log(data);
     return { success: true, data };
   } catch (error: any) {
-    console.error("Error updating founder profile:", error.response?.data || error.message);
+    // console.error("Error updating founder profile:", error.response?.data || error.message);
     return {
       success: false,
       message: error.response?.data?.message || "Failed to update founder profile.",
     };
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -151,7 +151,7 @@ function Signup() {
 
         <p className="text-gray-600 text-sm">
       By registering for an account, you are consenting to our{" "}
-      <Link href="/terms" className="text-green-500 hover:underline">
+      <Link href="/Terms" className="text-green-500 hover:underline">
         Terms of Service
       </Link>{" "}
       and confirming that you have reviewed and accepted the{" "}
@@ -172,17 +172,10 @@ function Signup() {
 
 
    {/* OR Divider */}
-   <div className="flex items-center w-full">
-          <div className="flex-1 border-t border-gray-300"></div>
-          <span className="px-3 text-gray-500 text-sm">or</span>
-          <div className="flex-1 border-t border-gray-300"></div>
-        </div>
+
 
  {/* Google Signup Button */}
- <button className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 border border-gray-300 p-2 rounded-md" disabled>
-            <FcGoogle size={20} /> {/* Google Icon */}
-            Continue with Google
-          </button>
+ 
 
         </div>
          {/* Sign Up Link */}

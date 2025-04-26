@@ -178,18 +178,7 @@ const handleLogin = async () => {
           {loading ? "Logging in..." : "Next"}
         </button>
 
-        {/* OR Divider */}
-        <div className="flex items-center w-full">
-          <div className="flex-1 border-t border-gray-300"></div>
-          <span className="px-3 text-gray-500 text-sm">or</span>
-          <div className="flex-1 border-t border-gray-300"></div>
-        </div>
-
-        {/* Google Sign In Button */}
-        <button className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 border border-gray-300 p-2 rounded-md" disabled>
-          <FcGoogle size={20} />
-          Continue with Google
-        </button>
+       
       </div>
 
       {/* Sign Up Link */}
