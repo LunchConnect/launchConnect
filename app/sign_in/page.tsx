@@ -7,7 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import AlertModal from "@/components/AlertModal";
- import { login } from "@/actions/action"; // ✅ Import real login function
+import { login } from "@/actions/action"; // ✅ Import real login function
 
 function SignIn() {
   const router = useRouter(); // ✅ Router for redirection
@@ -23,100 +23,98 @@ function SignIn() {
   const [modalType, setModalType] = useState<"success" | "error">("success");
   const [modalMessage, setModalMessage] = useState("");
 
+  //  useEffect(() => {
 
+  //   const token = localStorage.getItem("token");
 
+  //   if (token) {
+  //     router.back()
+  //   }
 
-//  useEffect(() => {
+  //   }, [router]);
 
-//   const token = localStorage.getItem("token");
+  // ✅ Handle Login
+  const handleLogin = async () => {
+    setLoading(true);
 
-//   if (token) {
-//     router.back()
-//   }
+    const response = await login(email, password);
+    setLoading(false);
 
+    if (response.success) {
+      const userData = response.data;
+      const { token, user, profile } = userData;
+      const role = user?.role;
 
-//   }, [router]);
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("profile", JSON.stringify(profile));
+      localStorage.setItem("fullData", JSON.stringify(userData));
+      localStorage.setItem("fullName", profile?.fullName || "");
 
+      if (!profile) {
+        setModalType("error");
+        setModalMessage("Your profile setup is not completed yet.");
+        setModalOpen(true);
 
+        setTimeout(() => {
+          if (role === "job_seeker") {
+            router.push("/sign_up/job_seeker");
+          } else {
+            router.push("/sign_up/startup_form");
+          }
+        }, 5500);
+        return;
+      }
 
-
-// ✅ Handle Login
-const handleLogin = async () => {
-  setLoading(true);
-
-  const response = await login(email, password);
-  setLoading(false);
-
-  if (response.success) {
-    const userData = response.data;
-    const { token, user, profile } = userData;
-    const role = user?.role;
-
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("profile", JSON.stringify(profile));
-    localStorage.setItem("fullData", JSON.stringify(userData));
-    localStorage.setItem("fullName", profile?.fullName || "");
-
-    if (!profile) {
-      setModalType("error");
-      setModalMessage("Your profile setup is not completed yet.");
+      // ✅ Profile exists
+      setModalType("success");
+      setModalMessage("Welcome back! You’ve logged in successfully.");
       setModalOpen(true);
 
       setTimeout(() => {
         if (role === "job_seeker") {
-          router.push("/sign_up/job_seeker");
+          router.replace("/dashboard");
         } else {
-          router.push("/sign_up/startup_form");
+          router.replace("/startup_founder_dashboard");
         }
-      }, 5500);
-      return;
-    }
-
-    // ✅ Profile exists
-    setModalType("success");
-    setModalMessage("Welcome back! You’ve logged in successfully.");
-    setModalOpen(true);
-
-    setTimeout(() => {
-      if (role === "job_seeker") {
-        router.replace("/dashboard");
-      } else {
-        router.replace("/startup_founder_dashboard");
-      }
-    }, 2000);
-
-  } else {
-    const msg = response.message || "Login failed. Check your credentials and try again.";
-
-    if (msg === "Email not verified. A new verification code has been sent.") {
-      setModalType("error");
-      setModalMessage(msg);
-      setModalOpen(true);
-
-      setTimeout(() => {
-        router.push(`/sign_up/confirm_email?email=${encodeURIComponent(email)}`);
-      }, 2500);
-    } else if (msg === "Role not set. Please select a role to continue.") {
-      // ✅ Store token if present
-      if (response.token) {
-        localStorage.setItem("token", response.token);
-      }
-
-      setModalType("error");
-      setModalMessage(msg);
-      setModalOpen(true);
-
-      setTimeout(() => {
-        router.push("/sign_up/welcome");
-      }, 2500);
+      }, 2000);
     } else {
-      setModalType("error");
-      setModalMessage(msg);
-      setModalOpen(true);
+      const msg =
+        response.message ||
+        "Login failed. Check your credentials and try again.";
+
+      if (
+        msg === "Email not verified. A new verification code has been sent."
+      ) {
+        setModalType("error");
+        setModalMessage(msg);
+        setModalOpen(true);
+
+        setTimeout(() => {
+          router.push(
+            `/sign_up/confirm_email?email=${encodeURIComponent(email)}`
+          );
+        }, 2500);
+      } else if (msg === "Role not set. Please select a role to continue.") {
+        // ✅ Store token if present
+        if (response.token) {
+          localStorage.setItem("token", response.token);
+        }
+
+        setModalType("error");
+        setModalMessage(msg);
+        setModalOpen(true);
+
+        setTimeout(() => {
+          router.push("/sign_up/welcome");
+        }, 2500);
+      } else {
+        setModalType("error");
+        setModalMessage(msg);
+        setModalOpen(true);
+      }
     }
-  }
-};
+  };
 
   return (
     <div className=" bg-white rounded-lg w-full">
@@ -130,11 +128,13 @@ const handleLogin = async () => {
 
       {/* Email Input */}
       <div className="space-y-2 mt-8">
-        <Label htmlFor="email" className="text-black text-[16px]">Email Address</Label>
-        <Input 
-          type="email" 
-          id="email" 
-          placeholder="eg. email@gmail.com"  
+        <Label htmlFor="email" className="text-black text-[16px]">
+          Email Address
+        </Label>
+        <Input
+          type="email"
+          id="email"
+          placeholder="eg. email@gmail.com"
           className="bg-white text-black border-[#BED3C2] rounded-md p-2 mt-2 focus:border-green-500 focus:ring-2 focus:ring-green-500"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -143,17 +143,19 @@ const handleLogin = async () => {
 
       {/* Password Input */}
       <div className="space-y-2 relative mt-4">
-        <Label htmlFor="password" className="text-black text-[16px]">Password</Label>
+        <Label htmlFor="password" className="text-black text-[16px]">
+          Password
+        </Label>
         <div className="relative">
-          <Input 
-            type={showPassword ? "text" : "password"} 
-            id="password" 
+          <Input
+            type={showPassword ? "text" : "password"}
+            id="password"
             placeholder="Enter password"
             className="!bg-white !text-black !border-[#BED3C2] !rounded-md !p-2 pr-10 focus:!border-green-500 focus:!ring-2 focus:!ring-green-500"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button 
+          <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute inset-y-0 right-2 flex items-center text-gray-500"
@@ -164,14 +166,19 @@ const handleLogin = async () => {
 
         {/* Forgot Password Link */}
         <div className="flex justify-end mt-8">
-          <Link href="sign_in/forgot_password" className="text-green-500 text-sm">Forgot Password?</Link>
+          <Link
+            href="sign_in/forgot_password"
+            className="text-green-500 text-sm"
+          >
+            Forgot Password?
+          </Link>
         </div>
       </div>
 
       {/* Sign In Button */}
       <div className="flex flex-col items-center justify-center space-y-3 mt-4">
-        <button 
-          onClick={handleLogin} 
+        <button
+          onClick={handleLogin}
           className="w-full bg-green-500 text-white p-2 rounded-md"
           disabled={loading}
         >
@@ -186,20 +193,22 @@ const handleLogin = async () => {
         </div>
 
         {/* Google Sign In Button */}
-        <button className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 border border-gray-300 p-2 rounded-md" disabled>
+        {/* <button className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 border border-gray-300 p-2 rounded-md" disabled>
           <FcGoogle size={20} />
           Continue with Google
-        </button>
+        </button> */}
       </div>
 
       {/* Sign Up Link */}
       <p className="text-center text-sm text-gray-600 mt-6">
         Don&#39;t have an account?{" "}
-        <Link href="/sign_up" className="text-green-500 font-medium">Sign Up</Link>
+        <Link href="/sign_up" className="text-green-500 font-medium">
+          Sign Up
+        </Link>
       </p>
 
       {/* ✅ Success & Error Modal */}
-      <AlertModal 
+      <AlertModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         onAction={() => setModalOpen(false)}

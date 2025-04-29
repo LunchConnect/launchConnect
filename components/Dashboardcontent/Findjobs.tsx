@@ -7,6 +7,7 @@ import { scrollToTop } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Check, Search } from "lucide-react";
 import { getFindJobs } from "@/actions/action";
+import Image from "next/image";
 
 interface Job {
   id: string;
@@ -17,6 +18,10 @@ interface Job {
   jobType: string;
   industry: string;
   createdAt: string;
+  company: {
+    companyName: string;
+    companyLogo: string | null;
+  };
 }
 
 interface Filters {
@@ -42,23 +47,12 @@ const FindJobs: React.FC = () => {
     const fetchJobs = async () => {
       setIsLoading(true);
       try {
-        console.log(
-          `Fetching jobs - Page ${currentPage}, ${jobsPerPage} items`
-        );
         const data = await getFindJobs(currentPage, jobsPerPage);
-
-        console.group("API Response");
-        console.log("Raw Response:", data);
-        console.log("Jobs Received:", data.jobs?.length || 0);
-        console.log("Total Pages:", data.totalPages);
-        console.log("API Message:", data.message);
-        console.groupEnd();
 
         setJobs(data.jobs || []);
         setTotalPages(data.totalPages || 1);
 
         if (data.jobs?.length === 0) {
-          console.warn("No jobs returned from API");
         }
       } catch (error) {
         console.error("Job Fetch Error:", error);
@@ -262,7 +256,7 @@ const handleIndustrySelect = (industry: string) => {
             </div>
 
             {isLoading ? (
-              <div className="flex justify-center items-center h-64">
+              <div className="flex justify-center items-center h-64 text-black">
                 <p>Loading jobs...</p>
               </div>
             ) : filteredJobs.length === 0 ? (
@@ -284,6 +278,19 @@ const handleIndustrySelect = (industry: string) => {
                       className="bg-[#F5FFF7] border border-[#E7EFE8] p-4 rounded-lg shadow"
                     >
                       <div className="flex items-center gap-2">
+                          {job.company.companyLogo ? (
+                            <Image
+                              src={job.company.companyLogo}
+                              alt={`${job.company.companyName} logo`}
+                              width={40}
+                              height={40}
+                              className="object-contain"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xs text-gray-500">
+                              {job.title.charAt(0).toUpperCase()}
+                            </div>
+                          )}
                         <h4 className="cal_sans text-lg text-[#3B4D3F]">
                           {job.title}
                         </h4>
@@ -371,4 +378,4 @@ const handleIndustrySelect = (industry: string) => {
   );
 };
 
-export default FindJobs;
+export default FindJobs

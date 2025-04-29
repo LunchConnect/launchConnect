@@ -1,10 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LuDot } from "react-icons/lu";
 import ViewPendingModal from "./ViewPendingModal";
 import ViewAcceptedModal from "./ViewAcceptedModal";
 import ViewRejectedModal from "./ViewRejectedModal";
-import { JobApplication } from "@/actions/action";
+import { JobApplication, getAllJobApplications } from "@/actions/action";
 import Image from "next/image";
 
 interface RecentApplicationProps {
@@ -19,18 +19,63 @@ const RecentApplication: React.FC<RecentApplicationProps> = ({
     useState<JobApplication | null>(null);
   const [application, setApplication] = useState<JobApplication[]>([]);
 
-  
-   const updateApplicationStatus = (
-     applicationId: string,
-     newStatus: "ACCEPTED" | "REJECTED"
-   ) => {
-     setApplication((prevApplications) =>
-       prevApplications.map((app) =>
-         app.id === applicationId ? { ...app, status: newStatus } : app
-       )
-     );
+ // Add this inside your component
+ useEffect(() => {
+   const enrichApplicationsWithEmail = async () => {
+     const token = localStorage.getItem("token");
+     if (!token) return;
+
+     try {
+       const allAppData = await getAllJobApplications(token, 1, 100);
+       const enrichedApps = applications.map((app) => {
+         const match = allAppData.applications.find(
+           (fullApp) => fullApp.jobSeekerId === app.jobSeekerId
+         );
+         if (match && match.jobSeeker?.user?.email) {
+           return {
+             ...app,
+             jobSeeker: {
+               ...app.jobSeeker,
+               user: {
+                 email: match.jobSeeker.user.email,
+               },
+             },
+           };
+         } else {
+           // Default fallback if no email is found
+           return {
+             ...app,
+             jobSeeker: {
+               ...app.jobSeeker,
+               user: {
+                 email: "N/A",
+               },
+             },
+           };
+         }
+       });
+
+       setApplication(enrichedApps);
+     } catch (error) {
+       console.error("Failed to enrich applications with emails", error);
+     }
+   };
+
+   enrichApplicationsWithEmail();
+ }, [applications]);
+
+
+  const updateApplicationStatus = (
+    applicationId: string,
+    newStatus: "ACCEPTED" | "REJECTED"
+  ) => {
+    setApplication((prevApplications) =>
+      prevApplications.map((app) =>
+        app.id === applicationId ? { ...app, status: newStatus } : app
+      )
+    );
   };
-  
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString("en-US", {
       month: "2-digit",
@@ -60,7 +105,6 @@ const RecentApplication: React.FC<RecentApplicationProps> = ({
 
       <div className="overflow-x-auto">
         <div className="min-w-[1000px]">
-          {/* Table Header */}
           <div className="grid grid-cols-4 bg-gray-100 text-[#4D5461] p-4 font-semibold">
             <div className="text-left">NAME</div>
             <div className="text-left">APPLICATION DATE</div>
@@ -68,33 +112,29 @@ const RecentApplication: React.FC<RecentApplicationProps> = ({
             <div className="text-left">ACTION</div>
           </div>
 
-          {/* Table Body */}
           <div className="space-y-3">
-            {applications.slice(0, 5).map((app) => (
+            {application.slice(0, 5).map((app) => (
               <div
                 key={app.id}
                 className="grid grid-cols-4 bg-white shadow-sm rounded-lg p-4 items-center"
               >
-                {/* Name Column */}
                 <div className="flex items-center gap-4 text-[#1F2937] whitespace-nowrap">
                   <div className="w-10 h-10 rounded-full bg-[#E7EFE8] flex items-center justify-center">
-                  <Image
-                    src="/assets/images/profile.png"
-                    alt={`${app.jobSeeker.fullName}'s profile`}
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                  />
+                    <Image
+                      src="/assets/images/profile.png"
+                      alt={`${app.jobSeeker.fullName}'s profile`}
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
                   </div>
                   {app.jobSeeker.fullName}
                 </div>
 
-                {/* Application Date Column */}
                 <div className="text-[#1F2937]">
                   {formatDate(app.appliedAt)}
                 </div>
 
-                {/* Status Column */}
                 <div
                   className={`font-medium flex items-center ${getStatusColor(app.status)}`}
                 >
@@ -102,7 +142,6 @@ const RecentApplication: React.FC<RecentApplicationProps> = ({
                   {app.status}
                 </div>
 
-                {/* Action Column */}
                 <div>
                   <button
                     onClick={() => {
@@ -119,7 +158,6 @@ const RecentApplication: React.FC<RecentApplicationProps> = ({
           </div>
         </div>
 
-        {/* Render the correct modal based on status */}
         {isModalOpen && selectedApplication?.status === "PENDING" && (
           <ViewPendingModal
             isOpen={isModalOpen}

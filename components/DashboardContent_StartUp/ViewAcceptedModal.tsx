@@ -214,8 +214,9 @@ const ViewAcceptedModal: React.FC<AcceptedModalProps> = ({
                         <div className="flex justify-between items-center bg-[#eef9f0] p-3 rounded-lg">
                           <div>
                             <p>
-                              {application.jobSeeker.resumeName ||
-                                "No Resume Uploaded"}
+                              {application.jobSeeker.resumeUrl
+                                ? `${application.jobSeeker.fullName}'s Resume`
+                                : "No Resume Uploaded or Found"}
                             </p>
                             <p className="text-gray-400">
                               {application.jobSeeker.resumeSize || ""}
