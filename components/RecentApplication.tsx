@@ -56,7 +56,7 @@ const Application: React.FC = () => {
         // Keeping your test token as requested
         const token = localStorage.getItem("token");
         if (!token) throw new Error("No authentication token");
-        const response = await getAllJobApplications(token, 1, 10);
+        const response = await getAllJobApplications(token, 1, 4);
 
     const transformedApplications = response.applications.map((app) => ({
       id: app.id,
