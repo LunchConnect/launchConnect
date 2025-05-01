@@ -30,14 +30,14 @@ const ApplicationTracking: React.FC = () => {
   const [applications, setApplications] = useState<Application[]>([]);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true); // Added loading state
+  const [isLoading, setIsLoading] = useState(true); 
   const itemsPerPage = 10;
   const router = useRouter();
 
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        setIsLoading(true); // Set loading to true when starting to fetch
+        setIsLoading(true); 
         const token = localStorage.getItem("token");
         if (!token) return;
 
@@ -51,7 +51,7 @@ const ApplicationTracking: React.FC = () => {
       } catch (err) {
         console.error("Failed to load applications", err);
       } finally {
-        setIsLoading(false); // Set loading to false when done (success or error)
+        setIsLoading(false);
       }
     };
 

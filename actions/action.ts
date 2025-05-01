@@ -1202,6 +1202,7 @@ export interface ApplyJobResponse {
 // For Job Tracking in (JobSeeker) -------------------------------------------------------------------->
 interface Company {
   companyName: string;
+  companyLogo: string | null;
   industry: string;
   website: string;
 }
