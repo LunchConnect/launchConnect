@@ -16,7 +16,6 @@ interface Job {
   jobType: string;
   industry: string;
   createdAt: string;
-  imageUrl: string;
   company: {
     companyName: string;
     companyLogo: string | null;
@@ -46,8 +45,7 @@ const Hero4: React.FC = () => {
             location: job.location,
             jobType: job.jobType,
             industry: job.industry,
-            createdAt: job.createdAt,
-            imageUrl: "https://via.placeholder.com/40",
+            createdAt: job.createdAt,      
           })) || [];
 
         setJobs(formattedJobs);
