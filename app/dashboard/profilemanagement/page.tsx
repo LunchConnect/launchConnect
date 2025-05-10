@@ -47,6 +47,8 @@ const [bio,setBio] = useState<string>("")
   const [modalType, setModalType] = React.useState<"success" | "error">("success");
  const [modalMessage, setModalMessage] = React.useState("");
  const [isLoading, setIsLoading] = React.useState(false);
+
+ 
    // Handle file drop
    const onDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
@@ -89,11 +91,14 @@ const [bio,setBio] = useState<string>("")
 
 
  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: {
-      "application/pdf": [".pdf"],
-    },
-    multiple: false, // optional: only allow 1 file
+  accept: { "application/pdf": [".pdf"] },
+  maxSize: 5 * 1024 * 1024, // 5MB
+  multiple: false,
+  onDrop: (acceptedFiles) => {
+    if (acceptedFiles.length > 0) {
+      setResume(acceptedFiles[0]); // ✅ Set the file here
+    }
+  },
   });
 
 
@@ -216,16 +221,20 @@ const [bio,setBio] = useState<string>("")
       setModalMessage("You have successfully created a startup.");
       setModalOpen(true);
 
+
+      const profileData = data?.data;
       // Persist profile to localStorage
       const newProfile = {
-        id: data?.id,
+        id: profileData?.id,
         fullName,
         shortBio: bio,
         skills,
         interests,
-        resumeUrl: data?.resumeUrl || null,
+        resumeUrl: profileData?.resumeUrl,
       };
+      console.log("Saving profile:", newProfile);
       localStorage.setItem("profile", JSON.stringify(newProfile));
+      console.log("Saved profile:", localStorage.getItem("profile"));
 
       // Optionally reload the page or redirect
       window.location.reload();
@@ -237,6 +246,8 @@ const [bio,setBio] = useState<string>("")
     }
     setIsLoading(false); // Stop loading
   };
+
+
 
 
 

@@ -50,11 +50,14 @@ const [isLoading, setIsLoading] = React.useState(false);
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: {
-      "application/pdf": [".pdf"],
+    accept: { "application/pdf": [".pdf"] },
+    maxSize: 5 * 1024 * 1024, // 5MB
+    multiple: false,
+    onDrop: (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        setResume(acceptedFiles[0]); // ✅ Set the file here
+      }
     },
-    multiple: false, // optional: only allow 1 file
   });
 
   

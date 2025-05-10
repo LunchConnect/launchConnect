@@ -328,9 +328,9 @@ export const createJobSeekerProfile = async (
      interests.forEach((interest) => formData.append("interests[]", interest));
  
     // Log formData entries to the console
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value); // Logs each field and its value
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}:`, value); // Logs each field and its value
+    // });
 
     const { data } = await publicRequest.post("/profile/setup-profile", formData, {
       headers: {
@@ -503,7 +503,7 @@ export const createJobSeekerProfileManagement = async (
       },
     });
 
-    // console.log("✅ Profile updated successfully:", data);
+   // console.log("✅ Profile updated successfully:", data);
     return { success: true, data };
   } catch (error: any) {
     // console.error("❌ Profile updated error:", error.response?.data || error.message);
