@@ -132,7 +132,7 @@ const Application: React.FC = () => {
             <h2 className="text-xl font-semibold mb-4 text-[#2A2A2A] cal_sans">
               Recent Applications
             </h2>
-            <div className="flex flex-col items-center justify-center text-center bg-gray-100 border border-gray-200 rounded-lg py-10">
+            <div className="flex flex-col items-center justify-center text-center bg-gray-100 border border-gray-200 rounded-lg custom-padding-y">
               <Image
                 src="/assets/images/bear2.png"
                 alt="No Jobs"
@@ -147,15 +147,6 @@ const Application: React.FC = () => {
                 You haven't made a post yet. <br /> Click the button below to
                 get started
               </p>
-              <button
-                className="mt-6 bg-[#1AC23F] text-white px-8 py-2 rounded-lg transition cal_sans"
-                onClick={() => {
-                  router.push("/startup_founder_dashboard/PostJobContent");
-                  scrollToTop();
-                }}
-              >
-                Post A Job
-              </button>
             </div>
           </div>
         </>

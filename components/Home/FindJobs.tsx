@@ -8,12 +8,15 @@ import { scrollToTop } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Check, Search } from "lucide-react";
 import { getFindJobs } from "@/actions/action";
-
+import Image from "next/image";
 
 interface Job {
   id: string;
   title: string;
-  companyId: string;
+  company: {
+    companyName: string;
+    companyLogo: string | null;
+  };
   paidRole: string;
   location: string;
   jobType: string;
@@ -302,10 +305,24 @@ const handleIndustrySelect = (industry: string) => {
                       className="bg-[#F5FFF7] border border-[#E7EFE8] p-4 rounded-lg shadow"
                     >
                       <div className="flex items-center gap-2">
-                        <img src="img/logo.png" alt="" className="w-8 h-8" />
-                        <h4 className="cal_sans text-lg text-[#3B4D3F]">
-                          {job.title}
-                        </h4>
+                      <div className="flex items-center gap-2">
+                      {job.company.companyLogo ? (
+                        <Image
+                          src={job.company.companyLogo}
+                          alt={`${job.company.companyName} logo`}
+                          width={40}
+                          height={40}
+                          className="object-contain"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xs text-gray-500">
+                          {job.title.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                      <h1 className="text-2xl text-[#243428] cal_sans">
+                        {job.title}
+                      </h1>
+                    </div>
                       </div>
                       <p className="text-[#6F8674] mt-3 DM_sans">
                         {job.industry}

@@ -645,3 +645,9 @@ body {
   width: 30%;
   height: 30%;
 }
+
+/* styles.css or global.css */
+.custom-padding-y {
+  padding-top: 4.5rem; /* 56px */
+  padding-bottom: 4.5rem;
+}

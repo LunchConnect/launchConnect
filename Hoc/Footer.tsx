@@ -65,12 +65,6 @@ export const Footer: React.FC = () => {
         </span>
 
         <div className="flex gap-4 cursor-pointer pt-5 text-[#ffffff]">
-          <a href="" target="_blank" rel="noopener noreferrer">
-            <FaFacebookF
-              size={30}
-              className=" p-2 rounded-full custom-link-background hover:text-blue-600"
-            />
-          </a>
           <a
             href="https://www.instagram.com/stanixhq?igsh=anNidGprdzBucmVm&utm_source=qr"
             target="_blank"
@@ -89,12 +83,6 @@ export const Footer: React.FC = () => {
             <FaLinkedinIn
               size={30}
               className="p-2 rounded-full custom-link-background hover:text-blue-500"
-            />
-          </a>
-          <a href="" target="_blank" rel="noopener noreferrer">
-            <RiTwitterXFill
-              size={30}
-              className="p-2 rounded-full custom-link-background hover:text-blue-400"
             />
           </a>
         </div>

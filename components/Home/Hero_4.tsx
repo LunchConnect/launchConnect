@@ -37,16 +37,20 @@ const Hero4: React.FC = () => {
 
         // Transform the data to match your component's expectations
         const formattedJobs =
-          data.jobs?.map((job: any) => ({
-            id: job.id,
-            title: job.title,
-            company: job.company.name || "Unknown Company",
-            paidRole: job.paidRole === "PAID" ? "Paid" : "Not Paid",
-            location: job.location,
-            jobType: job.jobType,
-            industry: job.industry,
-            createdAt: job.createdAt,      
-          })) || [];
+        data.jobs?.map((job: any) => ({
+          id: job.id,
+          title: job.title,
+          company: {
+            companyName: job.company?.companyName || "Unknown Company",
+            companyLogo: job.company?.companyLogo || null,
+          },
+          paidRole: job.paidRole === "PAID" ? "Paid" : "Not Paid",
+          location: job.location,
+          jobType: job.jobType,
+          industry: job.industry,
+          createdAt: job.createdAt,
+        })) || [];
+      
 
         setJobs(formattedJobs);
       } catch (error) {
